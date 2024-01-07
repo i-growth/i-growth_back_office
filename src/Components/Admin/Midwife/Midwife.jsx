@@ -21,6 +21,8 @@ export default function Mifwife() {
 
     const [getAllMidwifes, setGetAllMidwifes] = useState([]);
 
+    const [showMidwifeUpdate, setShowMidwifeUpdate] = useState(false);
+
     function showCode() {
         setDisplayMidwifeAdd(true);
     }
@@ -33,6 +35,16 @@ export default function Mifwife() {
     const handleCloseViewDetail = () => {
         setSelectedMidwife(null);
         setShowDetail(false);
+    }
+
+    const handleUpdateWindow = (midwifes) => {
+        setSelectedMidwife(midwifes);
+        setShowMidwifeUpdate(true)
+    }
+
+    const handleCloseUpdateWindow = () => {
+        setSelectedMidwife(null);
+        setShowMidwifeUpdate(false);
     }
 
     useEffect(() => {
@@ -66,7 +78,7 @@ export default function Mifwife() {
             </div>
             <div className='body'>
                 {
-                    getAllMidwifes.map((data, index) => {
+                    data.map((data, index) => {
                         return (
                             <div className="card-fram" key={index}>
                                 <div className="image-container">
@@ -81,7 +93,7 @@ export default function Mifwife() {
                                             <div className="view-btn" onClick={() => handleViewDetail(data)}>View Details</div>
                                         </div>
                                         <div className="bottom">
-                                            <div className="update">Update</div>
+                                            <div className="update" onClick={() => handleUpdateWindow(data)}>Update</div>
                                             <div className="delete">Delete</div>
                                         </div>
                                     </div>
@@ -97,7 +109,7 @@ export default function Mifwife() {
                                                         {/* <img src={`http://localhost:3001/image/${selectedCategory.image}`} alt="" /> */}
                                                     </div>
                                                     <div className="name-section">
-                                                        <h3>{selectedMidwife.categoryname}</h3>
+                                                        <h3>{selectedMidwife.name}</h3>
                                                     </div>
                                                 </div>
                                             </div>
@@ -105,30 +117,61 @@ export default function Mifwife() {
                                     </div>
                                 )}
 
-                                {/* {showCategoryUpdate && selectedCategory && selectedCategory.category_id === data.category_id && (
-                                        <div className='categoryUpdate-container'>
-                                            <div className="card-container">
-                                                <div className="header">
-                                                    <h4>{selectedCategory.category_name}</h4>
-                                                </div>
-                                                <form onSubmit={submit}>
-                                                    <div className="input-section">
-                                                        <div className="input-wrapper">
-                                                            <input type="text" name="category-name" placeholder='Enter the Category Name' className='category-name' required
-                                                                id='CategoryName'
-                                                                value={categoryName}
-                                                                onChange={handleCategoryNameChange} />
-                                                            <div className="image-holder"><input type="file" id='UpdateImage' onChange={handleImageChange} required /></div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="submission-btn">
-                                                        <input className="submit-btn" type="submit" value={"Update"} />
-                                                        <div className="cancel-btn" onClick={handleCloseUpdate}>Cancel</div>
-                                                    </div>
-                                                </form>
+                                {showMidwifeUpdate && selectedMidwife && selectedMidwife.midwife_id === data.midwife_id && (
+                                    // <div className='categoryUpdate-container'>
+                                    //     <div className="card-container">
+                                    //         <div className="header">
+                                    //             <h4>{selectedMidwife.name}</h4>
+                                    //         </div>
+                                    //         <form >
+                                    //             <div className="input-section">
+                                    //                 <div className="input-wrapper">
+                                    //                     <input type="text" name="category-name" placeholder='Enter the Category Name' className='category-name' required
+                                    //                         id='CategoryName'
+                                    //                     // value={categoryName}
+                                    //                     // onChange={handleCategoryNameChange} 
+                                    //                     />
+                                    //                     <div className="image-holder"><input type="file" id='UpdateImage' required /></div>
+                                    //                 </div>
+                                    //             </div>
+                                    //             <div className="submission-btn">
+                                    //                 <input className="submit-btn" type="submit" value={"Update"} />
+                                    //                 <div className="cancel-btn" onClick={handleCloseUpdateWindow}>Cancel</div>
+                                    //             </div>
+                                    //         </form>
+                                    //     </div>
+                                    // </div>
+                                    <div className='midwifeAdd-container'>
+                                        <div className="card-container">
+                                            <div className="header">
+                                                <h4>Update the Midwife</h4>
                                             </div>
+                                            <form>
+                                                <div className="input-section">
+                                                    <div className="input-wrapper">
+                                                        {/* <input type="text" name="category-name" placeholder='Enter the Select Area'  required /> */}
+                                                        <select className='inputfieds' style={{ height: '35px', width: '91%' }}>
+                                                            <option value="someOption">Login As a Admin</option>
+                                                            <option value="otherOption">Login As a Midwife</option>
+                                                            <option value="otherOption">Login As a Medical Officer</option>
+                                                        </select>
+                                                        <input type="text" name="midwife-name" placeholder='Enter the Midwife Name' className='inputfieds' required />
+                                                        <input type="text" name="midwife-nic" placeholder='Enter the NIC' className='inputfieds' required />
+                                                        <input type="text" name="midwife-service-start-date" placeholder='Enter the Service Start Date' className='inputfieds' required />
+                                                        <input type="text" name="midwife-service-id" placeholder='Enter the Service_Id' className='inputfieds' required />
+                                                        <input type="text" name="midwife-email" placeholder='Enter the Email' className='inputfieds' required />
+                                                        <input type="text" name="midwife-mobile" placeholder='Enter the Mobile Number' className='inputfieds' required />
+                                                    </div>
+                                                </div>
+                                                <div className="submission-btn">
+                                                    {/* <div  type="submit">Submit</div> */}
+                                                    <input className="submit-btn" type="submit" />
+                                                    <div className="cancel-btn" onClick={handleCloseUpdateWindow}>Cancel</div>
+                                                </div>
+                                            </form>
                                         </div>
-                                    )} */}
+                                    </div>
+                                )}
                             </div>
                         )
                     })
