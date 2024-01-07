@@ -52,7 +52,7 @@ export default function Mifwife() {
             .then(res => {
                 if (res.data !== "No data found") {
                     setGetArea(res.data)
-                    console.log(getArea)
+                    console.log(res.data)
                 }
                 else console.log("No data found");
             }).catch(err => console.log(err))
