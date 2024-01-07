@@ -1,8 +1,11 @@
 import React from 'react'
 import './Login.css'
 import instance from '../../utility/AxiosInstance'
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
+
+    const navigation = useNavigate()
 
     const submitForm = (e) => {
         e.preventDefault();
@@ -15,6 +18,7 @@ export default function Login() {
                 password: password
             }).then(res => {
                 console.log(res.data);
+                navigation('/');
             })
                 .catch(err => {
                     console.log(err);
