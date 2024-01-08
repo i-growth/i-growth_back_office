@@ -1,29 +1,58 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './Login.css'
 import instance from '../../utility/AxiosInstance'
 import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
 
+    const [active, setActive] = useState('midwife')
+
     const navigation = useNavigate()
+
+    useEffect(() => {
+        console.log(active);
+    }, [active])
 
     const submitForm = (e) => {
         e.preventDefault();
         const username = e.target.username.value;
         const password = e.target.password.value;
 
+
+
         if (username && password) {
-            instance.post('/admin/login', {
-                username: username,
-                password: password
-            }).then(res => {
-                console.log(res.data);
-                navigation('/admin');
-            })
-                .catch(err => {
-                    alert("Please Enter the Corrected Username and Password")
-                    console.log(err);
+            if (active === "admin") {
+                instance.post('/admin/login', {
+                    username: username,
+                    password: password
+                }).then(res => {
+                    console.log(res.data);
+                    navigation('/admin');
                 })
+                    .catch(err => {
+                        alert("Please Enter the Corrected Username and Password")
+                        console.log(err);
+                    })
+            }
+            else if (active === "midwife") {
+                instance.post('/midwife/login', {
+                    nic: username,
+                    password: password
+                }).then(res => {
+                    console.log(res.data);
+                    navigation('/midwife');
+                })
+                    .catch(err => {
+                        alert("Please Enter the Corrected Username and Password")
+                        console.log(err);
+                    })
+
+            }
+            else {
+                alert("Please select a user type.")
+            }
+
+
         }
     }
 
@@ -38,9 +67,9 @@ export default function Login() {
                     <form onSubmit={submitForm}>
                         <div className="title">
                             {/* <h2>Admin Login</h2> */}
-                            <select >
-                                <option value="someOption">Login As a Admin</option>
-                                <option value="otherOption">Login As a Midwife</option>
+                            <select onChange={(e) => setActive(e.target.value)} defaultValue={active}>
+                                <option value="admin">Login As a Admin</option>
+                                <option value="midwife">Login As a Midwife</option>
                                 <option value="otherOption">Login As a Medical Officer</option>
                             </select>
                         </div>

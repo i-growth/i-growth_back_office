@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import './Admin.scss'
 import Cover from '../cover/cover'
 import Midwife from '../Admin/Midwife/Midwife'
+import MedicalOfficer from './MedicalOfficer/MedicalOfficer'
 
 export default function Admin() {
     const [active, setActive] = useState('midwife')
@@ -19,7 +20,7 @@ export default function Admin() {
             {/* <Midwife /> */}
             {
                 active === 'midwife' ? <Midwife /> :
-                    active === 'medical_officers' ? <p>medical_officers</p> :
+                    active === 'medical_officers' ? <MedicalOfficer /> :
                         active === 'news' ? <p>news feed</p> :
                             active === 'baby_details' ? <p>baby_details</p> : null
             }

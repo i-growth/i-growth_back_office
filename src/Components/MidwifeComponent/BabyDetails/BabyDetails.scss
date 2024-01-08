@@ -80,14 +80,15 @@
         
                         .top-detail {
                             width: 100%;
-                            height: 35px;
+                            height: 32px;
                             display: flex;
                             align-items: center;
                             justify-content: center;
                             // background-color: green;
                             border: solid green 1px;
-                            border-radius: 8px;
+                            border-radius: 4px;
                             margin-bottom: 4px;
+                            transition: 0.1s ease-in-out;
 
                             &:hover {
                                 background-color: rgb(137, 255, 137);
@@ -109,10 +110,11 @@
                                 align-items: center;
                                 justify-content: center;
                                 width: 50%;
-                                height: 100%;
+                                height: 32px;
                                 // background-color: blue;
                                 border: solid blue 1px;
-                                border-radius: 8px;
+                                border-radius: 4px;
+                                transition: 0.1s ease-in-out;
 
                                 &:hover {
                                     background-color: rgb(129, 129, 255);
@@ -126,11 +128,12 @@
                                 align-items: center;
                                 justify-content: center;
                                 width: 50%;
-                                height: 100%;
+                                height: 32px;
                                 // background-color: red;
                                 border: solid red 1px;
-                                border-radius: 8px;
+                                border-radius: 4px;
                                 margin-left: 4px;
+                                transition: 0.1s ease-in-out;
 
                                 &:hover {
                                     background-color: rgb(252, 162, 162);

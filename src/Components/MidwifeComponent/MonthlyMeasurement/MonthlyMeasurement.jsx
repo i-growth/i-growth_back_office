@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import './MonthlyMeasurement.scss'
 import { CiSearch } from "react-icons/ci";
+import instance from '../../../utility/AxiosInstance'
 
 export default function MonthlyMeasurement() {
 
@@ -11,7 +12,21 @@ export default function MonthlyMeasurement() {
         { id: '4', Month: "02", minus1SD: "12", plus1SD: "01", minus2SD: '04', plus2SD: '03' },
     ]
 
-    return (
+    const [allData, setAllData] = useState(null);
+
+    useEffect(() => {
+        instance.get("/midwife/child/sd_measurements")
+            .then(res => {
+                if (res.data !== "No data found") {
+                    setAllData(res.data)
+                    console.log(res.data)
+                }
+                else console.log("No data found");
+            }).catch(err => console.log(err))
+    }, [])
+
+    console.log("Hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii", allData);
+    if(allData !== null) return (
         <div className='measurement-container'>
             <div className='measurement-top'>
                 <div className='searchbar'>
@@ -26,22 +41,30 @@ export default function MonthlyMeasurement() {
                         <thead>
                             <tr>
                                 <td>Age(Month)</td>
-                                <td>-1SD</td>
-                                <td>+1SD</td>
-                                <td>-2SD</td>
-                                <td>+2SD</td>
+                                <td>Over Weight</td>
+                                <td>Proper Weight</td>
+                                <td>Risk for Under Weight</td>
+                                <td>Medium Under Weight</td>
+                                <td>Severe Under Weight</td>
                             </tr>
                         </thead>
                         <tbody>
-                            {data.map((dataPoint, index) => (
-                                <tr key={index}>
-                                    <td>{dataPoint.Month}</td>
-                                    <td>{dataPoint.minus1SD}</td>
-                                    <td>{dataPoint.plus1SD}</td>
-                                    <td>{dataPoint.minus2SD}</td>
-                                    <td>{dataPoint.plus2SD}</td>
-                                </tr>
-                            ))}
+                            {
+                                Object.keys(allData).map(key => {
+                                    let innerObject = allData[key];
+                                    return(
+                                        <tr key={key}>
+                                            <td>{key}</td>
+                                            <td>{innerObject.over_weight}</td>
+                                            <td>{innerObject.proper_weight}</td>
+                                            <td>{innerObject.risk_of_under_weight}</td>
+                                            <td>{innerObject.minimum_under_weight}</td>
+                                            <td>{innerObject.severe_under_weight}</td>
+                                        </tr>
+                                    )
+                                })
+                            }
+                            
                         </tbody>
                     </table>
                 </div>

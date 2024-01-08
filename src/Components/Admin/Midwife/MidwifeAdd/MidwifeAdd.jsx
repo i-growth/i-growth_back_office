@@ -37,16 +37,6 @@ export default function MidwifeAdd(props) {
             area_id: selectedArea
         }
 
-        // formData.append('name', e.target['midwife-name'].value);
-        // formData.append('service_start_date', e.target['midwife-service-start-date'].value)
-        // formData.append('nic', e.target['midwife-nic'].value);
-        // formData.append('email', e.target['midwife-email'].value);
-        // formData.append('phone', e.target['midwife-mobile'].value);
-        // formData.append('service_id', e.target['midwife-service-id'].value);
-        // formData.append('area_id', selectedArea);
-
-        console.log("tharindu", formData);
-
         instance.post('/admin/create-midwife', formData).then((res) => {
             console.log(res);
             // props.setTrigger(prv => !prv)

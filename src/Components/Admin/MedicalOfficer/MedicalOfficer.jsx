@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import './Midwife.scss'
-import MidwifeAdd from './MidwifeAdd/MidwifeAdd';
+import './MedicalOfficer.scss'
+import MidwifeAdd from './MidwifeAdd/MedicalOfficerAdd';
 import { AiFillPlusSquare, AiFillCloseCircle } from 'react-icons/ai'
 import instance from '../../../utility/AxiosInstance'
 
-export default function Mifwife() {
+export default function MedicalOfficer() {
 
     const data = [
         { name: "Name", value: "Kagalugama", type: "text" },
@@ -15,17 +15,17 @@ export default function Mifwife() {
 
     const [selectedArea, setSelectedArea] = useState("");
 
-    const [displayMidwifeAdd, setDisplayMidwifeAdd] = useState(false);
+    const [displayMedicalOfficerAdd, setDisplayMedicalOfficerAdd] = useState(false);
 
-    const [selectedMidwife, setSelectedMidwife] = useState(null);
+    const [selectedMedicalOfficer, setSelectedMedicalOfficer] = useState(null);
 
     const [showDetail, setShowDetail] = useState(false);
 
-    const [getAllMidwifes, setGetAllMidwifes] = useState([]);
+    const [medicalOfficer, setMedicalOfficer] = useState([]);
 
-    const [showMidwifeUpdate, setShowMidwifeUpdate] = useState(false);
+    const [showMedicalOfficerDetail, setShowMedicalOfficerDetail] = useState(false);
 
-    const [midwifeName, setMidwifeName] = useState("");
+    const [medicalOfficerName, setMedicalOfficerName] = useState("");
 
     const [nic, setNic] = useState("");
 
@@ -37,8 +37,8 @@ export default function Mifwife() {
 
     const [serviceId, setServiceId] = useState("");
 
-    const handleMidwifeNameChange = (e) => {
-        setMidwifeName(e.target.value);
+    const handlemedicalOfficerNameChange = (e) => {
+        setMedicalOfficerName(e.target.value);
     };
 
     const handleNicChange = (e) => {
@@ -63,33 +63,33 @@ export default function Mifwife() {
     // formData.append('area_id', selectedArea);
 
     function showCode() {
-        setDisplayMidwifeAdd(true);
+        setDisplayMedicalOfficerAdd(true);
     }
 
     const handleViewDetail = (midwifes) => {
-        setSelectedMidwife(midwifes);
+        setSelectedMedicalOfficer(midwifes);
         setShowDetail(true);
     }
 
     const handleCloseViewDetail = () => {
-        setSelectedMidwife(null);
+        setSelectedMedicalOfficer(null);
         setShowDetail(false);
     }
 
     const handleUpdateWindow = (midwifes) => {
-        setMidwifeName(midwifes.name);
+        setMedicalOfficerName(midwifes.name);
         setNic(midwifes.nic);
         setServiceStartDate(midwifes.service_start_date);
         setEmail(midwifes.email);
         setPhone(midwifes.phone);
         setServiceId(midwifes.service_id);
-        setSelectedMidwife(midwifes);
-        setShowMidwifeUpdate(true)
+        setSelectedMedicalOfficer(midwifes);
+        setShowMedicalOfficerDetail(true)
     }
 
     const handleCloseUpdateWindow = () => {
-        setSelectedMidwife(null);
-        setShowMidwifeUpdate(false);
+        setSelectedMedicalOfficer(null);
+        setShowMedicalOfficerDetail(false);
     }
 
     useEffect(() => {
@@ -110,10 +110,10 @@ export default function Mifwife() {
     };
 
     useEffect(() => {
-        instance.get("/admin/midwifes")
+        instance.get("/admin/get-all-officer")
             .then(res => {
                 if (res.data !== "No data found") {
-                    setGetAllMidwifes(res.data)
+                    setMedicalOfficer(res.data)
                     console.log(res.data)
                 }
                 else console.log("No data found");
@@ -135,17 +135,18 @@ export default function Mifwife() {
         // formData.append('area_id',);
 
         const formData = {
-            name: e.target['midwife-name'].value,
-            service_start_date: e.target['midwife-service-start-date'].value,
-            nic: e.target['midwife-nic'].value,
-            email: e.target['midwife-email'].value,
-            phone: e.target['midwife-mobile'].value,
-            service_id: e.target['midwife-service-id'].value,
+            officer_name: e.target['medicalOfficer-name'].value,
+            service_start_date: e.target['medicalOfficer-service-start-date'].value,
+            nic: e.target['medicalOfficer-nic'].value,
+            email: e.target['medicalOfficer-email'].value,
+            phone: e.target['medicalOfficer-mobile'].value,
+            service_id: e.target['medicalOfficer-service-id'].value,
+            area_id: e.target['area'].value
         }
 
         try {
             // Make PATCH request to update category
-            await instance.put(`/admin/midwife/${selectedMidwife.midwife_id}`, formData);
+            await instance.put(`/admin/officer/${selectedMedicalOfficer.officer_id}`, formData);
 
             // Close the update popup
             // setShowMidwifeUpdate(false);
@@ -184,14 +185,14 @@ export default function Mifwife() {
 
     return (
         <div className='midwife-container'>
-            {displayMidwifeAdd ? <MidwifeAdd setDisplayMidwifeAdd={setDisplayMidwifeAdd} /> : null}
+            {displayMedicalOfficerAdd ? <MidwifeAdd setDisplayMedicalOfficerAdd={setDisplayMedicalOfficerAdd} /> : null}
             <div className="head">
-                <div className="name"><h2>Midwife</h2></div>
+                <div className="name"><h2>Medical Officers</h2></div>
                 <AiFillPlusSquare fontSize={50} className='icon' onClick={showCode} />
             </div>
             <div className='body'>
                 {
-                    getAllMidwifes.map((data, index) => {
+                    medicalOfficer.map((data, index) => {
                         return (
                             <div className="card-fram" key={index}>
                                 <div className="image-container">
@@ -199,7 +200,7 @@ export default function Mifwife() {
                                         <h3 style={{ marginLeft: '50px' }}>{data.area_id}</h3>
                                     </div>
                                 </div>
-                                <div className="nameOfCard"><h3>{data.name}</h3></div>
+                                <div className="nameOfCard"><h3>{data.officer_name}</h3></div>
                                 <div className="crud-function">
                                     <div className="crud-btns">
                                         <div className="top">
@@ -212,7 +213,7 @@ export default function Mifwife() {
                                     </div>
                                 </div>
 
-                                {showDetail && selectedMidwife && selectedMidwife.midwife_id === data.midwife_id && (
+                                {showDetail && selectedMedicalOfficer && selectedMedicalOfficer.midwife_id === data.midwife_id && (
                                     <div className='cardView-container'>
                                         <div className="cardView">
                                             <div className="close-icon"><AiFillCloseCircle size={25} color='red' className='icon' onClick={handleCloseViewDetail} /></div>
@@ -220,14 +221,14 @@ export default function Mifwife() {
                                                 <div className="view-card-fram">
                                                     <div className='header'><h2>Midwife Detail</h2></div>
                                                     <div className='detail-body'>
-                                                        <div className='detail'><h4>Midwife ID :</h4>{selectedMidwife.midwife_id}</div>
-                                                        <div className='detail'><h4>Name :</h4>{selectedMidwife.name}</div>
-                                                        <div className='detail'><h4>Service ID :</h4>{selectedMidwife.service_id}</div>
-                                                        <div className='detail'><h4>NIC :</h4>{selectedMidwife.nic}</div>
-                                                        <div className='detail'><h4>Service Start Date :</h4>{selectedMidwife.service_start_date}</div>
-                                                        <div className='detail'><h4>Gmail :</h4>{selectedMidwife.email}</div>
-                                                        <div className='detail'><h4>Mobile :</h4>{selectedMidwife.phone}</div>
-                                                        <div className='detail'><h4>Area :</h4>{selectedMidwife.area_id}</div>
+                                                        <div className='detail'><h4>Medical Officer ID :</h4>{selectedMedicalOfficer.officer_id}</div>
+                                                        <div className='detail'><h4>Name :</h4>{selectedMedicalOfficer.officer_name}</div>
+                                                        <div className='detail'><h4>Service ID :</h4>{selectedMedicalOfficer.service_id}</div>
+                                                        <div className='detail'><h4>NIC :</h4>{selectedMedicalOfficer.nic}</div>
+                                                        <div className='detail'><h4>Service Start Date :</h4>{selectedMedicalOfficer.service_start_date}</div>
+                                                        <div className='detail'><h4>Gmail :</h4>{selectedMedicalOfficer.email}</div>
+                                                        <div className='detail'><h4>Mobile :</h4>{selectedMedicalOfficer.phone}</div>
+                                                        <div className='detail'><h4>Area :</h4>{selectedMedicalOfficer.area_id}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -235,11 +236,11 @@ export default function Mifwife() {
                                     </div>
                                 )}
 
-                                {showMidwifeUpdate && selectedMidwife && selectedMidwife.midwife_id === data.midwife_id && (
+                                {showMedicalOfficerDetail && selectedMedicalOfficer && selectedMedicalOfficer.midwife_id === data.midwife_id && (
                                     // <div className='categoryUpdate-container'>
                                     //     <div className="card-container">
                                     //         <div className="header">
-                                    //             <h4>{selectedMidwife.name}</h4>
+                                    //             <h4>{selectedMedicalOfficer.name}</h4>
                                     //         </div>
                                     //         <form >
                                     //             <div className="input-section">
@@ -268,18 +269,18 @@ export default function Mifwife() {
                                                 <div className="input-section">
                                                     <div className="input-wrapper">
                                                         {/* <input type="text" name="category-name" placeholder='Enter the Select Area'  required /> */}
-                                                        <select className='inputfieds' style={{ height: '35px', width: '91%' }} value={selectedArea} onChange={handleAreaChange}>
+                                                        <select id='area' name='area' className='inputfieds' style={{ height: '35px', width: '91%' }} value={selectedArea} onChange={handleAreaChange}>
                                                             {/* <option value="">Select an Area</option> */}
                                                             {getArea.map(area => (
                                                                 <option key={area.area_id} value={area.area_id}>{area.area_name}</option>
                                                             ))}
                                                         </select>
-                                                        <input type="text" name="midwife-name" id='midwife-name' placeholder='Enter the Midwife Name' className='inputfieds' required value={midwifeName} onChange={handleMidwifeNameChange} />
-                                                        <input type="text" name="midwife-nic" id='midwife-nic' placeholder='Enter the NIC' disabled={true} className='inputfieds' required value={nic} onChange={handleNicChange} />
-                                                        <input type="text" name="midwife-service-start-date" id='midwife-service-start-date' disabled={true} placeholder='Enter the Service Start Date' className='inputfieds' required value={serviceStartDate} onChange={handleserviceStartDatehange} />
-                                                        <input type="text" name="midwife-service-id" id='midwife-service-id' disabled={true} placeholder='Enter the Service_Id' className='inputfieds' required value={serviceId} onChange={handleServiceIdChange} />
-                                                        <input type="text" name="midwife-email" id='midwife-email' disabled={true} placeholder='Enter the Email' className='inputfieds' required value={email} onChange={handleEmailChange} />
-                                                        <input type="text" name="midwife-mobile" id='midwife-mobile' placeholder='Enter the Mobile Number' className='inputfieds' required value={phone} onChange={handleMobileChange} />
+                                                        <input type="text" name="medicalOfficer-name" id='medicalOfficer-name' placeholder='Enter the medicalOfficer Name' className='inputfieds' required value={medicalOfficerName} onChange={handlemedicalOfficerNameChange} />
+                                                        <input type="text" name="medicalOfficer-nic" id='medicalOfficer-nic' placeholder='Enter the NIC' className='inputfieds' required value={nic} onChange={handleNicChange} />
+                                                        <input type="text" name="medicalOfficer-service-start-date" id='medicalOfficer-service-start-date' placeholder='Enter the Service Start Date' className='inputfieds' required value={serviceStartDate} onChange={handleserviceStartDatehange} />
+                                                        <input type="text" name="medicalOfficer-service-id" id='medicalOfficer-service-id' placeholder='Enter the Service_Id' className='inputfieds' required value={serviceId} onChange={handleServiceIdChange} />
+                                                        <input type="text" name="medicalOfficer-email" id='medicalOfficer-email' placeholder='Enter the Email' className='inputfieds' required value={email} onChange={handleEmailChange} />
+                                                        <input type="text" name="medicalOfficer-mobile" id='medicalOfficer-mobile' placeholder='Enter the Mobile Number' className='inputfieds' required value={phone} onChange={handleMobileChange} />
                                                     </div>
                                                 </div>
                                                 <div className="submission-btn">
