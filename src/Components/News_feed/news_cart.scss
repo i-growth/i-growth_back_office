@@ -1,0 +1,47 @@
+.cartbox{
+    width: 100vh;
+    height: 40vh;
+    margin-top: 2vh;
+    padding-top: 2vh;
+    padding-left: 2vh;
+    border: solid;
+    border-radius: 5px;
+    background: rgb(128, 128, 128,0.7);
+
+    .image{
+        width: 52vh;
+        height: 37vh;
+        background: rgb(210, 113, 240);
+        
+        img{
+            width: 50vh;
+            height: 35vh;
+            margin-left: 1vh;
+            margin-top: 1vh;
+        }
+    }
+    .title{
+        font-family: 'Courier New', Courier, monospace;
+        color: white;
+        margin-top: -38vh;
+        margin-left: 55vh;
+    }
+    .description{
+        width: 45vh;
+        margin-left: 55vh;
+    }
+    .date{
+        margin-top: 21.6vh;
+        margin-left: 90vh;
+        background: rgb(83, 82, 82);
+        border-top-left-radius: 7px;
+        border-bottom-right-radius: 5px;
+        height: 3vh;
+        width: 10vh;
+
+        h5{
+            margin-top: 1vh;
+            margin-left: 1vh;    
+        }
+    }
+}
