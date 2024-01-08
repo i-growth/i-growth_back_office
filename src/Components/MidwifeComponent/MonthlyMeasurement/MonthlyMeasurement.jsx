@@ -12,7 +12,7 @@ export default function MonthlyMeasurement() {
         { id: '4', Month: "02", minus1SD: "12", plus1SD: "01", minus2SD: '04', plus2SD: '03' },
     ]
 
-    const [allData, setAllData] = useState();
+    const [allData, setAllData] = useState(null);
 
     useEffect(() => {
         instance.get("/midwife/child/sd_measurements")
@@ -25,29 +25,8 @@ export default function MonthlyMeasurement() {
             }).catch(err => console.log(err))
     }, [])
 
-    const submit = async (e) => {
-        e.preventDefault();
-
-        const formData = {
-            name: e.target['midwife-name'].value,
-            service_start_date: e.target['midwife-service-start-date'].value,
-            nic: e.target['midwife-nic'].value,
-            email: e.target['midwife-email'].value
-        }
-
-        instance.post('/admin/create-midwife', formData).then((res) => {
-            console.log(res);
-            // props.setTrigger(prv => !prv)
-            if (res.status === 200) {
-                alert('Item Added Successfully');
-            }
-        }
-        ).catch((err) => {
-            console.log(err);
-        })
-    }
-
-    return (
+    console.log("Hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii", allData);
+    if(allData !== null) return (
         <div className='measurement-container'>
             <div className='measurement-top'>
                 <div className='searchbar'>
@@ -70,16 +49,22 @@ export default function MonthlyMeasurement() {
                             </tr>
                         </thead>
                         <tbody>
-                            {data.map((dataPoint, index) => (
-                                <tr key={index}>
-                                    <td>{dataPoint.Month}</td>
-                                    <td>{dataPoint.over_weight}</td>
-                                    <td>{dataPoint.proper_weight}</td>
-                                    <td>{dataPoint.risk_of_under_weight}</td>
-                                    <td>{dataPoint.minimum_under_weight}</td>
-                                    <td>{dataPoint.severe_under_weight}</td>
-                                </tr>
-                            ))}
+                            {
+                                Object.keys(allData).map(key => {
+                                    let innerObject = allData[key];
+                                    return(
+                                        <tr key={key}>
+                                            <td>{key}</td>
+                                            <td>{innerObject.over_weight}</td>
+                                            <td>{innerObject.proper_weight}</td>
+                                            <td>{innerObject.risk_of_under_weight}</td>
+                                            <td>{innerObject.minimum_under_weight}</td>
+                                            <td>{innerObject.severe_under_weight}</td>
+                                        </tr>
+                                    )
+                                })
+                            }
+                            
                         </tbody>
                     </table>
                 </div>
@@ -87,7 +72,7 @@ export default function MonthlyMeasurement() {
                     <div className='form-container'>
                         <h2>Child Measurement Form</h2>
 
-                        <form onSubmit={submit}>
+                        <form >
                             <div className='form-group'>
                                 <label>Child ID:</label>
                                 <input
