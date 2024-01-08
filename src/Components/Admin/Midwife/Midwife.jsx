@@ -135,12 +135,12 @@ export default function Mifwife() {
             </div>
             <div className='body'>
                 {
-                    data.map((data, index) => {
+                    getAllMidwifes.map((data, index) => {
                         return (
                             <div className="card-fram" key={index}>
                                 <div className="image-container">
                                     <div className='detail'>
-                                        <h3>{data.value}</h3>
+                                        <h3 style={{ marginLeft: '50px' }}>{data.area_id}</h3>
                                     </div>
                                 </div>
                                 <div className="nameOfCard"><h3>{data.name}</h3></div>
