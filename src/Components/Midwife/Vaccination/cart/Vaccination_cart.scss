@@ -1,0 +1,38 @@
+
+.vaccin_cart{
+    margin-left: 10vh;
+    margin-top: 10vh;
+    width: 50vh;
+    height: 30vh;
+    background: rgb(130, 80, 158);
+    padding-top: 2.5vh;
+
+    .box{
+        background: rgba(255, 255, 255, 0.5);
+        width: 42.5vh;
+        height: 25vh;
+        margin-left: 2.5vh;
+        padding-top: 2.5vh;
+        padding-left: 2.5vh;
+        border-radius: 6px;
+        
+        
+    }
+    #vacc_title{
+        margin-top: -1vh;
+        font-family: 'Courier New', Courier, monospace;
+    }
+
+    #vacc_month{
+        margin-top: 1vh;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+
+    #description{
+        margin-top: 1vh;
+    }
+    #box{
+        height: 10vh;
+        width: 40vh;
+    }
+}
