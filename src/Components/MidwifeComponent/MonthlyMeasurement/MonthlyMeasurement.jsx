@@ -12,7 +12,7 @@ export default function MonthlyMeasurement() {
         { id: '4', Month: "02", minus1SD: "12", plus1SD: "01", minus2SD: '04', plus2SD: '03' },
     ]
 
-    const [allData, setAllData] = useState({});
+    const [allData, setAllData] = useState(null);
 
     useEffect(() => {
         instance.get("/midwife/child/sd_measurements")
@@ -26,7 +26,7 @@ export default function MonthlyMeasurement() {
     }, [])
 
     console.log("Hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii", allData);
-    return (
+    if(allData !== null) return (
         <div className='measurement-container'>
             <div className='measurement-top'>
                 <div className='searchbar'>
@@ -49,28 +49,22 @@ export default function MonthlyMeasurement() {
                             </tr>
                         </thead>
                         <tbody>
-                            {/* {
+                            {
                                 Object.keys(allData).map(key => {
-                                    <tr key={key}>
-                                        <td>{key}</td>
-                                        <td>{allData[key].dataPoint.over_weight}</td>
-                                        <td>{allData[key].dataPoint.proper_weight}</td>
-                                        <td>{allData[key].dataPoint.risk_of_under_weight}</td>
-                                        <td>{allData[key].dataPoint.minimum_under_weight}</td>
-                                        <td>{allData[key].dataPoint.severe_under_weight}</td>
-                                    </tr>
+                                    let innerObject = allData[key];
+                                    return(
+                                        <tr key={key}>
+                                            <td>{key}</td>
+                                            <td>{innerObject.over_weight}</td>
+                                            <td>{innerObject.proper_weight}</td>
+                                            <td>{innerObject.risk_of_under_weight}</td>
+                                            <td>{innerObject.minimum_under_weight}</td>
+                                            <td>{innerObject.severe_under_weight}</td>
+                                        </tr>
+                                    )
                                 })
-                            } */}
-                            {allData.map((dataPoint, key) => (
-                                <tr key={key}>
-                                    <td>{dataPoint.key}</td>
-                                    <td>{dataPoint.over_weight}</td>
-                                    <td>{dataPoint.proper_weight}</td>
-                                    <td>{dataPoint.risk_of_under_weight}</td>
-                                    <td>{dataPoint.minimum_under_weight}</td>
-                                    <td>{dataPoint.severe_under_weight}</td>
-                                </tr>
-                            ))}
+                            }
+                            
                         </tbody>
                     </table>
                 </div>
