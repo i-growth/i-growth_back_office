@@ -146,7 +146,52 @@ export default function BabyDetails() {
                                                             ))}
                                                         </div>
                                                         <div className='development-activites-bottom'>
-
+                                                            <table style={{ width: '80%', height: '50%' }}>
+                                                                <tr>
+                                                                    <td className='number'>1</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className='number'>2</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className='number'>3</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className='number'>4</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className='number'>5</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className='number'>6</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className='number'>7</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className='number'>8</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className='number'>9</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td className='number'>10</td>
+                                                                    <td></td>
+                                                                </tr>
+                                                            </table>
+                                                            <div className='button'>
+                                                                <input className='input-field' type='text' name='comment' placeholder='Enter Comment Here' />
+                                                                <input className='submit-btn' type="submit" value="Send" />
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
