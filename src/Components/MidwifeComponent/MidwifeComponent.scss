@@ -16,22 +16,32 @@
 
         ul {
             display: flex;
-            width: 80%;
+            width: 100%;
             list-style: none;
             justify-content: space-around;
+            align-items: center;
             color: white;
+            box-sizing: border-box;
+            overflow-wrap: break-word;
 
             li {
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 width: 160px;
-                height: 40px;
-                border-radius: 8px;
+                // height: 40px;
+                font-size: 15px;
+                border-radius: 4px;
+                white-space: nowrap;
+                padding: 7px 3px;
+                margin-right: 10px;
+                box-sizing: border-box;
+                border: 1px solid rgba(204, 204, 204, 0.562);
 
                 &:hover {
                     cursor: pointer;
                     background-color: black;
+                    border: none;
                 }
             }
         }
