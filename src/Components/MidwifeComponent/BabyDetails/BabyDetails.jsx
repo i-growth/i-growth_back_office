@@ -110,6 +110,7 @@ export default function BabyDetails() {
                                             <div className="close-icon"><AiFillCloseCircle size={25} color='red' className='icon' onClick={handleCloseViewDetail} /></div>
                                             <div className="card-section">
                                                 <div className='top-section'>
+                                                    <h3>Details:</h3>
                                                     <div className='detail-body'>
                                                         <div className='detail'><h4>Baby ID :</h4>001</div>
                                                         <div className='detail'><h4>Name :</h4>Tharindu</div>

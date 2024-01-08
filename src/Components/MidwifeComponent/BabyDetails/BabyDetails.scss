@@ -162,6 +162,7 @@
                                 background-color: white;
                                 border-radius: 10px;
                                 overflow-y: auto;
+                                overflow-x: hidden;
                         
                                 .close-icon {
                                     display: flex;
@@ -194,9 +195,20 @@
                                         width: 100%;
                                         height: 30vh;
                                         display: flex;
+                                        flex-direction: column;
+                                        margin-bottom: 40px;
                                         align-items: center;
                                         justify-content: center;
                                         // background-color: rgb(236, 177, 177);
+
+                                        h3 {
+                                            display: flex;
+                                            align-items: center;
+                                            justify-content: flex-start;
+                                            margin-left: 50px;
+                                            padding-top: 30px;
+                                            width: 100%;
+                                        }
 
                                         .detail-body {
                                             width: 100%;
