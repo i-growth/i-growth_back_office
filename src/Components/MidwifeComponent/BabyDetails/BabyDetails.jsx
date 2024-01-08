@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 import './BabyDetails.scss'
 import { AiFillCloseCircle } from 'react-icons/ai'
 
@@ -15,6 +15,21 @@ export default function BabyDetails() {
         { id: '1', no: "01", child_id: "10", childl_name: "02", age: '04', gender: '01', gurdient_name: 'father', mobile: '0123456789' },
         { id: '1', no: "01", child_id: "10", childl_name: "02", age: '04', gender: '01', gurdient_name: 'father', mobile: '0123456789' },
     ]
+
+    const [showDetail, setShowDetail] = useState(false);
+
+    const [selectedBaby, setSelectedBaby] = useState(null);
+
+    const handleViewDetail = (babyDetail) => {
+        setSelectedBaby(babyDetail);
+        setShowDetail(true);
+    }
+
+    const handleCloseViewDetail = () => {
+        setSelectedBaby(null);
+        setShowDetail(false);
+    }
+
 
     return (
         <div className='baby-details-container'>
@@ -48,21 +63,23 @@ export default function BabyDetails() {
                                 <td>{data.gurdient_name}</td>
                                 <td>{data.mobile}</td>
                                 <td className='crud-btn'>
-                                    <div className='top-detail'>View Detail</div>
+                                    <div className='top-detail' onClick={() => handleViewDetail(data)}>View Detail</div>
                                     <div className='bottom-detail'>
                                         <div className='update'>Update</div>
                                         <div className='delete'>Delete</div>
                                     </div>
                                 </td>
 
-                                <div className='babyDetail-view-container'>
-                                    <div className="cardView">
-                                        <div className="close-icon"><AiFillCloseCircle size={25} color='red' className='icon' /></div>
-                                        <div className="card-section"></div>
-                                        <div className="view-card-fram">
+                                {showDetail && selectedBaby && selectedBaby.baby_id === data.baby_id && (
+                                    <div className='babyDetail-view-container'>
+                                        <div className="cardView">
+                                            <div className="close-icon"><AiFillCloseCircle size={25} color='red' className='icon' onClick={handleCloseViewDetail} /></div>
+                                            <div className="card-section"></div>
+                                            <div className="view-card-fram">
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                )}
                             </tr>
                         ))}
                     </tbody>
