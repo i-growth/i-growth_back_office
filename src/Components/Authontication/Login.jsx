@@ -18,9 +18,10 @@ export default function Login() {
                 password: password
             }).then(res => {
                 console.log(res.data);
-                navigation('/');
+                navigation('/admin');
             })
                 .catch(err => {
+                    alert("Please Enter the Corrected Username and Password")
                     console.log(err);
                 })
         }
