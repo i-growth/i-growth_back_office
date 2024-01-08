@@ -1,24 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Login from './Components/Authontication/Login';
+import Admin from './Components/Admin/Admin';
+import MidwifeComponent from './Components/MidwifeComponent/MidwifeComponent';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+
+      <Routes>
+        <Route path='/auth' element={<Login />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/Midwife" element={<MidwifeComponent />} />
+      </Routes>
+    </Router>
   );
 }
 
