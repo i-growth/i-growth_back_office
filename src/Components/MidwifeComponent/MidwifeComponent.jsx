@@ -3,6 +3,7 @@ import './MidwifeComponent.scss'
 import Cover from '../cover/cover'
 import Measure from './MonthlyMeasurement/MonthlyMeasurement'
 import BabyDetails from './BabyDetails/BabyDetails'
+import CreateAccount from './CreateAccount/CreateAccount'
 
 export default function MinwifeComponent() {
   const [active, setActive] = useState('measure')
@@ -27,7 +28,7 @@ export default function MinwifeComponent() {
             active === 'vacc_detail' ? <p>Vacc Detail</p> :
               active === 'consult_advices' ? <p>Consult Advices</p> :
                 active === 'view_development' ? <p>View Development</p> :
-                  active === 'create_account' ? <p>Create Account</p> :
+                  active === 'create_account' ? <CreateAccount /> :
                     active === 'news-feed' ? <p>News Feed</p> : null
       }
     </div>
