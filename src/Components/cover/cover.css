@@ -16,15 +16,18 @@
 }
 
 .cover-container .title img {
-    width: 5%;
+    width: 30vh;
+    height: 9vh;
+    margin-left: -40vh;
 }
 
 .cover-container .title p {
     font-size: 25px;
     font-weight: 500;
-    margin-left: 20px;
+    margin-left: 40vh;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
+    margin-top: 8vh;
 }
 
 .cover-container button {

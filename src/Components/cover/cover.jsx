@@ -1,6 +1,6 @@
 import React from 'react'
 import './cover.css'
-import Logo from '../../images/logo192.png'
+import Logo from '../../images/logo.png'
 
 export default function cover() {
     return (
