@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './Login.css'
 import instance from '../../utility/AxiosInstance'
 import { useNavigate } from 'react-router-dom';
+import logo from '../../images/logo.png';
 
 export default function Login() {
 
@@ -60,14 +61,15 @@ export default function Login() {
         <div className='login-container'>
             <div className="login-card-container">
                 <div className="card-header">
-                    <h1 style={{ color: 'red' }}>i-Growth</h1>
+                    {/*<h1 style={{ color: 'red' }}>i-Growth</h1>*/}
+                    <img src={logo} alt="test" />
                 </div>
                 <div className="body-section">
 
                     <form onSubmit={submitForm}>
                         <div className="title">
                             {/* <h2>Admin Login</h2> */}
-                            <select onChange={(e) => setActive(e.target.value)} defaultValue={active}>
+                            <select onChange={(e) => setActive(e.target.value)} defaultValue={active} className='drop'>
                                 <option value="admin">Login As a Admin</option>
                                 <option value="midwife">Login As a Midwife</option>
                                 <option value="otherOption">Login As a Medical Officer</option>

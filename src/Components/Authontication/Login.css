@@ -28,6 +28,10 @@
     background-color: #afafee;
     margin-top: 15px;
 }
+.login-container .login-card-container .card-header img{
+    width: 50vh;
+    height: 8vh;
+}
 .login-container .login-card-container .body-section {
     display: flex;
     flex-direction: column;
@@ -45,7 +49,8 @@
 .login-container .login-card-container .body-section form select {
     margin-top: 25px;
     margin-bottom: 25px;
-    height: 30px;
+    height: 33px;
+    width: 53vh;
 }
 
 .login-container .login-card-container .body-section form .input-feild-container {
