@@ -4,11 +4,9 @@ import Logo from '../../images/logo192.png'
 
 export default function cover() {
 
-    const log_out = () => {
-        localStorage.clear()
-        window.location.reload();
+    function logout() {
+        window.location.href = "http://localhost:3000/auth";
     }
-
     return (
         <div className='cover-container'>
             <div className='title'>
@@ -16,7 +14,7 @@ export default function cover() {
                 {/* <p> I-Growth</p> */}
                 <p >Monitor Baby Growth & Suggest Advice</p>
             </div>
-            <button style={{ marginRight: '20px' }} onClick={log_out}>Log Out</button>
+            <button style={{ marginRight: '20px' }} onClick={logout}>Log Out</button>
         </div>
     )
 }
