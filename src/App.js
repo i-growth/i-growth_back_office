@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './Components/Authontication/Login';
 import Admin from './Components/Admin/Admin';
 import MidwifeComponent from './Components/MidwifeComponent/MidwifeComponent';
+import NewsFeed from './Components/public/NewsFeed';
+import AddNews from './Components/public/AddNews';
 
 function App() {
   return (
@@ -11,6 +13,7 @@ function App() {
         <Route path='/auth' element={<Login />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/Midwife" element={<MidwifeComponent />} />
+        <Route path="/public" element={<AddNews />} />
       </Routes>
     </Router>
   );
