@@ -184,13 +184,13 @@ export default function MedicalOfficer() {
     console.log(`${inputDate.getFullYear()}-${inputDate.getMonth() + 1}-${inputDate.getDate()}`);
 
     return (
-        <div className='midwife-container'>
+        <div className='midwife-container' style={{ height: '75vh' }}>
             {displayMedicalOfficerAdd ? <MidwifeAdd setDisplayMedicalOfficerAdd={setDisplayMedicalOfficerAdd} /> : null}
             <div className="head">
                 <div className="name"><h2>Medical Officers</h2></div>
                 <AiFillPlusSquare fontSize={50} className='icon' onClick={showCode} />
             </div>
-            <div className='body'>
+            <div className='body' style={{ height: '61vh', borderRadius: '0 0 8px 8px' }}>
                 {
                     medicalOfficer.map((data, index) => {
                         return (
@@ -204,11 +204,11 @@ export default function MedicalOfficer() {
                                 <div className="crud-function">
                                     <div className="crud-btns">
                                         <div className="top">
-                                            <div className="view-btn" onClick={() => handleViewDetail(data)}>View Details</div>
+                                            <div className="view-btn" onClick={() => handleViewDetail(data)} style={{ width: '150px' }}>View Details</div>
                                         </div>
-                                        <div className="bottom">
-                                            <div className="update" onClick={() => handleUpdateWindow(data)}>Update</div>
-                                            <div className="delete">Delete</div>
+                                        <div className="bottom" style={{ width: 'auto' }}>
+                                            <div className="update" onClick={() => handleUpdateWindow(data)} style={{ width: '150px' }}>Update</div>
+                                            {/* <div className="delete">Delete</div> */}
                                         </div>
                                     </div>
                                 </div>
@@ -261,7 +261,7 @@ export default function MedicalOfficer() {
                                     //     </div>
                                     // </div>
                                     <div className='midwifeAdd-container'>
-                                        <div className="card-container">
+                                        <div className="card-container" style={{ height: '80vh' }}>
                                             <div className="header">
                                                 <h4>Update the Midwife</h4>
                                             </div>

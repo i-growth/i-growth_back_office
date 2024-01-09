@@ -52,7 +52,7 @@ export default function MidwifeAdd(props) {
 
     return (
         <div className='midwifeAdd-container'>
-            <div className="card-container">
+            <div className="card-container" style={{ height: '80vh' }}>
                 <div className="header">
                     <h4>Adding the Midwife</h4>
                 </div>
