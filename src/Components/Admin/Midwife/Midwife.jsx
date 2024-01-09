@@ -11,6 +11,8 @@ export default function Mifwife() {
         { name: "Email", value: "Thambala", type: "email" },
     ]
 
+    const [trigger, setTrigger] = useState(false);
+
     const [getArea, setGetArea] = useState([]);
 
     const [selectedArea, setSelectedArea] = useState("");
@@ -118,7 +120,7 @@ export default function Mifwife() {
                 }
                 else console.log("No data found");
             }).catch(err => console.log(err))
-    }, [])
+    }, [trigger])
 
     const submit = async (e) => {
         e.preventDefault();
@@ -148,8 +150,8 @@ export default function Mifwife() {
             await instance.put(`/admin/midwife/${selectedMidwife.midwife_id}`, formData);
 
             // Close the update popup
-            // setShowMidwifeUpdate(false);
-            // setTrigger(!trigger);
+            setShowMidwifeUpdate(false);
+            setTrigger(!trigger);
 
         } catch (error) {
             console.error("Error updating Midwife: ", error);
@@ -184,7 +186,7 @@ export default function Mifwife() {
 
     return (
         <div className='midwife-container' style={{ height: '75vh' }}>
-            {displayMidwifeAdd ? <MidwifeAdd setDisplayMidwifeAdd={setDisplayMidwifeAdd} /> : null}
+            {displayMidwifeAdd ? <MidwifeAdd setDisplayMidwifeAdd={setDisplayMidwifeAdd} setTrigger={setTrigger} /> : null}
             <div className="head">
                 <div className="name"><h2>Midwife</h2></div>
                 <AiFillPlusSquare fontSize={50} className='icon' onClick={showCode} />
@@ -196,7 +198,7 @@ export default function Mifwife() {
                             <div className="card-fram" key={index}>
                                 <div className="image-container">
                                     <div className='detail'>
-                                        <h3 style={{ marginLeft: '50px' }}>{data.area_id}</h3>
+                                        <h3 style={{ marginLeft: '50px' }}>{data.area_name}</h3>
                                     </div>
                                 </div>
                                 <div className="nameOfCard"><h3>{data.name}</h3></div>
@@ -206,7 +208,7 @@ export default function Mifwife() {
                                             <div className="view-btn" onClick={() => handleViewDetail(data)} style={{ width: '150px' }}>View Details</div>
                                         </div>
                                         <div className="bottom" style={{ width: 'auto' }}>
-                                            <div className="update" onClick={() => handleUpdateWindow(data)} style={{ width: '150px' }}>Update</div>
+                                            <div className="update" setTrigger={setTrigger} onClick={() => handleUpdateWindow(data)} style={{ width: '150px' }}>Update</div>
                                             {/* <div className="delete">Delete</div> */}
                                         </div>
                                     </div>
