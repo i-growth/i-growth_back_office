@@ -25,8 +25,8 @@ export default function MonthlyMeasurement() {
             }).catch(err => console.log(err))
     }, [])
 
-    console.log("Hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii", allData);
-    if(allData !== null) return (
+
+    if (allData !== null) return (
         <div className='measurement-container'>
             <div className='measurement-top'>
                 <div className='searchbar'>
@@ -52,7 +52,7 @@ export default function MonthlyMeasurement() {
                             {
                                 Object.keys(allData).map(key => {
                                     let innerObject = allData[key];
-                                    return(
+                                    return (
                                         <tr key={key}>
                                             <td>{key}</td>
                                             <td>{innerObject.over_weight}</td>
@@ -64,7 +64,7 @@ export default function MonthlyMeasurement() {
                                     )
                                 })
                             }
-                            
+
                         </tbody>
                     </table>
                 </div>
