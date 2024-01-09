@@ -29,8 +29,6 @@ export default function MonthlyMeasurement() {
             head_cricumference: inputData.head_cricumference
         }
 
-        // console.log(data)
-
         if(!data.weight === "" || !data.height === "" || !data.head_cricumference === "" || !data.month === "" || !inputData.child_id ){
             alert("Please fill all the fields")
             return
@@ -57,7 +55,6 @@ export default function MonthlyMeasurement() {
         catch(err){
             console.log(err)
         }
-        
     }
 
     const pressSearch = async() => {
