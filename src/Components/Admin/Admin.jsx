@@ -3,6 +3,7 @@ import './Admin.scss'
 import Cover from '../cover/cover'
 import Midwife from '../Admin/Midwife/Midwife'
 import MedicalOfficer from './MedicalOfficer/MedicalOfficer'
+import AddNews from '../public/AddNews'
 
 export default function Admin() {
     const [active, setActive] = useState('midwife')
@@ -21,7 +22,7 @@ export default function Admin() {
             {
                 active === 'midwife' ? <Midwife /> :
                     active === 'medical_officers' ? <MedicalOfficer /> :
-                        active === 'news' ? <p>news feed</p> :
+                        active === 'news' ? <AddNews /> :
                             active === 'baby_details' ? <p>baby_details</p> : null
             }
         </div>

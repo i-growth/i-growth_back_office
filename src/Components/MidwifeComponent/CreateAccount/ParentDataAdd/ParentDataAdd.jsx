@@ -6,7 +6,7 @@ export default function ParentDataAdd(props) {
         <div className='parentAdd-container'>
             <div className="card-container">
                 <div className="header">
-                    <h4>Adding the Midwife</h4>
+                    <h4>Adding the Parent</h4>
                 </div>
                 <form >
                     <div className="input-section">
