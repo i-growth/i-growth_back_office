@@ -5,6 +5,7 @@ import Measure from './MonthlyMeasurement/MonthlyMeasurement'
 import BabyDetails from './BabyDetails/BabyDetails'
 import CreateAccount from './CreateAccount/CreateAccount'
 import Vaccine from './Vaccine/Vaccine'
+import AddNews from '../public/AddNews'
 
 export default function MinwifeComponent() {
   const [active, setActive] = useState('measure')
@@ -30,7 +31,7 @@ export default function MinwifeComponent() {
               // active === 'consult_advices' ? <p>Consult Advices</p> :
               // active === 'view_development' ? <p>View Development</p> :
               active === 'create_account' ? <CreateAccount /> :
-                active === 'news-feed' ? <p>News Feed</p> : null
+                active === 'news-feed' ? <AddNews /> : null
       }
     </div>
   )
