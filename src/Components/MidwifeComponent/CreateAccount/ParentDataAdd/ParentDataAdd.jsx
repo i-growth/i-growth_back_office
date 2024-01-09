@@ -19,7 +19,7 @@ export default function ParentDataAdd(props) {
                     <div className="submission-btn">
                         {/* <div  type="submit">Submit</div> */}
                         <input className="submit-btn" type="submit" />
-                        <div className="cancel-btn" onClick={props.setDisplayParentAdd(false)}>Cancel</div>
+                        <div className="cancel-btn" onClick={() => props.setDisplayParentAdd(false)}>Cancel</div>
                     </div>
                 </form>
             </div>
