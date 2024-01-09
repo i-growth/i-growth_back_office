@@ -260,7 +260,7 @@ export default function Mifwife() {
                                     //     </div>
                                     // </div>
                                     <div className='midwifeAdd-container'>
-                                        <div className="card-container">
+                                        <div className="card-container" style={{ height: '80vh' }}>
                                             <div className="header">
                                                 <h4>Update the Midwife</h4>
                                             </div>
