@@ -8,6 +8,7 @@ function App() {
     <Router>
 
       <Routes>
+        <Route path='/' element={<Login />} />
         <Route path='/auth' element={<Login />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/Midwife" element={<MidwifeComponent />} />

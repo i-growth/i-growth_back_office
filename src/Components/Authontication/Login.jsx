@@ -67,7 +67,7 @@ export default function Login() {
                     <form onSubmit={submitForm}>
                         <div className="title">
                             {/* <h2>Admin Login</h2> */}
-                            <select onChange={(e) => setActive(e.target.value)} defaultValue={active}>
+                            <select onChange={(e) => setActive(e.target.value)} defaultValue={active} style={{ width: '365px', height: '35px' }}>
                                 <option value="admin">Login As a Admin</option>
                                 <option value="midwife">Login As a Midwife</option>
                                 <option value="otherOption">Login As a Medical Officer</option>

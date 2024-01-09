@@ -1,15 +1,47 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 import './CreateAccount.scss'
 import { AiFillPlusSquare } from 'react-icons/ai'
+import ParentDataAdd from './ParentDataAdd/ParentDataAdd'
+import instance from '../../../utility/AxiosInstance';
 
 export default function CreateAccount() {
+
+    const data = [
+        { no: '01', parentId: '001', name: 'gamlath', mobile: '0123456789' },
+        { no: '02', parentId: '002', name: 'john doe', mobile: '0789456123' },
+        { no: '03', parentId: '003', name: 'sarah j', mobile: '7531592581' }
+    ]
+
+    const [displayParentAdd, setDisplayParentAdd] = useState(false);
+
+    const [allParent, setAllParent] = useState([]);
+
+    const [searchValue, setSearchValue] = useState("");
+
+    function showCode() {
+        setDisplayParentAdd(true);
+        console.log(displayParentAdd);
+    }
+
+    useEffect(() => {
+        instance.get("/midwife/parents")
+            .then(res => {
+                if (res.data !== "No data found") {
+                    setAllParent(res.data)
+                    console.log(res.data)
+                }
+                else console.log("No data found");
+            }).catch(err => console.log(err))
+    }, [])
+
     return (
         <div className='CreateAccount-container'>
+            {displayParentAdd ? <ParentDataAdd setDisplayParentAdd={setDisplayParentAdd} /> : null}
             <div className='CreateAccount-left'>
                 <h3>Parent Detail</h3>
                 <div className='parent-section-top'>
-                    <input type='text' placeholder='search...' />
-                    <AiFillPlusSquare fontSize={40} className='icon' />
+                    <input type='text' placeholder='search...' onChange={(e) => setSearchValue(e.target.value)} />
+                    <AiFillPlusSquare fontSize={40} className='icon' onClick={showCode} />
                 </div>
                 <div className='parent-section-bottom'>
                     <div className='detail-section'>
@@ -17,7 +49,7 @@ export default function CreateAccount() {
                             <thead>
                                 <tr>
                                     <td>No</td>
-                                    <td>Parent ID</td>
+                                    <td>Guardian NIC</td>
                                     <td>Name</td>
                                     {/* <td>Address</td> */}
                                     <td>Mobile</td>
@@ -25,28 +57,40 @@ export default function CreateAccount() {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    {/* <td>4</td> */}
-                                    <td>5</td>
-                                    <td className='crud-btn'>
-                                        <div className='top-detail'>View Detail</div>
-                                        <div className='update'>Update</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    {/* <td>4</td> */}
-                                    <td>5</td>
-                                    <td className='crud-btn'>
-                                        <div className='top-detail' >View Detail</div>
-                                        <div className='update'>Update</div>
-                                    </td>
-                                </tr>
+                                {
+                                    searchValue === "" ? allParent.map((data, key) => {
+                                        console.log(data);
+                                        return(
+                                            <tr key={key}>
+                                                <td>{key + 1}</td>
+                                                <td>{data.guardian_nic}</td>
+                                                <td>{data.guardian_name}</td>
+                                                {/* <td>4</td> */}
+                                                <td>{data.phone}</td>
+                                                <td className='crud-btn'>
+                                                    <div className='top-detail'>View Detail</div>
+                                                    <div className='update'>Update</div>
+                                                </td>
+                                            </tr>
+                                        )
+                                    }): allParent.map((data, key) => {
+                                        console.log(data);
+                                        if(data.guardian_nic.includes(searchValue.toLocaleLowerCase()) || data.guardian_name.includes(searchValue.toLocaleLowerCase()) || data.phone.includes(searchValue.toLocaleLowerCase())) return(
+                                            <tr key={key}>
+                                                <td>{key + 1}</td>
+                                                <td>{data.guardian_nic}</td>
+                                                <td>{data.guardian_name}</td>
+                                                {/* <td>4</td> */}
+                                                <td>{data.phone}</td>
+                                                <td className='crud-btn'>
+                                                    <div className='top-detail'>View Detail</div>
+                                                    <div className='update'>Update</div>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })
+                                }
+                                
                             </tbody>
                         </table>
 

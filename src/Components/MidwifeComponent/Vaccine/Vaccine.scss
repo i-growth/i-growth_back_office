@@ -1,0 +1,99 @@
+// .vaccine-container {
+//     width: 100%;
+//     height: 78vh;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     // background-color: rgb(247, 145, 145);
+
+//     .card-fram {
+//         display: grid;
+//         align-items: center;
+//         justify-content: center;
+//         grid-template-columns: auto auto auto auto;
+//         grid-auto-flow: row;
+//         grid-gap: 50px;
+//         width: 98%;
+//         height: 95%;
+//         // background-color: white;
+//         overflow-y: auto;
+
+//         .card {
+//             display: flex;
+//             align-items: center;
+//             justify-content: center;
+//             width: 250px;
+//             height: 150px;
+//             border-radius: 10px;
+//             border: solid blue 1px;
+
+//             &:hover {
+//                 cursor: pointer;
+//                 transform: scale(1.03);
+//             }
+//         }
+//     }
+// }
+
+.card-container {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-auto-flow: row;
+    align-items: center;
+    justify-content: center;
+    grid-gap: 20px;
+
+    .card01 {
+        margin-top: 50px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 150px;
+        width: 260px;
+        border: 2px solid gray;
+        background-color: rgba(236, 194, 255, 0.508);
+        border-radius: 10px;
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: auto; 
+            height: 30px;
+            width: 200px;
+        }
+    
+        .card_body {
+            display: flex;
+            margin-top: 10px;
+            margin-left: 10px;
+            height: 60px;
+            width: 80%;
+        }
+
+        .btn01 {
+            // display: flex;
+            width: 85px;
+            height: 35px;
+            margin-left: 150px;
+            border-radius: 5px;
+            border: none;
+            background-color: rgb(255, 120, 255);
+            
+            &:hover {
+                background-color: rgb(162, 0, 255);
+                color: white;
+                cursor: pointer;
+                box-shadow: 0 0.5rem 0.5rem  rgba(0, 0, 0, 0.5);
+            }
+          }
+      }
+  }
+  
+  @media screen and (max-width: 950px) {
+    .card-container {
+      width: 100%;
+      display: block;
+      margin-bottom: 10px;
+    }
+  }
+  

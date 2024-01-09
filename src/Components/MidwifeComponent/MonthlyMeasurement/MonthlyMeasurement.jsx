@@ -12,6 +12,31 @@ export default function MonthlyMeasurement() {
         { id: '4', Month: "02", minus1SD: "12", plus1SD: "01", minus2SD: '04', plus2SD: '03' },
     ]
 
+    const submit = async (e) => {
+        e.preventDefault();
+
+        const childIDFromInput = e.target['childId'].value;
+
+        const formData = {
+            month: e.target['month'].value,
+            weight: e.target['weight'].value,
+            height: e.target['height'].value,
+            head_cricumference: e.target['headCircumference'].value,
+            childId: childIDFromInput,
+        }
+
+        instance.post(`/midwife/child/growth_detail/${childIDFromInput}`, formData).then((res) => {
+            console.log(res);
+            // props.setTrigger(prv => !prv)
+            if (res.status === 200) {
+                alert('Item Added Successfully');
+            }
+        }
+        ).catch((err) => {
+            console.log(err);
+        })
+    }
+
     const [allData, setAllData] = useState(null);
 
     useEffect(() => {
@@ -25,8 +50,8 @@ export default function MonthlyMeasurement() {
             }).catch(err => console.log(err))
     }, [])
 
-    console.log("Hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii", allData);
-    if(allData !== null) return (
+
+    if (allData !== null) return (
         <div className='measurement-container'>
             <div className='measurement-top'>
                 <div className='searchbar'>
@@ -52,7 +77,7 @@ export default function MonthlyMeasurement() {
                             {
                                 Object.keys(allData).map(key => {
                                     let innerObject = allData[key];
-                                    return(
+                                    return (
                                         <tr key={key}>
                                             <td>{key}</td>
                                             <td>{innerObject.over_weight}</td>
@@ -64,7 +89,7 @@ export default function MonthlyMeasurement() {
                                     )
                                 })
                             }
-                            
+
                         </tbody>
                     </table>
                 </div>
@@ -72,66 +97,30 @@ export default function MonthlyMeasurement() {
                     <div className='form-container'>
                         <h2>Child Measurement Form</h2>
 
-                        <form >
+                        <form onSubmit={submit}>
                             <div className='form-group'>
                                 <label>Child ID:</label>
-                                <input
-                                    type='text'
-                                    name='childId'
-                                    // value={childId}
-                                    // onChange={handleChange}
-                                    required
-                                />
+                                <input type='text' name='childId' id='childId' required />
                             </div>
                             <div className='form-group'>
                                 <label>Child Name:</label>
-                                <input
-                                    type='text'
-                                    name='childName'
-                                    // value={childName}
-                                    // onChange={handleChange}
-                                    required
-                                />
+                                <input type='text' name='childName' id='childName' required />
                             </div>
                             <div className='form-group'>
                                 <label>Month:</label>
-                                <input
-                                    type='text'
-                                    name='month'
-                                    // value={month}
-                                    // onChange={handleChange}
-                                    required
-                                />
+                                <input type='text' name='month' id='month' required />
                             </div>
                             <div className='form-group'>
                                 <label>Weight:</label>
-                                <input
-                                    type='text'
-                                    name='weight'
-                                    // value={weight}
-                                    // onChange={handleChange}
-                                    required
-                                />
+                                <input type='text' name='weight' id='weight' required />
                             </div>
                             <div className='form-group'>
                                 <label>Height:</label>
-                                <input
-                                    type='text'
-                                    name='height'
-                                    // value={height}
-                                    // onChange={handleChange}
-                                    required
-                                />
+                                <input type='text' name='height' id='height' required />
                             </div>
                             <div className='form-group'>
                                 <label>Head Circumference:</label>
-                                <input
-                                    type='text'
-                                    name='headCircumference'
-                                    // value={headCircumference}
-                                    // onChange={handleChange}
-                                    required
-                                />
+                                <input type='text' name='headCircumference' id='headCircumference' required />
                             </div>
                             <input className="button" type="submit" />
                         </form>
