@@ -5,39 +5,100 @@ import instance from '../../../utility/AxiosInstance'
 
 export default function MonthlyMeasurement() {
 
-    const data = [
-        { id: '1', Month: "01", minus1SD: "10", plus1SD: "02", minus2SD: '04', plus2SD: '01' },
-        { id: '2', Month: "02", minus1SD: "12", plus1SD: "01", minus2SD: '04', plus2SD: '03' },
-        { id: '3', Month: "02", minus1SD: "12", plus1SD: "01", minus2SD: '04', plus2SD: '03' },
-        { id: '4', Month: "02", minus1SD: "12", plus1SD: "01", minus2SD: '04', plus2SD: '03' },
-    ]
+    const [inputData, setInputData] = useState({
+        child_id: null,
+        child_name: null,
+        month: null,
+        weight: null,
+        height: null,
+        head_cricumference: null,
+    })
+
+    const[searchData, setSearchData] = useState("");
+
+    const [allData, setAllData] = useState(null);
+
 
     const submit = async (e) => {
         e.preventDefault();
-
-        const childIDFromInput = e.target['childId'].value;
-
-        const formData = {
-            month: e.target['month'].value,
-            weight: e.target['weight'].value,
-            height: e.target['height'].value,
-            head_cricumference: e.target['headCircumference'].value,
-            childId: childIDFromInput,
+    
+        const data = {
+            weight: inputData.weight, 
+            height: inputData.height, 
+            month: inputData.month, 
+            head_cricumference: inputData.head_cricumference
         }
 
-        instance.post(`/midwife/child/growth_detail/${childIDFromInput}`, formData).then((res) => {
-            console.log(res);
-            // props.setTrigger(prv => !prv)
-            if (res.status === 200) {
-                alert('Item Added Successfully');
+        // console.log(data)
+
+        if(!data.weight === "" || !data.height === "" || !data.head_cricumference === "" || !data.month === "" || !inputData.child_id ){
+            alert("Please fill all the fields")
+            return
+        }
+
+        try{
+            const res = await instance.post(`/midwife/child/growth_detail/${inputData.child_id}`, data)
+
+            console.log(res.data);
+            if(res.data.message === "Child growth detail added"){
+                setInputData({
+                    child_id: "",
+                    child_name: "",
+                    month: "",
+                    weight: "",
+                    height: "",
+                    head_cricumference: "",
+                })
+                
+                alert("Child growth detail added")
             }
+
         }
-        ).catch((err) => {
-            console.log(err);
-        })
+        catch(err){
+            console.log(err)
+        }
+        
     }
 
-    const [allData, setAllData] = useState(null);
+    const pressSearch = async() => {
+        try{
+            const res = await instance.get(`/midwife/child/last-growth_detail/${searchData}`)
+            console.log(res.data);
+
+            if(res.data.message === "Not privileges"){
+                alert("Not privileges")
+                return
+            }
+            
+            if(res.data.message === "Child growth detail not found"){
+                setInputData({
+                    child_id: res.data.child.child_id,
+                    child_name: res.data.child.child_name,
+                    month: 1,
+                    weight: "",
+                    height: "",
+                    head_cricumference: "",
+                })
+            }
+            else{
+                setInputData({
+                    child_id: res.data.child_id,
+                    child_name: res.data.child_name,
+                    month: parseInt(res.data.month) + 1,
+                    weight: "",
+                    height: "",
+                    head_cricumference: "",
+                })
+            }
+            
+        }
+        catch(err){
+            console.log(err)
+            alert("Children ID not found")
+        }
+    }
+
+    
 
     useEffect(() => {
         instance.get("/midwife/child/sd_measurements")
@@ -55,8 +116,8 @@ export default function MonthlyMeasurement() {
         <div className='measurement-container'>
             <div className='measurement-top'>
                 <div className='searchbar'>
-                    <input type="text" placeholder="Search.." name="search" className='search' />
-                    <button type="submit"><CiSearch size={"25px"} color='purple' /></button>
+                    <input type="number" placeholder="Search.." name="search" className='search' onChange={e => setSearchData(e.target.value)} />
+                    <button type="submit"><CiSearch size={"25px"} color='purple' onClick={pressSearch} /></button>
                 </div>
             </div>
             <div className='measurement-bottom'>
@@ -100,27 +161,27 @@ export default function MonthlyMeasurement() {
                         <form onSubmit={submit}>
                             <div className='form-group'>
                                 <label>Child ID:</label>
-                                <input type='text' name='childId' id='childId' required />
+                                <input type='text' disabled={true} value={inputData.child_id} name='childId' id='childId' required />
                             </div>
                             <div className='form-group'>
                                 <label>Child Name:</label>
-                                <input type='text' name='childName' id='childName' required />
+                                <input type='text' disabled={true} name='childName' value={inputData.child_name} id='childName' required />
                             </div>
                             <div className='form-group'>
                                 <label>Month:</label>
-                                <input type='text' name='month' id='month' required />
+                                <input type='text' disabled={true} name='month' value={inputData.month} id='month' required />
                             </div>
                             <div className='form-group'>
                                 <label>Weight:</label>
-                                <input type='text' name='weight' id='weight' required />
+                                <input type='number' value={inputData.weight} disabled={inputData.child_id === "" || inputData.child_id === null} onChange={(e) => setInputData({...inputData, weight: e.target.value})} name='weight' id='weight' required />
                             </div>
                             <div className='form-group'>
                                 <label>Height:</label>
-                                <input type='text' name='height' id='height' required />
+                                <input type='number' name='height' value={inputData.height} disabled={inputData.child_id === "" || inputData.child_id === null} onChange={(e) => setInputData({...inputData, height: e.target.value})} id='height' required />
                             </div>
                             <div className='form-group'>
                                 <label>Head Circumference:</label>
-                                <input type='text' name='headCircumference' id='headCircumference' required />
+                                <input type='number' value={inputData.head_cricumference} disabled={inputData.child_id === "" || inputData.child_id === null} onChange={(e) => setInputData({...inputData, head_cricumference: e.target.value})} name='headCircumference' id='headCircumference' required />
                             </div>
                             <input className="button" type="submit" />
                         </form>
