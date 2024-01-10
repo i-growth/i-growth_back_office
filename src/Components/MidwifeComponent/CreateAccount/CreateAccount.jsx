@@ -6,11 +6,14 @@ import instance from '../../../utility/AxiosInstance';
 
 export default function CreateAccount() {
 
-    const data = [
-        { no: '01', parentId: '001', name: 'gamlath', mobile: '0123456789' },
-        { no: '02', parentId: '002', name: 'john doe', mobile: '0789456123' },
-        { no: '03', parentId: '003', name: 'sarah j', mobile: '7531592581' }
-    ]
+    const [inputData, setInputData] = useState({
+        child_name: "", 
+        child_gender: "", 
+        child_birthday: "", 
+        child_birth_certificate_no: "",  
+        child_born_weight: "", 
+        gardian_nic: ""
+    })
 
     const [displayParentAdd, setDisplayParentAdd] = useState(false);
 
@@ -33,6 +36,11 @@ export default function CreateAccount() {
                 else console.log("No data found");
             }).catch(err => console.log(err))
     }, [])
+
+    const createChild = async(e) => {
+        e.preventDefault();
+        console.log(inputData);
+    }
 
     return (
         <div className='CreateAccount-container'>
@@ -100,61 +108,77 @@ export default function CreateAccount() {
             <div className='CreateAccount-right'>
                 <h3>Children Detail</h3>
                 <div className='body-section'>
-                    <form >
+                    <form onSubmit={createChild} >
                         <div className="form-group">
-                            <label htmlFor="name">Parent ID:</label>
+                            <label htmlFor="name">Guardian NIC:</label>
                             <input
+                                required={true}
                                 type="text"
-                                id="parent_id"
-                                name="parent_id"
+                                id="guardian_id"
+                                name="guardian_id"
+                                onChange={(e) => setInputData({...inputData, gardian_nic: e.target.value})}
                             />
                         </div>
                         <div className="form-group">
                             <label htmlFor="name">Baby's Name:</label>
                             <input
+                                required={true}
                                 type="text"
                                 id="name"
                                 name="name"
+                                onChange={(e) => setInputData({...inputData, child_name: e.target.value})}
                             />
                         </div>
                         <div className="form-group">
                             <label htmlFor="birthday">Birthday:</label>
                             <input
+                                required={true}
                                 type="date"
                                 id="birthday"
                                 name="birthday"
+                                onChange={(e) => setInputData({...inputData, child_birthday: e.target.value})}
                             />
                         </div>
+                        
                         <div className="form-group">
-                            <label htmlFor="gender">Month:</label>
+                            <label htmlFor="birthday">Birth Weight:</label>
                             <input
-                                type="text"
-                                id="month"
-                                name="month"
+                                required={true}
+                                type="number"
+                                id="birth_weight"
+                                name="birth_weight"
+                                onChange={(e) => setInputData({...inputData, child_born_weight: e.target.value})}
                             />
                         </div>
+                        
                         <div className="form-group">
                             <label htmlFor="gender">Gender:</label>
                             <input
+                                required={true}
                                 type="text"
                                 id="gender"
                                 name="gender"
+                                onChange={e => setInputData({...inputData, child_gender: e.target.value})}
                             />
                         </div>
                         <div className="form-group">
                             <label htmlFor="gender">Registration Number:</label>
                             <input
+                                required={true}
                                 type="text"
                                 id="registration_number"
                                 name="registration_number"
+                                onChange={e => setInputData({...inputData, child_birth_certificate_no: e.target.value})}
                             />
                         </div>
                         <div className="form-group">
                             <label htmlFor="parentName">Parent's Name:</label>
                             <input
+                                required={true}
                                 type="text"
                                 id="parentName"
                                 name="parentName"
+                                onChange={e => setInputData({...inputData, parent_name: e.target.value})}
                             />
                         </div>
                         <button type="submit">Submit</button>
