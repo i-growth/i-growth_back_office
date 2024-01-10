@@ -81,6 +81,7 @@ export default function CreateAccount() {
 
             if (res.status === 200) {
                 // alert('Item Added Successfully');
+                document.getElementById("childAddForm").reset();
             }
         } catch (err) {
             console.log(err.response.data.message);
@@ -181,8 +182,8 @@ export default function CreateAccount() {
                                                             <form onSubmit={updateParernt} style={{ height: '68vh' }}>
                                                                 <div className="input-section">
                                                                     <div className="input-wrapper">
-                                                                        <select className='inputfieds' style={{ height: '35px', width: '91%' }} id='select_area_001003' value={areaName} disabled={true}>
-                                                                            <option style={{ display: 'none' }} value="Select_an_Area">{areaName}</option>
+                                                                        <select className='inputfieds' style={{ height: '35px', width: '91%' }} id='select_area_001003' disabled={true}>
+                                                                            <option style={{ display: 'none' }} >{data.area_name}</option>
                                                                         </select>
                                                                         <input type="text" name="guardian-nic" id='guardian-nic' placeholder='Enter the Guardian NIC' className='inputfieds' value={guardianNIC} disabled={true} required />
                                                                         <input type="text" name="guardian-name" id='guardian-name' placeholder='Enter the Guardian Name' className='inputfieds' value={guardianName} required onChange={handleGuardianNameChange} />
@@ -227,14 +228,14 @@ export default function CreateAccount() {
                                                                 <div className="input-section">
                                                                     <div className="input-wrapper">
                                                                         <select className='inputfieds' style={{ height: '35px', width: '91%' }} id='select_area_001003' value={areaName} disabled={true}>
-                                                                            <option style={{ display: 'none' }} value="Select_an_Area">Select an Area</option>
+                                                                            <option style={{ display: 'none' }} value="Select_an_Area">{areaName}</option>
                                                                         </select>
                                                                         <input type="text" name="guardian-nic" id='guardian-nic' placeholder='Enter the Guardian NIC' className='inputfieds' value={guardianNIC} disabled={true} required />
-                                                                        <input type="text" name="guardian-name" id='guardian-name' placeholder='Enter the Guardian Name' className='inputfieds' value={guardianName} required />
-                                                                        <input type="text" name="mother-name" id='mother-name' placeholder='Enter the Mother Name' className='inputfieds' value={motherName} required />
-                                                                        <input type="text" name="father-name" id='father-name' placeholder='Enter the Father Number' className='inputfieds' value={fatherName} required />
-                                                                        <input type="text" name="mobile" id='mobile' placeholder='Enter the Mobile Number' className='inputfieds' value={phone} required />
-                                                                        <input type="text" name="email" id='email' placeholder='Enter the Email Address' className='inputfieds' value={email} disabled={true} required />
+                                                                        <input type="text" name="guardian-name" id='guardian-name' placeholder='Enter the Guardian Name' className='inputfieds' value={guardianName} required onChange={handleGuardianNameChange} />
+                                                                        <input type="text" name="mother-name" id='mother-name' placeholder='Enter the Mother Name' className='inputfieds' value={motherName} required onChange={handleMontherNameChange} />
+                                                                        <input type="text" name="father-name" id='father-name' placeholder='Enter the Father Number' className='inputfieds' value={fatherName} required onChange={handleFatherNameChange} />
+                                                                        <input type="text" name="mobile" id='mobile' placeholder='Enter the Mobile Number' className='inputfieds' value={phone} required onChange={handlephoneChange} />
+                                                                        <input type="text" name="email" id='email' placeholder='Enter the Email Address' className='inputfieds' value={email} disabled={true} required onChange={handleAddressChange} />
                                                                         <input type="text" name="address" id='address' placeholder='Enter the Address' className='inputfieds' value={address} required />
                                                                     </div>
                                                                 </div>
@@ -262,7 +263,7 @@ export default function CreateAccount() {
                 <h3>Children Detail</h3>
                 <div className='body-section'>
                     {/* <form onSubmit={createChild} > */}
-                    <form onSubmit={submit} >
+                    <form onSubmit={submit} id='childAddForm'>
                         <div className="form-group">
                             <label htmlFor="name">Guardian NIC:</label>
                             <input
