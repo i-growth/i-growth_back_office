@@ -17,11 +17,40 @@ export default function CreateAccount() {
 
     const [displayParentAdd, setDisplayParentAdd] = useState(false);
 
+    const [displayParerntUpdate, setDisplayParerntUpdate] = useState(false);
+
+    const [selectedParent, setSelectedParent] = useState(null);
+
     const [allParent, setAllParent] = useState([]);
 
     const [searchValue, setSearchValue] = useState("");
 
     const [trigger, setTrigger] = useState(false);
+
+    const [motherName, setMontherName] = useState("");
+    const [fatherName, setFatherName] = useState("");
+    const [phone, setPhone] = useState("");
+    const [address, setAddress] = useState("");
+    const [guardianName, setGuardianName] = useState("");
+    const [guardianNIC, setGuardianNIC] = useState("");
+    const [email, setEmail] = useState();
+    const [areaName, setAreaName] = useState("");
+
+    const handleMontherNameChange = (e) => {
+        setMontherName(e.target.value);
+    };
+    const handleFatherNameChange = (e) => {
+        setFatherName(e.target.value);
+    };
+    const handleGuardianNameChange = (e) => {
+        setGuardianName(e.target.value);
+    };
+    const handleAddressChange = (e) => {
+        setAddress(e.target.value);
+    };
+    const handlephoneChange = (e) => {
+        setPhone(e.target.value);
+    };
 
     function showCode() {
         setDisplayParentAdd(true);
@@ -47,15 +76,6 @@ export default function CreateAccount() {
     const submit = async (e) => {
         e.preventDefault();
 
-        // const inputData = {
-        //     child_name: child_name,
-        //     child_gender: child_gender,
-        //     child_birthday: child_birthday,
-        //     child_birth_certificate_no: child_birth_certificate_no,
-        //     child_born_weight: child_born_weight,
-        //     gardian_nic: gardian_nic
-        // }
-
         try {
             const res = await instance.post('/midwife/child', inputData);
 
@@ -67,6 +87,52 @@ export default function CreateAccount() {
             alert(err.response.data.message);
         }
     }
+
+    const handleUpdateWindow = (parent) => {
+        setFatherName(parent.father_name);
+        setMontherName(parent.mother_name);
+        setPhone(parent.phone);
+        setAddress(parent.address);
+        setGuardianName(parent.guardian_name);
+        setGuardianNIC(parent.guardian_nic);
+        setEmail(parent.email);
+        setAreaName(parent.area_name);
+        setSelectedParent(parent)
+        setDisplayParerntUpdate(true);
+    }
+
+    const handleCloseUpdateWindow = () => {
+        setSelectedParent(null);
+        setDisplayParerntUpdate(false);
+    }
+
+    const updateParernt = async (e) => {
+        e.preventDefault();
+
+        const formData = {
+            guardian_name: e.target['guardian-name'].value,
+            mother_name: e.target['mother-name'].value,
+            father_name: e.target['father-name'].value,
+            phone: e.target['mobile'].value,
+            address: e.target['address'].value,
+        }
+
+        console.log(formData);
+
+        console.log(selectedParent.guardian_nic);
+
+        try {
+            // Make PATCH request to update category
+            await instance.put(`/midwife/parent/${selectedParent.guardian_nic}`, formData);
+
+            // Close the update popup
+            setDisplayParerntUpdate(false);
+            setTrigger(!trigger);
+
+        } catch (error) {
+            console.error("Error updating Parent: ", error);
+        }
+    };
 
     return (
         <div className='CreateAccount-container'>
@@ -103,8 +169,39 @@ export default function CreateAccount() {
                                                 <td>{data.phone}</td>
                                                 <td className='crud-btn'>
                                                     <div className='top-detail'>View Detail</div>
-                                                    <div className='update'>Update</div>
+                                                    <div className='update' setTrigger={setTrigger} onClick={() => handleUpdateWindow(data)}>Update</div>
                                                 </td>
+
+                                                {displayParerntUpdate && selectedParent && selectedParent.gardian_nic === data.gardian_nic && (
+                                                    <div className='parentUpdate-container'>
+                                                        <div className="card-container">
+                                                            <div className="header">
+                                                                <h4>Adding the Parent</h4>
+                                                            </div>
+                                                            <form onSubmit={updateParernt} style={{ height: '68vh' }}>
+                                                                <div className="input-section">
+                                                                    <div className="input-wrapper">
+                                                                        <select className='inputfieds' style={{ height: '35px', width: '91%' }} id='select_area_001003' value={areaName} disabled={true}>
+                                                                            <option style={{ display: 'none' }} value="Select_an_Area">{areaName}</option>
+                                                                        </select>
+                                                                        <input type="text" name="guardian-nic" id='guardian-nic' placeholder='Enter the Guardian NIC' className='inputfieds' value={guardianNIC} disabled={true} required />
+                                                                        <input type="text" name="guardian-name" id='guardian-name' placeholder='Enter the Guardian Name' className='inputfieds' value={guardianName} required onChange={handleGuardianNameChange} />
+                                                                        <input type="text" name="mother-name" id='mother-name' placeholder='Enter the Mother Name' className='inputfieds' value={motherName} required onChange={handleMontherNameChange} />
+                                                                        <input type="text" name="father-name" id='father-name' placeholder='Enter the Father Number' className='inputfieds' value={fatherName} required onChange={handleFatherNameChange} />
+                                                                        <input type="text" name="mobile" id='mobile' placeholder='Enter the Mobile Number' className='inputfieds' value={phone} required onChange={handlephoneChange} />
+                                                                        <input type="text" name="email" id='email' placeholder='Enter the Email Address' className='inputfieds' value={email} disabled={true} required onChange={handleAddressChange} />
+                                                                        <input type="text" name="address" id='address' placeholder='Enter the Address' className='inputfieds' value={address} required />
+                                                                    </div>
+                                                                </div>
+                                                                <div className="submission-btn">
+                                                                    {/* <div  type="submit">Submit</div> */}
+                                                                    <input className="submit-btn" type="submit" value={"Update"} />
+                                                                    <div className="cancel-btn" onClick={handleCloseUpdateWindow}>Cancel</div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                )}
                                             </tr>
                                         )
                                     }) : allParent.map((data, key) => {
@@ -119,6 +216,37 @@ export default function CreateAccount() {
                                                     <div className='top-detail'>View Detail</div>
                                                     <div className='update'>Update</div>
                                                 </td>
+
+                                                {displayParerntUpdate && selectedParent && selectedParent.gardian_nic === data.gardian_nic && (
+                                                    <div className='parentUpdate-container'>
+                                                        <div className="card-container">
+                                                            <div className="header">
+                                                                <h4>Adding the Parent</h4>
+                                                            </div>
+                                                            <form onSubmit={updateParernt} style={{ height: '68vh' }}>
+                                                                <div className="input-section">
+                                                                    <div className="input-wrapper">
+                                                                        <select className='inputfieds' style={{ height: '35px', width: '91%' }} id='select_area_001003' value={areaName} disabled={true}>
+                                                                            <option style={{ display: 'none' }} value="Select_an_Area">Select an Area</option>
+                                                                        </select>
+                                                                        <input type="text" name="guardian-nic" id='guardian-nic' placeholder='Enter the Guardian NIC' className='inputfieds' value={guardianNIC} disabled={true} required />
+                                                                        <input type="text" name="guardian-name" id='guardian-name' placeholder='Enter the Guardian Name' className='inputfieds' value={guardianName} required />
+                                                                        <input type="text" name="mother-name" id='mother-name' placeholder='Enter the Mother Name' className='inputfieds' value={motherName} required />
+                                                                        <input type="text" name="father-name" id='father-name' placeholder='Enter the Father Number' className='inputfieds' value={fatherName} required />
+                                                                        <input type="text" name="mobile" id='mobile' placeholder='Enter the Mobile Number' className='inputfieds' value={phone} required />
+                                                                        <input type="text" name="email" id='email' placeholder='Enter the Email Address' className='inputfieds' value={email} disabled={true} required />
+                                                                        <input type="text" name="address" id='address' placeholder='Enter the Address' className='inputfieds' value={address} required />
+                                                                    </div>
+                                                                </div>
+                                                                <div className="submission-btn">
+                                                                    {/* <div  type="submit">Submit</div> */}
+                                                                    <input className="submit-btn" type="submit" value={"Update"} />
+                                                                    <div className="cancel-btn" onClick={handleCloseUpdateWindow}>Cancel</div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                )}
                                             </tr>
                                         )
                                     })
