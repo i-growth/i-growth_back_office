@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './MidwifeComponent.scss'
 import Cover from '../cover/cover'
 import Measure from './MonthlyMeasurement/MonthlyMeasurement'
@@ -6,10 +6,32 @@ import BabyDetails from './BabyDetails/BabyDetails'
 import CreateAccount from './CreateAccount/CreateAccount'
 import Vaccine from './Vaccine/Vaccine'
 import AddNews from '../public/AddNews'
+import { useNavigate } from 'react-router-dom'
+import instance from '../../utility/AxiosInstance'
 
 export default function MinwifeComponent() {
+  const navigation = useNavigate()
+  
+  const [authenticated, setAuthenticated] = useState(false)
   const [active, setActive] = useState('measure')
-  return (
+
+  useEffect(()=> {
+    const checkAuth = async() => {
+        try{
+            const res = await instance.get('/midwife/check-auth')
+            console.log(res.data)
+            setAuthenticated(true)
+        }
+        catch(err){
+            setAuthenticated(false)
+            console.log({error: err})
+            navigation('/auth')
+        }
+    }
+    checkAuth()
+  },[])
+
+  if(authenticated) return (
     <div className='midwifeComponent-container'>
       <Cover />
       <div className='navigation-container'>
