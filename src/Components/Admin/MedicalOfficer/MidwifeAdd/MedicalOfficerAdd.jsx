@@ -5,7 +5,7 @@ export default function MedicalOfficerAdd(props) {
 
     const [getArea, setGetArea] = useState([]);
 
-    const [selectedArea, setSelectedArea] = useState("");
+    const [selectedArea, setSelectedArea] = useState("select_area");
 
     const [isWaiting, setWaiting] = useState(false);
 
@@ -29,7 +29,6 @@ export default function MedicalOfficerAdd(props) {
     const submit = async (e) => {
         e.preventDefault();
 
-        setWaiting(true);
 
         const formData = {
             officer_name: e.target['medicalOfficer-name'].value,
@@ -41,30 +40,27 @@ export default function MedicalOfficerAdd(props) {
             area_id: selectedArea
         }
 
-        // instance.post('/admin/create-officer', formData).then((res) => {
-        //     console.log(res);
-        //     // props.setTrigger(prv => !prv)
-        //     if (res.status === 200) {
-        //         alert('Item Added Successfully');
-        //     }
-        // }
-        // ).catch((err) => {
-        //     console.log(err);
-        // })
+        if(selectedArea === "select_area"){
+            alert("Please select an area");
+            document.getElementById('select_area_002').focus();
+            return;
+        }
 
-        try {
+        setWaiting(true);
+
+        try{
             const res = await instance.post('/admin/create-officer', formData);
-
-            console.log(res);
-
+            console.log(res.data);
             props.setTrigger((prevTrigger) => !prevTrigger);
-
+    
             if (res.status === 200) {
                 props.setDisplayMedicalOfficerAdd(false)
                 // alert('Item Added Successfully');
             }
-        } catch (err) {
-            console.log(err);
+        }
+        catch (err) {
+            console.log(err.response.data.message);
+            alert(err.response.data.message);
         } finally {
             setWaiting(false);
         }
@@ -80,8 +76,9 @@ export default function MedicalOfficerAdd(props) {
                 <form onSubmit={submit}>
                     <div className="input-section">
                         <div className="input-wrapper">
-                            <select className='inputfieds' style={{ height: '35px', width: '91%' }} value={selectedArea} onChange={handleAreaChange}>
-                                {getArea.map(area => (
+                            <select className='inputfieds' style={{ height: '35px', width: '91%' }} id='select_area_002' onChange={handleAreaChange}>
+                                <option value="select_area" style={{display: 'none'}}>Select an Area</option>
+                                {getArea.length > 0 && getArea.map(area => (
                                     <option key={area.area_id} value={area.area_id}>{area.area_name}</option>
                                 ))}
                             </select>

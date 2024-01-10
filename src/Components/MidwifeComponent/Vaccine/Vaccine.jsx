@@ -7,7 +7,7 @@ export default function Vaccine() {
 
     const Navigate = useNavigate();
 
-    const [vaccine, setVaccine] = useState();
+    const [vaccine, setVaccine] = useState([]);
 
     useEffect(() => {
         instance.get("/midwife/child/vaccine")
@@ -26,7 +26,7 @@ export default function Vaccine() {
                 <div className="card01" key={key}>
                     <h6 className="card-title"> {data.vaccine_name} </h6>
                     <div className="card_body">
-                        Details Details Details Details
+                        {data.note}
                     </div>
                     <button className="btn01" onClick={() => Navigate("/Midwife/Vaccination1")}>
                         More

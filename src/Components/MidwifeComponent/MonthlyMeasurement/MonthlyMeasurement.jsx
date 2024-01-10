@@ -15,10 +15,9 @@ export default function MonthlyMeasurement() {
     })
 
     const [lastMonthHeight, setLastMonthHeight] = useState(null);
-
     const[searchData, setSearchData] = useState("");
-
     const [allData, setAllData] = useState(null);
+    const [bogTableTrigger, setBogTableTrigger] = useState(false);
 
 
     const submit = async (e) => {
@@ -54,7 +53,7 @@ export default function MonthlyMeasurement() {
                     height: "",
                     head_cricumference: "",
                 })
-                
+                setBogTableTrigger(!bogTableTrigger)
                 alert("Child growth detail added")
             }
 
@@ -114,7 +113,8 @@ export default function MonthlyMeasurement() {
                 }
                 else console.log("No data found");
             }).catch(err => console.log(err))
-    }, [])
+
+    }, [bogTableTrigger])
 
 
     if (allData !== null) return (
@@ -178,17 +178,17 @@ export default function MonthlyMeasurement() {
                             </div>
                             <div className='form-group'>
                                 <label>Weight:</label>
-                                <input type='number' value={inputData.weight} disabled={inputData.child_id === "" || inputData.child_id === null} onChange={(e) => setInputData({...inputData, weight: e.target.value})} name='weight' id='weight' required />
+                                <input type='number' min={1} value={inputData.weight} disabled={inputData.child_id === "" || inputData.child_id === null} onChange={(e) => setInputData({...inputData, weight: e.target.value})} name='weight' id='weight' required />
                             </div>
                             <div className='form-group'>
                                 <label>Height:</label>
-                                <input type='number' name='height' value={inputData.height} disabled={inputData.child_id === "" || inputData.child_id === null} onChange={(e) => setInputData({...inputData, height: e.target.value})} id='c_height' required />
+                                <input type='number' min={1} name='height' value={inputData.height} disabled={inputData.child_id === "" || inputData.child_id === null} onChange={(e) => setInputData({...inputData, height: e.target.value})} id='c_height' required />
                             </div>
                             <div className='form-group'>
                                 <label>Head Circumference:</label>
-                                <input type='number' value={inputData.head_cricumference} disabled={inputData.child_id === "" || inputData.child_id === null} onChange={(e) => setInputData({...inputData, head_cricumference: e.target.value})} name='headCircumference' id='headCircumference' required />
+                                <input type='number' min={1} value={inputData.head_cricumference} disabled={inputData.child_id === "" || inputData.child_id === null} onChange={(e) => setInputData({...inputData, head_cricumference: e.target.value})} name='headCircumference' id='headCircumference' required />
                             </div>
-                            <input className="button" type="submit" style={inputData.child_id === "" || inputData.child_id === null ? {background: 'gray'}: null} disabled={inputData.child_id === "" || inputData.child_id === null} />
+                            <input className="button" title={inputData.child_id === "" || inputData.child_id === null ? 'Please insert child id' : 'Add Data'} type="submit" style={inputData.child_id === "" || inputData.child_id === null ? {background: 'gray', cursor: 'not-allowed'}: null} disabled={inputData.child_id === "" || inputData.child_id === null} />
                         </form>
                     </div>
                 </div>

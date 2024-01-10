@@ -5,9 +5,9 @@ export default function MidwifeAdd(props) {
 
     const [getArea, setGetArea] = useState([]);
 
-    const [selectedArea, setSelectedArea] = useState();
 
     const [isWaiting, setIsWaiting] = useState(false);
+    const [selectedArea, setSelectedArea] = useState("Select_an_Area");
 
     useEffect(() => {
         instance.get("/public/areas")
@@ -29,6 +29,12 @@ export default function MidwifeAdd(props) {
     const submit = async (e) => {
         e.preventDefault();
 
+        if(selectedArea === "Select_an_Area"){
+            alert("Please select an area");
+            document.getElementById('select_area_001001').focus();
+            return;
+        }
+
         setIsWaiting(true);
 
         const formData = {
@@ -43,9 +49,6 @@ export default function MidwifeAdd(props) {
 
         try {
             const res = await instance.post('/admin/create-midwife', formData);
-
-            console.log(res);
-
             props.setTrigger((prevTrigger) => !prevTrigger);
 
             if (res.status === 200) {
@@ -53,7 +56,8 @@ export default function MidwifeAdd(props) {
                 // alert('Item Added Successfully');
             }
         } catch (err) {
-            console.log(err);
+            console.log(err.response.data.message);
+            alert(err.response.data.message);
         } finally {
             setIsWaiting(false);
         }
@@ -75,8 +79,8 @@ export default function MidwifeAdd(props) {
                                 <option value="otherOption">Login As a Midwife</option>
                                 <option value="otherOption">Login As a Medical Officer</option>
                             </select> */}
-                            <select className='inputfieds' style={{ height: '35px', width: '91%' }} value={selectedArea} id='area_001' onChange={handleAreaChange}>
-                                {/* <option value="">Select an Area</option> */}
+                            <select className='inputfieds' style={{ height: '35px', width: '91%' }} id='select_area_001001' onChange={handleAreaChange}>
+                                <option style={{display: 'none'}} value="Select_an_Area">Select an Area</option>
                                 {getArea.map(area => (
                                     <option key={area.area_id} value={area.area_id}>{area.area_name}</option>
                                 ))}
