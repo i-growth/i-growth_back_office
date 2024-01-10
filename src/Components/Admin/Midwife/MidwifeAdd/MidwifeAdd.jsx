@@ -39,9 +39,12 @@ export default function MidwifeAdd(props) {
 
         instance.post('/admin/create-midwife', formData).then((res) => {
             console.log(res);
+
+            props.setTrigger((prevTrigger) => !prevTrigger);
+
             if (res.status === 200) {
-                alert('Item Added Successfully');
-                props.setTrigger(prv => !prv)
+                props.setDisplayMidwifeAdd(false);
+                // alert('Item Added Successfully');
             }
         }
         ).catch((err) => {
