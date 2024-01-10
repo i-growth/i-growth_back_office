@@ -5,7 +5,7 @@ export default function MidwifeAdd(props) {
 
     const [getArea, setGetArea] = useState([]);
 
-    const [selectedArea, setSelectedArea] = useState("");
+    const [selectedArea, setSelectedArea] = useState("select_area");
 
     useEffect(() => {
         instance.get("/public/areas")
@@ -27,6 +27,12 @@ export default function MidwifeAdd(props) {
     const submit = async (e) => {
         e.preventDefault();
 
+        if(selectedArea === "select_area"){
+            alert("Please select an area");
+            document.getElementById("select_area_001").focus();
+            return;
+        }
+
         const formData = {
             name: e.target['midwife-name'].value,
             service_start_date: e.target['midwife-service-start-date'].value,
@@ -37,6 +43,7 @@ export default function MidwifeAdd(props) {
             area_id: selectedArea
         }
 
+        
         instance.post('/admin/create-midwife', formData).then((res) => {
             console.log(res);
 
@@ -68,8 +75,8 @@ export default function MidwifeAdd(props) {
                                 <option value="otherOption">Login As a Midwife</option>
                                 <option value="otherOption">Login As a Medical Officer</option>
                             </select> */}
-                            <select className='inputfieds' style={{ height: '35px', width: '91%' }} value={selectedArea} onChange={handleAreaChange}>
-                                {/* <option value="">Select an Area</option> */}
+                            <select className='inputfieds' id='select_area_001' style={{ height: '35px', width: '91%' }} defaultValue={selectedArea} onChange={handleAreaChange}>
+                                <option value="select_area" style={{display: 'none'}}>Select an Area</option>
                                 {getArea.map(area => (
                                     <option key={area.area_id} value={area.area_id}>{area.area_name}</option>
                                 ))}

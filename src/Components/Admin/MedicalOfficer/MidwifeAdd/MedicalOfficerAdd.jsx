@@ -5,7 +5,7 @@ export default function MedicalOfficerAdd(props) {
 
     const [getArea, setGetArea] = useState([]);
 
-    const [selectedArea, setSelectedArea] = useState("");
+    const [selectedArea, setSelectedArea] = useState("select_area");
 
     useEffect(() => {
         instance.get("/public/areas")
@@ -37,8 +37,6 @@ export default function MedicalOfficerAdd(props) {
             area_id: selectedArea
         }
 
-        console.log("tharindu", formData);
-
         instance.post('/admin/create-officer', formData).then((res) => {
             console.log(res);
             // props.setTrigger(prv => !prv)
@@ -61,7 +59,8 @@ export default function MedicalOfficerAdd(props) {
                 <form onSubmit={submit}>
                     <div className="input-section">
                         <div className="input-wrapper">
-                            <select className='inputfieds' style={{ height: '35px', width: '91%' }} value={selectedArea} onChange={handleAreaChange}>
+                            <select className='inputfieds' style={{ height: '35px', width: '91%' }} id='select_area_002' onChange={handleAreaChange}>
+                                <option value="select_area">Select an Area</option>
                                 {getArea.map(area => (
                                     <option key={area.area_id} value={area.area_id}>{area.area_name}</option>
                                 ))}
