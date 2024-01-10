@@ -7,11 +7,11 @@ import instance from '../../../utility/AxiosInstance';
 export default function CreateAccount() {
 
     const [inputData, setInputData] = useState({
-        child_name: "", 
-        child_gender: "", 
-        child_birthday: "", 
-        child_birth_certificate_no: "",  
-        child_born_weight: "", 
+        child_name: "",
+        child_gender: "",
+        child_birthday: "",
+        child_birth_certificate_no: "",
+        child_born_weight: "",
         gardian_nic: ""
     })
 
@@ -20,6 +20,8 @@ export default function CreateAccount() {
     const [allParent, setAllParent] = useState([]);
 
     const [searchValue, setSearchValue] = useState("");
+
+    const [trigger, setTrigger] = useState(false);
 
     function showCode() {
         setDisplayParentAdd(true);
@@ -35,16 +37,40 @@ export default function CreateAccount() {
                 }
                 else console.log("No data found");
             }).catch(err => console.log(err))
-    }, [])
+    }, [trigger])
 
-    const createChild = async(e) => {
+    // const createChild = async (e) => {
+    //     e.preventDefault();
+    //     console.log(inputData);
+    // }
+
+    const submit = async (e) => {
         e.preventDefault();
-        console.log(inputData);
+
+        // const inputData = {
+        //     child_name: child_name,
+        //     child_gender: child_gender,
+        //     child_birthday: child_birthday,
+        //     child_birth_certificate_no: child_birth_certificate_no,
+        //     child_born_weight: child_born_weight,
+        //     gardian_nic: gardian_nic
+        // }
+
+        try {
+            const res = await instance.post('/midwife/child', inputData);
+
+            if (res.status === 200) {
+                // alert('Item Added Successfully');
+            }
+        } catch (err) {
+            console.log(err.response.data.message);
+            alert(err.response.data.message);
+        }
     }
 
     return (
         <div className='CreateAccount-container'>
-            {displayParentAdd ? <ParentDataAdd setDisplayParentAdd={setDisplayParentAdd} /> : null}
+            {displayParentAdd ? <ParentDataAdd setDisplayParentAdd={setDisplayParentAdd} setTrigger={setTrigger} /> : null}
             <div className='CreateAccount-left'>
                 <h3>Parent Detail</h3>
                 <div className='parent-section-top'>
@@ -68,7 +94,7 @@ export default function CreateAccount() {
                                 {
                                     searchValue === "" ? allParent.map((data, key) => {
                                         console.log(data);
-                                        return(
+                                        return (
                                             <tr key={key}>
                                                 <td>{key + 1}</td>
                                                 <td>{data.guardian_nic}</td>
@@ -81,8 +107,8 @@ export default function CreateAccount() {
                                                 </td>
                                             </tr>
                                         )
-                                    }): allParent.map((data, key) => {
-                                        if(data.guardian_nic.includes(searchValue.toLocaleLowerCase()) || data.guardian_name.includes(searchValue.toLocaleLowerCase()) || data.phone.includes(searchValue.toLocaleLowerCase())) return(
+                                    }) : allParent.map((data, key) => {
+                                        if (data.guardian_nic.includes(searchValue.toLocaleLowerCase()) || data.guardian_name.includes(searchValue.toLocaleLowerCase()) || data.phone.includes(searchValue.toLocaleLowerCase())) return (
                                             <tr key={key}>
                                                 <td>{key + 1}</td>
                                                 <td>{data.guardian_nic}</td>
@@ -97,7 +123,7 @@ export default function CreateAccount() {
                                         )
                                     })
                                 }
-                                
+
                             </tbody>
                         </table>
 
@@ -107,7 +133,8 @@ export default function CreateAccount() {
             <div className='CreateAccount-right'>
                 <h3>Children Detail</h3>
                 <div className='body-section'>
-                    <form onSubmit={createChild} >
+                    {/* <form onSubmit={createChild} > */}
+                    <form onSubmit={submit} >
                         <div className="form-group">
                             <label htmlFor="name">Guardian NIC:</label>
                             <input
@@ -115,7 +142,7 @@ export default function CreateAccount() {
                                 type="text"
                                 id="guardian_id"
                                 name="guardian_id"
-                                onChange={(e) => setInputData({...inputData, gardian_nic: e.target.value})}
+                                onChange={(e) => setInputData({ ...inputData, gardian_nic: e.target.value })}
                             />
                         </div>
                         <div className="form-group">
@@ -125,7 +152,7 @@ export default function CreateAccount() {
                                 type="text"
                                 id="name"
                                 name="name"
-                                onChange={(e) => setInputData({...inputData, child_name: e.target.value})}
+                                onChange={(e) => setInputData({ ...inputData, child_name: e.target.value })}
                             />
                         </div>
                         <div className="form-group">
@@ -135,10 +162,10 @@ export default function CreateAccount() {
                                 type="date"
                                 id="birthday"
                                 name="birthday"
-                                onChange={(e) => setInputData({...inputData, child_birthday: e.target.value})}
+                                onChange={(e) => setInputData({ ...inputData, child_birthday: e.target.value })}
                             />
                         </div>
-                        
+
                         <div className="form-group">
                             <label htmlFor="birthday">Birth Weight:</label>
                             <input
@@ -146,10 +173,10 @@ export default function CreateAccount() {
                                 type="number"
                                 id="birth_weight"
                                 name="birth_weight"
-                                onChange={(e) => setInputData({...inputData, child_born_weight: e.target.value})}
+                                onChange={(e) => setInputData({ ...inputData, child_born_weight: e.target.value })}
                             />
                         </div>
-                        
+
                         <div className="form-group">
                             <label htmlFor="gender">Gender:</label>
                             <input
@@ -157,7 +184,7 @@ export default function CreateAccount() {
                                 type="text"
                                 id="gender"
                                 name="gender"
-                                onChange={e => setInputData({...inputData, child_gender: e.target.value})}
+                                onChange={e => setInputData({ ...inputData, child_gender: e.target.value })}
                             />
                         </div>
                         <div className="form-group">
@@ -167,7 +194,7 @@ export default function CreateAccount() {
                                 type="text"
                                 id="registration_number"
                                 name="registration_number"
-                                onChange={e => setInputData({...inputData, child_birth_certificate_no: e.target.value})}
+                                onChange={e => setInputData({ ...inputData, child_birth_certificate_no: e.target.value })}
                             />
                         </div>
                         <div className="form-group">
@@ -177,7 +204,7 @@ export default function CreateAccount() {
                                 type="text"
                                 id="parentName"
                                 name="parentName"
-                                onChange={e => setInputData({...inputData, parent_name: e.target.value})}
+                                onChange={e => setInputData({ ...inputData, parent_name: e.target.value })}
                             />
                         </div>
                         <button type="submit">Submit</button>
