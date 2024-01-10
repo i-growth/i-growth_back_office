@@ -7,6 +7,8 @@ export default function MedicalOfficerAdd(props) {
 
     const [selectedArea, setSelectedArea] = useState("select_area");
 
+    const [isWaiting, setWaiting] = useState(false);
+
     useEffect(() => {
         instance.get("/public/areas")
             .then(res => {
@@ -27,6 +29,7 @@ export default function MedicalOfficerAdd(props) {
     const submit = async (e) => {
         e.preventDefault();
 
+
         const formData = {
             officer_name: e.target['medicalOfficer-name'].value,
             service_start_date: e.target['medicalOfficer-service-start-date'].value,
@@ -37,16 +40,30 @@ export default function MedicalOfficerAdd(props) {
             area_id: selectedArea
         }
 
-        instance.post('/admin/create-officer', formData).then((res) => {
-            console.log(res);
-            // props.setTrigger(prv => !prv)
+        if(selectedArea === "select_area"){
+            alert("Please select an area");
+            document.getElementById('select_area_002').focus();
+            return;
+        }
+
+        setWaiting(true);
+
+        try{
+            const res = await instance.post('/admin/create-officer', formData);
+            console.log(res.data);
+            props.setTrigger((prevTrigger) => !prevTrigger);
+    
             if (res.status === 200) {
-                alert('Item Added Successfully');
+                props.setDisplayMedicalOfficerAdd(false)
+                // alert('Item Added Successfully');
             }
         }
-        ).catch((err) => {
-            console.log(err);
-        })
+        catch (err) {
+            console.log(err.response.data.message);
+            alert(err.response.data.message);
+        } finally {
+            setWaiting(false);
+        }
     }
 
 
@@ -60,8 +77,8 @@ export default function MedicalOfficerAdd(props) {
                     <div className="input-section">
                         <div className="input-wrapper">
                             <select className='inputfieds' style={{ height: '35px', width: '91%' }} id='select_area_002' onChange={handleAreaChange}>
-                                <option value="select_area">Select an Area</option>
-                                {getArea.map(area => (
+                                <option value="select_area" style={{display: 'none'}}>Select an Area</option>
+                                {getArea.length > 0 && getArea.map(area => (
                                     <option key={area.area_id} value={area.area_id}>{area.area_name}</option>
                                 ))}
                             </select>
@@ -76,7 +93,7 @@ export default function MedicalOfficerAdd(props) {
                     </div>
                     <div className="submission-btn">
                         {/* <div  type="submit">Submit</div> */}
-                        <input className="submit-btn" type="submit" />
+                        <input className="submit-btn" type="submit" value={isWaiting ? "Waiting..." : "Add"} disabled={isWaiting} />
                         <div className="cancel-btn" onClick={() => props.setDisplayMedicalOfficerAdd(false)}>Cancel</div>
                     </div>
                 </form>

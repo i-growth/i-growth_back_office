@@ -5,7 +5,9 @@ export default function MidwifeAdd(props) {
 
     const [getArea, setGetArea] = useState([]);
 
-    const [selectedArea, setSelectedArea] = useState("select_area");
+
+    const [isWaiting, setIsWaiting] = useState(false);
+    const [selectedArea, setSelectedArea] = useState("Select_an_Area");
 
     useEffect(() => {
         instance.get("/public/areas")
@@ -27,11 +29,13 @@ export default function MidwifeAdd(props) {
     const submit = async (e) => {
         e.preventDefault();
 
-        if(selectedArea === "select_area"){
+        if(selectedArea === "Select_an_Area"){
             alert("Please select an area");
-            document.getElementById("select_area_001").focus();
+            document.getElementById('select_area_001001').focus();
             return;
         }
+
+        setIsWaiting(true);
 
         const formData = {
             name: e.target['midwife-name'].value,
@@ -43,20 +47,20 @@ export default function MidwifeAdd(props) {
             area_id: selectedArea
         }
 
-        
-        instance.post('/admin/create-midwife', formData).then((res) => {
-            console.log(res);
-
+        try {
+            const res = await instance.post('/admin/create-midwife', formData);
             props.setTrigger((prevTrigger) => !prevTrigger);
 
             if (res.status === 200) {
                 props.setDisplayMidwifeAdd(false);
                 // alert('Item Added Successfully');
             }
+        } catch (err) {
+            console.log(err.response.data.message);
+            alert(err.response.data.message);
+        } finally {
+            setIsWaiting(false);
         }
-        ).catch((err) => {
-            console.log(err);
-        })
     }
 
 
@@ -75,8 +79,8 @@ export default function MidwifeAdd(props) {
                                 <option value="otherOption">Login As a Midwife</option>
                                 <option value="otherOption">Login As a Medical Officer</option>
                             </select> */}
-                            <select className='inputfieds' id='select_area_001' style={{ height: '35px', width: '91%' }} defaultValue={selectedArea} onChange={handleAreaChange}>
-                                <option value="select_area" style={{display: 'none'}}>Select an Area</option>
+                            <select className='inputfieds' style={{ height: '35px', width: '91%' }} id='select_area_001001' onChange={handleAreaChange}>
+                                <option style={{display: 'none'}} value="Select_an_Area">Select an Area</option>
                                 {getArea.map(area => (
                                     <option key={area.area_id} value={area.area_id}>{area.area_name}</option>
                                 ))}
@@ -92,7 +96,7 @@ export default function MidwifeAdd(props) {
                     </div>
                     <div className="submission-btn">
                         {/* <div  type="submit">Submit</div> */}
-                        <input className="submit-btn" type="submit" />
+                        <input className="submit-btn" type="submit" value={isWaiting ? "Waiting..." : "Add"} disabled={isWaiting} />
                         <div className="cancel-btn" onClick={() => props.setDisplayMidwifeAdd(false)}>Cancel</div>
                     </div>
                 </form>
