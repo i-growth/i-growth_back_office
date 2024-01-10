@@ -82,7 +82,6 @@ export default function CreateAccount() {
                                             </tr>
                                         )
                                     }): allParent.map((data, key) => {
-                                        console.log(data);
                                         if(data.guardian_nic.includes(searchValue.toLocaleLowerCase()) || data.guardian_name.includes(searchValue.toLocaleLowerCase()) || data.phone.includes(searchValue.toLocaleLowerCase())) return(
                                             <tr key={key}>
                                                 <td>{key + 1}</td>

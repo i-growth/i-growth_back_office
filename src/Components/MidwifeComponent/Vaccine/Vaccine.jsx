@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import './Vaccine.scss'
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import instance from '../../../utility/AxiosInstance';
 
 export default function Vaccine() {

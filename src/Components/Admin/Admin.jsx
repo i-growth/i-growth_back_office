@@ -1,14 +1,35 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './Admin.scss'
 import Cover from '../cover/cover'
 import Midwife from '../Admin/Midwife/Midwife'
 import MedicalOfficer from './MedicalOfficer/MedicalOfficer'
 import AddNews from '../public/AddNews'
 import NewsFeed from '../public/NewsFeed'
+import instance from '../../utility/AxiosInstance'
 
 export default function Admin() {
+    const navigation = useNavigate()
     const [active, setActive] = useState('midwife')
-    return (
+    const [authenticated, setAuthenticated] = useState(false)
+
+    useEffect(()=> {
+        const checkAuth = async() => {
+            try{
+                const res = await instance.get('/admin/check-auth')
+                console.log(res.data)
+                setAuthenticated(true)
+            }
+            catch(err){
+                setAuthenticated(false)
+                console.log({error: err})
+                navigation('/auth')
+            }
+        }
+        checkAuth()
+    },[])
+
+    if(authenticated) return (
         <div className='admin-container'>
             <Cover />
             <div className='navigation-container'>

@@ -14,6 +14,8 @@ export default function MonthlyMeasurement() {
         head_cricumference: null,
     })
 
+    const [lastMonthHeight, setLastMonthHeight] = useState(null);
+
     const[searchData, setSearchData] = useState("");
 
     const [allData, setAllData] = useState(null);
@@ -34,10 +36,15 @@ export default function MonthlyMeasurement() {
             return
         }
 
+        if(parseFloat(data.height) <= parseFloat(lastMonthHeight)) {
+            alert(`Height can't be less than last month height(${lastMonthHeight} cm)`)
+            document.getElementById('c_height').focus();
+            return
+        }
+
         try{
             const res = await instance.post(`/midwife/child/growth_detail/${inputData.child_id}`, data)
 
-            console.log(res.data);
             if(res.data.message === "Child growth detail added"){
                 setInputData({
                     child_id: "",
@@ -60,14 +67,15 @@ export default function MonthlyMeasurement() {
     const pressSearch = async() => {
         try{
             const res = await instance.get(`/midwife/child/last-growth_detail/${searchData}`)
-            console.log(res.data);
 
             if(res.data.message === "Not privileges"){
+                setLastMonthHeight(null)
                 alert("Not privileges")
                 return
             }
             
             if(res.data.message === "Child growth detail not found"){
+                setLastMonthHeight(null)
                 setInputData({
                     child_id: res.data.child.child_id,
                     child_name: res.data.child.child_name,
@@ -78,6 +86,7 @@ export default function MonthlyMeasurement() {
                 })
             }
             else{
+                setLastMonthHeight(res.data.height)
                 setInputData({
                     child_id: res.data.child_id,
                     child_name: res.data.child_name,
@@ -102,7 +111,6 @@ export default function MonthlyMeasurement() {
             .then(res => {
                 if (res.data !== "No data found") {
                     setAllData(res.data)
-                    console.log(res.data)
                 }
                 else console.log("No data found");
             }).catch(err => console.log(err))
@@ -174,13 +182,13 @@ export default function MonthlyMeasurement() {
                             </div>
                             <div className='form-group'>
                                 <label>Height:</label>
-                                <input type='number' name='height' value={inputData.height} disabled={inputData.child_id === "" || inputData.child_id === null} onChange={(e) => setInputData({...inputData, height: e.target.value})} id='height' required />
+                                <input type='number' name='height' value={inputData.height} disabled={inputData.child_id === "" || inputData.child_id === null} onChange={(e) => setInputData({...inputData, height: e.target.value})} id='c_height' required />
                             </div>
                             <div className='form-group'>
                                 <label>Head Circumference:</label>
                                 <input type='number' value={inputData.head_cricumference} disabled={inputData.child_id === "" || inputData.child_id === null} onChange={(e) => setInputData({...inputData, head_cricumference: e.target.value})} name='headCircumference' id='headCircumference' required />
                             </div>
-                            <input className="button" type="submit" />
+                            <input className="button" type="submit" style={inputData.child_id === "" || inputData.child_id === null ? {background: 'gray'}: null} disabled={inputData.child_id === "" || inputData.child_id === null} />
                         </form>
                     </div>
                 </div>
