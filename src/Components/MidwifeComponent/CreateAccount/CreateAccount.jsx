@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './CreateAccount.scss'
-import { AiFillPlusSquare } from 'react-icons/ai'
+import { AiFillPlusSquare, AiFillCloseCircle } from 'react-icons/ai'
 import ParentDataAdd from './ParentDataAdd/ParentDataAdd'
 import instance from '../../../utility/AxiosInstance';
 
@@ -19,6 +19,8 @@ export default function CreateAccount() {
 
     const [displayParerntUpdate, setDisplayParerntUpdate] = useState(false);
 
+    const [showParentDetail, setShowParerntDetail] = useState(false)
+
     const [selectedParent, setSelectedParent] = useState(null);
 
     const [allParent, setAllParent] = useState([]);
@@ -28,13 +30,18 @@ export default function CreateAccount() {
     const [trigger, setTrigger] = useState(false);
 
     const [motherName, setMontherName] = useState("");
+
     const [fatherName, setFatherName] = useState("");
+
     const [phone, setPhone] = useState("");
+
     const [address, setAddress] = useState("");
+
     const [guardianName, setGuardianName] = useState("");
+
     const [guardianNIC, setGuardianNIC] = useState("");
+
     const [email, setEmail] = useState();
-    const [areaName, setAreaName] = useState("");
 
     const handleMontherNameChange = (e) => {
         setMontherName(e.target.value);
@@ -55,6 +62,11 @@ export default function CreateAccount() {
     function showCode() {
         setDisplayParentAdd(true);
         console.log(displayParentAdd);
+    }
+
+    const showParentnDetailWindow = (parent) => {
+        setSelectedParent(parent);
+        setShowParerntDetail(true);
     }
 
     useEffect(() => {
@@ -97,8 +109,6 @@ export default function CreateAccount() {
         setGuardianName(parent.guardian_name);
         setGuardianNIC(parent.guardian_nic);
         setEmail(parent.email);
-        setAreaName(parent.area_name);
-        setSelectedParent(parent)
         setDisplayParerntUpdate(true);
     }
 
@@ -151,7 +161,7 @@ export default function CreateAccount() {
                                 <tr>
                                     <td>No</td>
                                     <td>Guardian NIC</td>
-                                    <td>Name</td>
+                                    <td>Guardian Name</td>
                                     {/* <td>Address</td> */}
                                     <td>Mobile</td>
                                     <td>More</td>
@@ -169,7 +179,7 @@ export default function CreateAccount() {
                                                 {/* <td>4</td> */}
                                                 <td>{data.phone}</td>
                                                 <td className='crud-btn'>
-                                                    <div className='top-detail'>View Detail</div>
+                                                    <div className='top-detail' onClick={() => showParentnDetailWindow(data)}>View Detail</div>
                                                     <div className='update' setTrigger={setTrigger} onClick={() => handleUpdateWindow(data)}>Update</div>
                                                 </td>
 
@@ -182,7 +192,7 @@ export default function CreateAccount() {
                                                             <form onSubmit={updateParernt} style={{ height: '68vh' }}>
                                                                 <div className="input-section">
                                                                     <div className="input-wrapper">
-                                                                        <select className='inputfieds' style={{ height: '35px', width: '91%' }} id='select_area_001003' disabled={true}>
+                                                                        <select className='inputfieds' style={{ height: '35px', width: '91%' }} disabled={true} id='select_area_001003' value={data.area_name}>
                                                                             <option style={{ display: 'none' }} >{data.area_name}</option>
                                                                         </select>
                                                                         <input type="text" name="guardian-nic" id='guardian-nic' placeholder='Enter the Guardian NIC' className='inputfieds' value={guardianNIC} disabled={true} required />
@@ -203,6 +213,29 @@ export default function CreateAccount() {
                                                         </div>
                                                     </div>
                                                 )}
+
+                                                {showParentDetail && selectedParent && selectedParent.gardian_nic === data.gardian_nic && (
+                                                    <div className='cardView-container'>
+                                                        <div className="cardView">
+                                                            <div className="close-icon"><AiFillCloseCircle size={25} color='red' className='icon' onClick={() => setShowParerntDetail(false)} /></div>
+                                                            <div className="card-section">
+                                                                <div className="view-card-fram">
+                                                                    <div className='header'><h2>Parent Detail</h2></div>
+                                                                    <div className='detail-body'>
+                                                                        <div className='detail'><h4>Guardian NIC :</h4>{selectedParent.guardian_nic}</div>
+                                                                        <div className='detail'><h4>Guardian Name :</h4>{selectedParent.guardian_name}</div>
+                                                                        <div className='detail'><h4>Father Name :</h4>{selectedParent.father_name}</div>
+                                                                        <div className='detail'><h4>Monther Name :</h4>{selectedParent.mother_name}</div>
+                                                                        <div className='detail'><h4>Address :</h4>{selectedParent.address}</div>
+                                                                        <div className='detail'><h4>Area :</h4>{selectedParent.area_name}</div>
+                                                                        <div className='detail'><h4>Gmail :</h4>{selectedParent.email}</div>
+                                                                        <div className='detail'><h4>Mobile :</h4>{selectedParent.phone}</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                )}
                                             </tr>
                                         )
                                     }) : allParent.map((data, key) => {
@@ -214,8 +247,8 @@ export default function CreateAccount() {
                                                 {/* <td>4</td> */}
                                                 <td>{data.phone}</td>
                                                 <td className='crud-btn'>
-                                                    <div className='top-detail'>View Detail</div>
-                                                    <div className='update'>Update</div>
+                                                    <div className='top-detail' onClick={() => showParentnDetailWindow(data)}>View Detail</div>
+                                                    <div className='update' setTrigger={setTrigger} onClick={() => handleUpdateWindow(data)}>Update</div>
                                                 </td>
 
                                                 {displayParerntUpdate && selectedParent && selectedParent.gardian_nic === data.gardian_nic && (
@@ -227,8 +260,8 @@ export default function CreateAccount() {
                                                             <form onSubmit={updateParernt} style={{ height: '68vh' }}>
                                                                 <div className="input-section">
                                                                     <div className="input-wrapper">
-                                                                        <select className='inputfieds' style={{ height: '35px', width: '91%' }} id='select_area_001003' value={areaName} disabled={true}>
-                                                                            <option style={{ display: 'none' }} value="Select_an_Area">{areaName}</option>
+                                                                        <select className='inputfieds' style={{ height: '35px', width: '91%' }} id='select_area_001003' value={data.area_name} disabled={true}>
+                                                                            {/* <option style={{ display: 'none' }} value={data.area_name}></option> */}
                                                                         </select>
                                                                         <input type="text" name="guardian-nic" id='guardian-nic' placeholder='Enter the Guardian NIC' className='inputfieds' value={guardianNIC} disabled={true} required />
                                                                         <input type="text" name="guardian-name" id='guardian-name' placeholder='Enter the Guardian Name' className='inputfieds' value={guardianName} required onChange={handleGuardianNameChange} />
@@ -245,6 +278,29 @@ export default function CreateAccount() {
                                                                     <div className="cancel-btn" onClick={handleCloseUpdateWindow}>Cancel</div>
                                                                 </div>
                                                             </form>
+                                                        </div>
+                                                    </div>
+                                                )}
+
+                                                {showParentDetail && selectedParent && selectedParent.gardian_nic === data.gardian_nic && (
+                                                    <div className='cardView-container'>
+                                                        <div className="cardView">
+                                                            <div className="close-icon"><AiFillCloseCircle size={25} color='red' className='icon' onClick={() => setShowParerntDetail(false)} /></div>
+                                                            <div className="card-section">
+                                                                <div className="view-card-fram">
+                                                                    <div className='header'><h2>Parent Detail</h2></div>
+                                                                    <div className='detail-body'>
+                                                                        <div className='detail'><h4>Guardian NIC :</h4>{selectedParent.guardian_nic}</div>
+                                                                        <div className='detail'><h4>Guardian Name :</h4>{selectedParent.guardian_name}</div>
+                                                                        <div className='detail'><h4>Father Name :</h4>{selectedParent.father_name}</div>
+                                                                        <div className='detail'><h4>Monther Name :</h4>{selectedParent.mother_name}</div>
+                                                                        <div className='detail'><h4>Address :</h4>{selectedParent.address}</div>
+                                                                        <div className='detail'><h4>Area :</h4>{selectedParent.area_name}</div>
+                                                                        <div className='detail'><h4>Gmail :</h4>{selectedParent.email}</div>
+                                                                        <div className='detail'><h4>Mobile :</h4>{selectedParent.phone}</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 )}
