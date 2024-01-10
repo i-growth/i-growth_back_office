@@ -7,6 +7,8 @@ export default function MedicalOfficerAdd(props) {
 
     const [selectedArea, setSelectedArea] = useState("");
 
+    const [isWaiting, setWaiting] = useState(false);
+
     useEffect(() => {
         instance.get("/public/areas")
             .then(res => {
@@ -27,6 +29,8 @@ export default function MedicalOfficerAdd(props) {
     const submit = async (e) => {
         e.preventDefault();
 
+        setWaiting(true);
+
         const formData = {
             officer_name: e.target['medicalOfficer-name'].value,
             service_start_date: e.target['medicalOfficer-service-start-date'].value,
@@ -37,18 +41,33 @@ export default function MedicalOfficerAdd(props) {
             area_id: selectedArea
         }
 
-        console.log("tharindu", formData);
+        // instance.post('/admin/create-officer', formData).then((res) => {
+        //     console.log(res);
+        //     // props.setTrigger(prv => !prv)
+        //     if (res.status === 200) {
+        //         alert('Item Added Successfully');
+        //     }
+        // }
+        // ).catch((err) => {
+        //     console.log(err);
+        // })
 
-        instance.post('/admin/create-officer', formData).then((res) => {
+        try {
+            const res = await instance.post('/admin/create-officer', formData);
+
             console.log(res);
-            // props.setTrigger(prv => !prv)
+
+            props.setTrigger((prevTrigger) => !prevTrigger);
+
             if (res.status === 200) {
-                alert('Item Added Successfully');
+                props.setDisplayMedicalOfficerAdd(false)
+                // alert('Item Added Successfully');
             }
-        }
-        ).catch((err) => {
+        } catch (err) {
             console.log(err);
-        })
+        } finally {
+            setWaiting(false);
+        }
     }
 
 
@@ -77,7 +96,7 @@ export default function MedicalOfficerAdd(props) {
                     </div>
                     <div className="submission-btn">
                         {/* <div  type="submit">Submit</div> */}
-                        <input className="submit-btn" type="submit" />
+                        <input className="submit-btn" type="submit" value={isWaiting ? "Waiting..." : "Add"} disabled={isWaiting} />
                         <div className="cancel-btn" onClick={() => props.setDisplayMedicalOfficerAdd(false)}>Cancel</div>
                     </div>
                 </form>
