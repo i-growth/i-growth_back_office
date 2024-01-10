@@ -8,7 +8,7 @@ export default function ParentDataAdd(props) {
                 <div className="header">
                     <h4>Adding the Parent</h4>
                 </div>
-                <form >
+                <form style={{ height: '35vh' }}>
                     <div className="input-section">
                         <div className="input-wrapper">
                             <input type="text" name="parent-id" id='parent-id' placeholder='Enter the Parent ID' className='inputfieds' required />
