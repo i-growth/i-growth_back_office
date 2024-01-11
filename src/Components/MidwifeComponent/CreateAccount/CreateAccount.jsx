@@ -25,8 +25,6 @@ export default function CreateAccount() {
 
     const [allParent, setAllParent] = useState([]);
 
-    const [searchValue, setSearchValue] = useState("");
-
     const [trigger, setTrigger] = useState(false);
 
     const [motherName, setMontherName] = useState("");
@@ -42,6 +40,8 @@ export default function CreateAccount() {
     const [guardianNIC, setGuardianNIC] = useState("");
 
     const [email, setEmail] = useState();
+
+    const [searchQuery, setSearchQuery] = useState('');
 
     const handleMontherNameChange = (e) => {
         setMontherName(e.target.value);
@@ -146,13 +146,17 @@ export default function CreateAccount() {
         }
     };
 
+    const handleSearchChange = (event) => {
+        setSearchQuery(event.target.value);
+    };
+
     return (
         <div className='CreateAccount-container'>
             {displayParentAdd ? <ParentDataAdd setDisplayParentAdd={setDisplayParentAdd} setTrigger={setTrigger} /> : null}
             <div className='CreateAccount-left'>
                 <h3>Parent Detail</h3>
                 <div className='parent-section-top'>
-                    <input type='text' placeholder='search...' onChange={(e) => setSearchValue(e.target.value)} />
+                    <input type='text' placeholder='search...' value={searchQuery} onChange={handleSearchChange} />
                     <AiFillPlusSquare fontSize={40} className='icon' onClick={showCode} />
                 </div>
                 <div className='parent-section-bottom'>
@@ -170,143 +174,76 @@ export default function CreateAccount() {
                             </thead>
                             <tbody>
                                 {
-                                    searchValue === "" ? allParent.map((data, key) => {
-                                        console.log(data);
-                                        return (
-                                            <tr key={key}>
-                                                <td>{key + 1}</td>
-                                                <td>{data.guardian_nic}</td>
-                                                <td>{data.guardian_name}</td>
-                                                {/* <td>4</td> */}
-                                                <td>{data.phone}</td>
-                                                <td className='crud-btn'>
-                                                    <div className='top-detail' onClick={() => showParentnDetailWindow(data)}>View Detail</div>
-                                                    <div className='update' setTrigger={setTrigger} onClick={() => handleUpdateWindow(data)}>Update</div>
-                                                </td>
+                                    allParent.map((data, key) => {
+                                        if ((data.guardian_nic.toString().includes(searchQuery.toLowerCase())) || ((data.guardian_name.toString().includes(searchQuery.toLowerCase()))) || ((data.phone.toString().includes(searchQuery.toLowerCase())))) {
+                                            return (
+                                                <tr key={key}>
+                                                    <td>{key + 1}</td>
+                                                    <td>{data.guardian_nic}</td>
+                                                    <td>{data.guardian_name}</td>
+                                                    {/* <td>4</td> */}
+                                                    <td>{data.phone}</td>
+                                                    <td className='crud-btn'>
+                                                        <div className='top-detail' onClick={() => showParentnDetailWindow(data)}>View Detail</div>
+                                                        <div className='update' setTrigger={setTrigger} onClick={() => handleUpdateWindow(data)}>Update</div>
+                                                    </td>
 
-                                                {displayParerntUpdate && selectedParent && selectedParent.gardian_nic === data.gardian_nic && (
-                                                    <div className='parentUpdate-container'>
-                                                        <div className="card-container">
-                                                            <div className="header">
-                                                                <h4>Adding the Parent</h4>
-                                                            </div>
-                                                            <form onSubmit={updateParernt} style={{ height: '68vh' }}>
-                                                                <div className="input-section">
-                                                                    <div className="input-wrapper">
-                                                                        <select className='inputfieds' style={{ height: '35px', width: '91%' }} disabled={true} id='select_area_001003' value={data.area_name}>
-                                                                            <option style={{ display: 'none' }} >{data.area_name}</option>
-                                                                        </select>
-                                                                        <input type="text" name="guardian-nic" id='guardian-nic' placeholder='Enter the Guardian NIC' className='inputfieds' value={guardianNIC} disabled={true} required />
-                                                                        <input type="text" name="guardian-name" id='guardian-name' placeholder='Enter the Guardian Name' className='inputfieds' value={guardianName} required onChange={handleGuardianNameChange} />
-                                                                        <input type="text" name="mother-name" id='mother-name' placeholder='Enter the Mother Name' className='inputfieds' value={motherName} required onChange={handleMontherNameChange} />
-                                                                        <input type="text" name="father-name" id='father-name' placeholder='Enter the Father Number' className='inputfieds' value={fatherName} required onChange={handleFatherNameChange} />
-                                                                        <input type="text" name="mobile" id='mobile' placeholder='Enter the Mobile Number' className='inputfieds' value={phone} required onChange={handlephoneChange} />
-                                                                        <input type="text" name="email" id='email' placeholder='Enter the Email Address' className='inputfieds' value={email} disabled={true} required onChange={handleAddressChange} />
-                                                                        <input type="text" name="address" id='address' placeholder='Enter the Address' className='inputfieds' value={address} required />
+                                                    {displayParerntUpdate && selectedParent && selectedParent.gardian_nic === data.gardian_nic && (
+                                                        <div className='parentUpdate-container'>
+                                                            <div className="card-container">
+                                                                <div className="header">
+                                                                    <h4>Adding the Parent</h4>
+                                                                </div>
+                                                                <form onSubmit={updateParernt} style={{ height: '68vh' }}>
+                                                                    <div className="input-section">
+                                                                        <div className="input-wrapper">
+                                                                            <select className='inputfieds' style={{ height: '35px', width: '91%' }} disabled={true} id='select_area_001003' value={data.area_name}>
+                                                                                <option style={{ display: 'none' }} >{data.area_name}</option>
+                                                                            </select>
+                                                                            <input type="text" name="guardian-nic" id='guardian-nic' placeholder='Enter the Guardian NIC' className='inputfieds' value={guardianNIC} disabled={true} required />
+                                                                            <input type="text" name="guardian-name" id='guardian-name' placeholder='Enter the Guardian Name' className='inputfieds' value={guardianName} required onChange={handleGuardianNameChange} />
+                                                                            <input type="text" name="mother-name" id='mother-name' placeholder='Enter the Mother Name' className='inputfieds' value={motherName} required onChange={handleMontherNameChange} />
+                                                                            <input type="text" name="father-name" id='father-name' placeholder='Enter the Father Number' className='inputfieds' value={fatherName} required onChange={handleFatherNameChange} />
+                                                                            <input type="text" name="mobile" id='mobile' placeholder='Enter the Mobile Number' className='inputfieds' value={phone} required onChange={handlephoneChange} />
+                                                                            <input type="text" name="email" id='email' placeholder='Enter the Email Address' className='inputfieds' value={email} disabled={true} required onChange={handleAddressChange} />
+                                                                            <input type="text" name="address" id='address' placeholder='Enter the Address' className='inputfieds' value={address} required />
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="submission-btn">
-                                                                    {/* <div  type="submit">Submit</div> */}
-                                                                    <input className="submit-btn" type="submit" value={"Update"} />
-                                                                    <div className="cancel-btn" onClick={handleCloseUpdateWindow}>Cancel</div>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                )}
-
-                                                {showParentDetail && selectedParent && selectedParent.gardian_nic === data.gardian_nic && (
-                                                    <div className='cardView-container'>
-                                                        <div className="cardView">
-                                                            <div className="close-icon"><AiFillCloseCircle size={25} color='red' className='icon' onClick={() => setShowParerntDetail(false)} /></div>
-                                                            <div className="card-section">
-                                                                <div className="view-card-fram">
-                                                                    <div className='header'><h2>Parent Detail</h2></div>
-                                                                    <div className='detail-body'>
-                                                                        <div className='detail'><h4>Guardian NIC :</h4>{selectedParent.guardian_nic}</div>
-                                                                        <div className='detail'><h4>Guardian Name :</h4>{selectedParent.guardian_name}</div>
-                                                                        <div className='detail'><h4>Father Name :</h4>{selectedParent.father_name}</div>
-                                                                        <div className='detail'><h4>Monther Name :</h4>{selectedParent.mother_name}</div>
-                                                                        <div className='detail'><h4>Address :</h4>{selectedParent.address}</div>
-                                                                        <div className='detail'><h4>Area :</h4>{selectedParent.area_name}</div>
-                                                                        <div className='detail'><h4>Gmail :</h4>{selectedParent.email}</div>
-                                                                        <div className='detail'><h4>Mobile :</h4>{selectedParent.phone}</div>
+                                                                    <div className="submission-btn">
+                                                                        {/* <div  type="submit">Submit</div> */}
+                                                                        <input className="submit-btn" type="submit" value={"Update"} />
+                                                                        <div className="cancel-btn" onClick={handleCloseUpdateWindow}>Cancel</div>
                                                                     </div>
-                                                                </div>
+                                                                </form>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                )}
-                                            </tr>
-                                        )
-                                    }) : allParent.map((data, key) => {
-                                        if (data.guardian_nic.includes(searchValue.toLocaleLowerCase()) || data.guardian_name.includes(searchValue.toLocaleLowerCase()) || data.phone.includes(searchValue.toLocaleLowerCase())) return (
-                                            <tr key={key}>
-                                                <td>{key + 1}</td>
-                                                <td>{data.guardian_nic}</td>
-                                                <td>{data.guardian_name}</td>
-                                                {/* <td>4</td> */}
-                                                <td>{data.phone}</td>
-                                                <td className='crud-btn'>
-                                                    <div className='top-detail' onClick={() => showParentnDetailWindow(data)}>View Detail</div>
-                                                    <div className='update' setTrigger={setTrigger} onClick={() => handleUpdateWindow(data)}>Update</div>
-                                                </td>
+                                                    )}
 
-                                                {displayParerntUpdate && selectedParent && selectedParent.gardian_nic === data.gardian_nic && (
-                                                    <div className='parentUpdate-container'>
-                                                        <div className="card-container">
-                                                            <div className="header">
-                                                                <h4>Adding the Parent</h4>
-                                                            </div>
-                                                            <form onSubmit={updateParernt} style={{ height: '68vh' }}>
-                                                                <div className="input-section">
-                                                                    <div className="input-wrapper">
-                                                                        <select className='inputfieds' style={{ height: '35px', width: '91%' }} id='select_area_001003' value={data.area_name} disabled={true}>
-                                                                            {/* <option style={{ display: 'none' }} value={data.area_name}></option> */}
-                                                                        </select>
-                                                                        <input type="text" name="guardian-nic" id='guardian-nic' placeholder='Enter the Guardian NIC' className='inputfieds' value={guardianNIC} disabled={true} required />
-                                                                        <input type="text" name="guardian-name" id='guardian-name' placeholder='Enter the Guardian Name' className='inputfieds' value={guardianName} required onChange={handleGuardianNameChange} />
-                                                                        <input type="text" name="mother-name" id='mother-name' placeholder='Enter the Mother Name' className='inputfieds' value={motherName} required onChange={handleMontherNameChange} />
-                                                                        <input type="text" name="father-name" id='father-name' placeholder='Enter the Father Number' className='inputfieds' value={fatherName} required onChange={handleFatherNameChange} />
-                                                                        <input type="text" name="mobile" id='mobile' placeholder='Enter the Mobile Number' className='inputfieds' value={phone} required onChange={handlephoneChange} />
-                                                                        <input type="text" name="email" id='email' placeholder='Enter the Email Address' className='inputfieds' value={email} disabled={true} required onChange={handleAddressChange} />
-                                                                        <input type="text" name="address" id='address' placeholder='Enter the Address' className='inputfieds' value={address} required />
-                                                                    </div>
-                                                                </div>
-                                                                <div className="submission-btn">
-                                                                    {/* <div  type="submit">Submit</div> */}
-                                                                    <input className="submit-btn" type="submit" value={"Update"} />
-                                                                    <div className="cancel-btn" onClick={handleCloseUpdateWindow}>Cancel</div>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                )}
-
-                                                {showParentDetail && selectedParent && selectedParent.gardian_nic === data.gardian_nic && (
-                                                    <div className='cardView-container'>
-                                                        <div className="cardView">
-                                                            <div className="close-icon"><AiFillCloseCircle size={25} color='red' className='icon' onClick={() => setShowParerntDetail(false)} /></div>
-                                                            <div className="card-section">
-                                                                <div className="view-card-fram">
-                                                                    <div className='header'><h2>Parent Detail</h2></div>
-                                                                    <div className='detail-body'>
-                                                                        <div className='detail'><h4>Guardian NIC :</h4>{selectedParent.guardian_nic}</div>
-                                                                        <div className='detail'><h4>Guardian Name :</h4>{selectedParent.guardian_name}</div>
-                                                                        <div className='detail'><h4>Father Name :</h4>{selectedParent.father_name}</div>
-                                                                        <div className='detail'><h4>Monther Name :</h4>{selectedParent.mother_name}</div>
-                                                                        <div className='detail'><h4>Address :</h4>{selectedParent.address}</div>
-                                                                        <div className='detail'><h4>Area :</h4>{selectedParent.area_name}</div>
-                                                                        <div className='detail'><h4>Gmail :</h4>{selectedParent.email}</div>
-                                                                        <div className='detail'><h4>Mobile :</h4>{selectedParent.phone}</div>
+                                                    {showParentDetail && selectedParent && selectedParent.gardian_nic === data.gardian_nic && (
+                                                        <div className='cardView-container'>
+                                                            <div className="cardView">
+                                                                <div className="close-icon"><AiFillCloseCircle size={25} color='red' className='icon' onClick={() => setShowParerntDetail(false)} /></div>
+                                                                <div className="card-section">
+                                                                    <div className="view-card-fram">
+                                                                        <div className='header'><h2>Parent Detail</h2></div>
+                                                                        <div className='detail-body'>
+                                                                            <div className='detail'><h4>Guardian NIC :</h4>{selectedParent.guardian_nic}</div>
+                                                                            <div className='detail'><h4>Guardian Name :</h4>{selectedParent.guardian_name}</div>
+                                                                            <div className='detail'><h4>Father Name :</h4>{selectedParent.father_name}</div>
+                                                                            <div className='detail'><h4>Monther Name :</h4>{selectedParent.mother_name}</div>
+                                                                            <div className='detail'><h4>Address :</h4>{selectedParent.address}</div>
+                                                                            <div className='detail'><h4>Area :</h4>{selectedParent.area_name}</div>
+                                                                            <div className='detail'><h4>Gmail :</h4>{selectedParent.email}</div>
+                                                                            <div className='detail'><h4>Mobile :</h4>{selectedParent.phone}</div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                )}
-                                            </tr>
-                                        )
+                                                    )}
+                                                </tr>
+                                            )
+                                        }
                                     })
                                 }
 
