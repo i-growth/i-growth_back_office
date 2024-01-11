@@ -1,15 +1,49 @@
 import React from 'react'
 import './cover.css'
-import Logo from '../../images/logo.png'
+import Logo from '../../images/logo192.png'
 
-export default function cover() {
+export default function Cover() {
+
+    const navigation = useNavigate()
+
+    const logout = async () => {
+        try {
+            const res = await instance.post('/admin/logout')
+            console.log(res.data)
+            navigation('/auth')
+        }
+        catch (err) {
+            console.log(err)
+        }
+
+        try {
+            const res = await instance.post('/midwife/logout')
+            console.log(res.data)
+            navigation('/auth')
+        }
+        catch (err) {
+            console.log(err)
+        }
+
+        try {
+            const res = await instance.post('/officer/logout')
+            console.log(res.data)
+            navigation('/auth')
+        }
+        catch (err) {
+            console.log(err)
+        }
+
+    }
+
     return (
         <div className='cover-container'>
             <div className='title'>
                 <img src={Logo} alt="" />
+                {/* <p> I-Growth</p> */}
                 <p >Monitor Baby Growth & Suggest Advice</p>
             </div>
-            <button style={{ marginRight: '20px' }}>Log Out</button>
+            <button style={{ marginRight: '20px' }} onClick={logout}>Log Out</button>
         </div>
     )
 }

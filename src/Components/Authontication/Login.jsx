@@ -6,13 +6,63 @@ import logo from '../../images/logo.png';
 
 export default function Login() {
 
-    const [active, setActive] = useState('midwife')
+    const [active, setActive] = useState('midwife');
+    const [loading, setLoading] = useState(true);
 
     const navigation = useNavigate()
 
     useEffect(() => {
-        console.log(active);
-    }, [active])
+        const checkAuth = async () => {
+            setLoading(true)
+            try {
+                const res = await instance.get('/midwife/check-auth')
+                console.log(res.data);
+                if (res.data) {
+                    navigation('/midwife')
+                }
+            }
+            catch (err) {
+                console.log(err);
+            }
+
+            try {
+                const res = await instance.get('/admin/check-auth')
+                console.log(res.data);
+                if (res.data) {
+                    navigation('/admin')
+                }
+            }
+            catch (err) {
+                console.log(err);
+            }
+
+            try {
+                const res = await instance.get('/officer/check-auth')
+                console.log(res.data);
+                if (res.data) {
+                    navigation('/medical-officer')
+                }
+            }
+            catch (err) {
+                console.log(err);
+            }
+
+            // try{
+            //     const res = await instance.get('/admin/check-auth')
+            //     console.log(res.data);
+            //     if(res.data){
+            //         navigation('/admin')
+            //     }
+            // }
+            // catch(err){
+            //     console.log(err);
+            // }
+
+            setLoading(false)
+        }
+
+        checkAuth()
+    }, [])
 
     const submitForm = (e) => {
         e.preventDefault();
@@ -49,6 +99,20 @@ export default function Login() {
                     })
 
             }
+            else if (active === "officer") {
+                instance.post('/officer/login', {
+                    nic: username,
+                    password: password
+                }).then(res => {
+                    console.log(res.data);
+                    navigation('/medical-officer');
+                })
+                    .catch(err => {
+                        alert("Please Enter the Corrected Username and Password")
+                        console.log(err);
+                    })
+
+            }
             else {
                 alert("Please select a user type.")
             }
@@ -57,7 +121,7 @@ export default function Login() {
         }
     }
 
-    return (
+    if (!loading) return (
         <div className='login-container'>
             <div className="login-card-container">
                 <div className="card-header">
@@ -69,10 +133,10 @@ export default function Login() {
                     <form onSubmit={submitForm}>
                         <div className="title">
                             {/* <h2>Admin Login</h2> */}
-                            <select onChange={(e) => setActive(e.target.value)} defaultValue={active} className='drop'>
+                            <select onChange={(e) => setActive(e.target.value)} defaultValue={active}>
                                 <option value="admin">Login As a Admin</option>
                                 <option value="midwife">Login As a Midwife</option>
-                                <option value="otherOption">Login As a Medical Officer</option>
+                                <option value="officer">Login As a Medical Officer</option>
                             </select>
                         </div>
                         <div className="input-feild-container">

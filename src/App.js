@@ -5,12 +5,12 @@ import Admin from './Components/Admin/Admin';
 
 import MidwifeComponent from './Components/MidwifeComponent/MidwifeComponent';
 
-
 function App() {
   return (
     <Router>
 
       <Routes>
+        <Route path='/' element={<Login />} />
         <Route path='/auth' element={<Login />} />
 
         <Route path="/" element={<Admin />} />
@@ -20,7 +20,6 @@ function App() {
 
         <Route path="/admin" element={<Admin />} />
         <Route path="/Midwife" element={<MidwifeComponent />} />
-
       </Routes>
     </Router>
   );
