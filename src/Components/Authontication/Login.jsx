@@ -113,7 +113,7 @@ export default function Login() {
                             </select>
                         </div>
                         <div className="input-feild-container">
-                            <div className='label-container'><label>NIC Number</label></div>
+                            <div className='label-container'><label>{active === 'admin' ? 'Username': 'NIC Number'}</label></div>
                             <input type="text" name="username" placeholder='Enter the user name' id='username' />
                         </div>
                         <div className="input-feild-container">
