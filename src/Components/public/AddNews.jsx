@@ -1,12 +1,41 @@
 import React from 'react'
 import './addNews.scss'
+import instance from '../../utility/AxiosInstance'
 
 const AddNews = () => {
+
+    const submit = async (e) => {
+        e.preventDefault();
+
+
+        const formData = {
+            title: e.target['news-title'].value,
+            summary: e.target['news-content'].value,
+            description: " ",
+            author: " ",
+            file: e.target['news-image-file'].files[0]
+        }
+
+        try {
+            const res = await instance.post('/admin/add-news', formData);
+            console.log(res.data);
+
+            if (res.status === 200) {
+                alert('Item Added Successfully');
+                document.getElementById("id").reset();
+            }
+        }
+        catch (err) {
+            console.log(err.response.data.message);
+            alert(err.response.data.message);
+        }
+    }
+
     return (
         <div className='addNew-container'>
             <div id='add-news'>
                 <h3>Add News</h3>
-                <form>
+                <form onSubmit={submit}>
                     <div className="row">
                         <label htmlFor="news-title">Title</label>
                         <input type="text" name='news-title' id='news-title' placeholder='Enter News Title' />
