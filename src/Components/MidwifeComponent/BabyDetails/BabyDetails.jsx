@@ -155,10 +155,10 @@ export default function BabyDetails() {
                                             <td>{data.phone}</td>
                                             <td className='crud-btn'>
                                                 <div className='top-detail' onClick={() => handleViewDetail(data)}>View Detail</div>
-                                                <div className='bottom-detail'>
-                                                    <div className='update'>Update</div>
-                                                    {/* <div className='delete'>Delete</div> */}
-                                                </div>
+                                                {/* <div className='bottom-detail'>
+                                                <div className='update'>Update</div>
+                                                <div className='delete'>Delete</div>
+                                                </div> */}
                                             </td>
 
                                             {showDetail && selectedBaby && selectedBaby.no === data.no && (
@@ -169,13 +169,14 @@ export default function BabyDetails() {
                                                             <div className='top-section'>
                                                                 <h3>Details:</h3>
                                                                 <div className='detail-body'>
-                                                                    <div className='detail'><h4>Baby ID :</h4>{data.child_id}</div>
+                                                                    <div className='detail'><h4>Children ID :</h4>{data.child_id}</div>
                                                                     <div className='detail'><h4>Name :</h4>{data.child_name}</div>
                                                                     <div className='detail'><h4>Birthday :</h4>{data.child_birthday.split('T')[0]}</div>
                                                                     <div className='detail'><h4>Gender :</h4>{data.child_gender}</div>
                                                                     <div className='detail'><h4>Gudiunt Name :</h4>{data.guardian_name}</div>
                                                                     <div className='detail'><h4>Address :</h4>{data.address}</div>
-                                                                    <div className='detail'><h4>Mobile :</h4>{data.phone}</div>
+                                                                    <div className='detail'><h4>Gudiunt Mobile :</h4>{data.phone}</div>
+                                                                    <div className='detail'><h4>Bron Weight :</h4>{data.child_born_weight}</div>
                                                                     {/* <div className='detail'><h4>BMI :</h4>---</div>
                                                         <div className='detail'><h4>Stage :</h4>----</div> */}
                                                                 </div>
