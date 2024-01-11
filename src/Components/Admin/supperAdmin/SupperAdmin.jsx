@@ -60,12 +60,10 @@ const SupperAdmin = () => {
         </div>
         <div className='body' style={{ height: '70vh', borderRadius: '0 0 8px 8px' }}>
 
-          {allAdmin.map((data, key) => (
+          {allAdmin && allAdmin.map((data, key) => (
             <div className="card-fram" key={key}>
-              <p>{data.username}</p>
-              <p>|</p>
+              <p className='user-name'>{data.username}</p>
               <p>{data.email}</p>
-              <p>|</p>
               <p>{data.area_name}</p>
             </div>
           ))}
