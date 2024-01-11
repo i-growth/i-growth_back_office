@@ -154,7 +154,7 @@ export default function BabyDetails() {
                                             <td>{data.guardian_name}</td>
                                             <td>{data.phone}</td>
                                             <td className='crud-btn'>
-                                                <div className='top-detail' onClick={() => handleViewDetail(data)}>View Detail</div>
+                                                <div className='top-detail' onClick={() => handleViewDetail(data)} >View Detail</div>
                                                 {/* <div className='bottom-detail'>
                                                 <div className='update'>Update</div>
                                                 <div className='delete'>Delete</div>
