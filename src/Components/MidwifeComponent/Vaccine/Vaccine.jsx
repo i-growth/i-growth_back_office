@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import './Vaccine.scss'
-import { useNavigate } from "react-router-dom";
 import instance from '../../../utility/AxiosInstance';
+import { TbVaccine } from "react-icons/tb";
 
 export default function Vaccine() {
-
-    const Navigate = useNavigate();
 
     const [vaccine, setVaccine] = useState([]);
 
@@ -21,19 +19,18 @@ export default function Vaccine() {
     }, [])
 
     return (
-        <div className="card-container">
-            {vaccine && vaccine.map((data, key) => (
-                <div className="card01" key={key}>
-                    <h6 className="card-title"> {data.vaccine_name} </h6>
-                    <div className="card_body">
-                        {data.note}
+        <div className='main-container'>
+            <div className='card-fram' >
+                {vaccine && vaccine.map((data, key) => (
+                    <div className='card' key={key}>
+                        <div className='vaccine-card-header'><TbVaccine size={25} /> <h3 style={{ marginLeft: '10px' }}> {data.vaccine_name} </h3></div>
+                        <div className='vaccine-card-body'>
+                            <div style={{ display: 'flex' }}><p>Month :</p><p style={{ marginLeft: "10px" }}>{data.vaccine_month}</p></div>
+                            <div style={{ textAlign: 'justify' }}>{data.note}</div>
+                        </div>
                     </div>
-                    <button className="btn01" onClick={() => Navigate("/Midwife/Vaccination1")}>
-                        More
-                    </button>
-
-                </div>
-            ))}
+                ))}
+            </div>
         </div>
     )
 }

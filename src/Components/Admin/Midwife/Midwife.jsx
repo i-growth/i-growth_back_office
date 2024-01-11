@@ -125,17 +125,6 @@ export default function Mifwife() {
     const submit = async (e) => {
         e.preventDefault();
 
-        // Prepare form data
-        // const formData = new FormData();
-
-        // formData.append('name', midwifeName);
-        // formData.append('service_start_date', serviceStartDate)
-        // formData.append('nic', nic);
-        // formData.append('email', email);
-        // formData.append('phone', phone);
-        // formData.append('service_id', serviceId);
-        // formData.append('area_id',);
-
         const formData = {
             name: e.target['midwife-name'].value,
             service_start_date: e.target['midwife-service-start-date'].value,
@@ -158,27 +147,18 @@ export default function Mifwife() {
         }
     };
 
-    // const handleDeleteItem = (midwife) => {
-    //     // Display a confirmation dialog
-    //     const confirmDelete = window.confirm(`Are you sure you want to delete the category "${midwife.name}?"`);
-
-    //     const chckAuth = async () => {
-    //         // get token from local storage
-    //         const token = await localStorage.getItem('loginToken');
-    //         if (confirmDelete) {
-    //             try {
-    //                 await instance.delete(`/item/${item.item_id}`, config);
-    //                 // After successful deletion, refetch categories
-    //                 setTrigger(!trigger);
-
-    //             } catch (error) {
-    //                 console.error("Error deleting category: ", error);
-    //             }
+    // const handleDeleteMidwife = async (midwife) => {
+    //     const confirmDelete = window.confirm(`Are you sure, you want to delete "${midwife.name}"?`);
+    //     if (confirmDelete) {
+    //         try {
+    //             await instance.delete(`/admin/midwife/${midwife.midwife_id}`);
+    //             setTrigger(!trigger);
+    //         } catch (error) {
+    //             console.error("Error deleting Midwife: ", error);
     //         }
-
     //     }
-    //     chckAuth();
     // };
+
 
     const inputDateString = "2011-12-09T18:30:00.000Z";
     const inputDate = new Date(inputDateString);
@@ -209,7 +189,7 @@ export default function Mifwife() {
                                         </div>
                                         <div className="bottom" style={{ width: 'auto' }}>
                                             <div className="update" setTrigger={setTrigger} onClick={() => handleUpdateWindow(data)} style={{ width: '150px' }}>Update</div>
-                                            {/* <div className="delete">Delete</div> */}
+                                            {/* <div className="delete" style={{ width: '150px' }} onClick={() => handleDeleteMidwife(data)}>Delete</div> */}
                                         </div>
                                     </div>
                                 </div>
@@ -229,7 +209,7 @@ export default function Mifwife() {
                                                         <div className='detail'><h4>Service Start Date :</h4>{selectedMidwife.service_start_date}</div>
                                                         <div className='detail'><h4>Gmail :</h4>{selectedMidwife.email}</div>
                                                         <div className='detail'><h4>Mobile :</h4>{selectedMidwife.phone}</div>
-                                                        <div className='detail'><h4>Area :</h4>{selectedMidwife.area_id}</div>
+                                                        <div className='detail'><h4>Area :</h4>{selectedMidwife.area_name}</div>
                                                     </div>
                                                 </div>
                                             </div>

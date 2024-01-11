@@ -8,25 +8,34 @@ export default function Cover() {
 
     const navigation = useNavigate()
 
-    const logout = async() => {
-        try{
+    const logout = async () => {
+        try {
             const res = await instance.post('/admin/logout')
             console.log(res.data)
             navigation('/auth')
         }
-        catch(err){
+        catch (err) {
             console.log(err)
         }
-        
-        try{
+
+        try {
             const res = await instance.post('/midwife/logout')
             console.log(res.data)
             navigation('/auth')
         }
-        catch(err){
+        catch (err) {
             console.log(err)
         }
-        
+
+        try {
+            const res = await instance.post('/officer/logout')
+            console.log(res.data)
+            navigation('/auth')
+        }
+        catch (err) {
+            console.log(err)
+        }
+
     }
 
     return (
