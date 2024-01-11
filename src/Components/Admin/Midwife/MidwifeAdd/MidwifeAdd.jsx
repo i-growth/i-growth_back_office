@@ -29,7 +29,7 @@ export default function MidwifeAdd(props) {
     const submit = async (e) => {
         e.preventDefault();
 
-        if(selectedArea === "Select_an_Area"){
+        if (selectedArea === "Select_an_Area") {
             alert("Please select an area");
             document.getElementById('select_area_001001').focus();
             return;
@@ -66,11 +66,11 @@ export default function MidwifeAdd(props) {
 
     return (
         <div className='midwifeAdd-container'>
-            <div className="card-container" style={{ height: '80vh' }}>
+            <div className="card-container" style={{ height: '75vh' }}>
                 <div className="header">
                     <h4>Adding the Midwife</h4>
                 </div>
-                <form onSubmit={submit}>
+                <form onSubmit={submit} style={{ height: '80vh' }}>
                     <div className="input-section">
                         <div className="input-wrapper">
                             {/* <input type="text" name="category-name" placeholder='Enter the Select Area'  required /> */}
@@ -80,7 +80,7 @@ export default function MidwifeAdd(props) {
                                 <option value="otherOption">Login As a Medical Officer</option>
                             </select> */}
                             <select className='inputfieds' style={{ height: '35px', width: '91%' }} id='select_area_001001' onChange={handleAreaChange}>
-                                <option style={{display: 'none'}} value="Select_an_Area">Select an Area</option>
+                                <option style={{ display: 'none' }} value="Select_an_Area">Select an Area</option>
                                 {getArea.map(area => (
                                     <option key={area.area_id} value={area.area_id}>{area.area_name}</option>
                                 ))}
