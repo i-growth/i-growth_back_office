@@ -71,6 +71,16 @@ const NewsFeed = (props) => {
         getAllNews();
     }, [trigger]);
 
+    if(news.length === 0){
+        return(
+            <div className='newsFeed-container'>
+                <div className='card-fram'>
+                    <h1 style={{fontSize: 25}}>No News</h1>
+                </div>
+            </div>
+        )
+    }
+
     return (
         <div className="newsFeed-container">
             <div className="card-fram">
