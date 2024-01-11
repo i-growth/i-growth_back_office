@@ -13,30 +13,30 @@ export default function Admin() {
     const [active, setActive] = useState('midwife')
     const [authenticated, setAuthenticated] = useState(false)
 
-    useEffect(()=> {
-        const checkAuth = async() => {
-            try{
+    useEffect(() => {
+        const checkAuth = async () => {
+            try {
                 const res = await instance.get('/admin/check-auth')
                 console.log(res.data)
                 setAuthenticated(true)
             }
-            catch(err){
+            catch (err) {
                 setAuthenticated(false)
-                console.log({error: err})
+                console.log({ error: err })
                 navigation('/auth')
             }
         }
         checkAuth()
-    },[active])
+    }, [active])
 
-    if(authenticated) return (
+    if (authenticated) return (
         <div className='admin-container'>
             <Cover />
             <div className='navigation-container'>
                 <ul>
                     <li onClick={() => setActive('midwife')} style={active === 'midwife' ? { background: '#fff', color: 'green', fontWeight: 'bold' } : {}}>Midwife</li>
                     <li onClick={() => setActive('medical_officers')} style={active === 'medical_officers' ? { background: '#fff', color: 'green', fontWeight: 'bold' } : {}}>Medical officers</li>
-                    <li onClick={() => setActive('addNews')} style={active === 'addNews' ? { background: '#fff', color: 'green', fontWeight: 'bold' } : {}}>Add News Feeds</li>
+                    <li onClick={() => setActive('addNews')} style={active === 'addNews' ? { background: '#fff', color: 'green', fontWeight: 'bold' } : {}}>Add News</li>
                     <li onClick={() => setActive('news')} style={active === 'news' ? { background: '#fff', color: 'green', fontWeight: 'bold' } : {}}>News Feeds</li>
                     <li onClick={() => setActive('baby_details')} style={active === 'baby_details' ? { background: '#fff', color: 'green', fontWeight: 'bold' } : {}}>Baby Details</li>
                 </ul>
