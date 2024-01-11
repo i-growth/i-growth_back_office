@@ -46,7 +46,7 @@ export default function Admin() {
                 active === 'midwife' ? <Midwife /> :
                     active === 'medical_officers' ? <MedicalOfficer /> :
                         active === 'addNews' ? <AddNews /> :
-                            active === 'news' ? <NewsFeed /> :
+                            active === 'news' ? <NewsFeed user="admin" /> :
                                 active === 'baby_details' ? <p>baby_details</p> : null
             }
         </div>
