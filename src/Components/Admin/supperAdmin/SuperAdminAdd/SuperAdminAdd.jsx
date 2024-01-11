@@ -38,7 +38,7 @@ export default function MidwifeAdd(props) {
         setIsWaiting(true);
 
         const formData = {
-            name: e.target['user-name'].value,
+            username: e.target['user-name'].value,
             email: e.target['email'].value,
             area_id: selectedArea
         }
@@ -49,7 +49,7 @@ export default function MidwifeAdd(props) {
 
             if (res.status === 200) {
                 props.setAddAdmin(false);
-                // alert('Item Added Successfully');
+                alert('Sub Admin Added Successfully');
             }
         } catch (err) {
             console.log(err.response.data.message);
@@ -61,12 +61,12 @@ export default function MidwifeAdd(props) {
 
 
     return (
-        <div className='midwifeAdd-container'>
-            <div className="card-container" style={{ height: '75vh' }}>
+        <div className='superAdminAdd-container'>
+            <div className="card-container" style={{ height: '45vh' }}>
                 <div className="header">
                     <h4>Adding the Sub Admins</h4>
                 </div>
-                <form onSubmit={submit} style={{ height: '80vh' }}>
+                <form onSubmit={submit} style={{ height: '35vh' }}>
                     <div className="input-section">
                         <div className="input-wrapper">
                             {/* <input type="text" name="category-name" placeholder='Enter the Select Area'  required /> */}
