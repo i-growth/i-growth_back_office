@@ -17,7 +17,13 @@ const AddNews = () => {
         }
 
         try {
-            const res = await instance.post('/admin/add-news', formData);
+
+            const header = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }
+            const res = await instance.post('/admin/add-news', formData, header);
             console.log(res.data);
 
             if (res.status === 200) {
