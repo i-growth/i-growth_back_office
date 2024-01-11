@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import './Vaccine.scss'
-import { useNavigate } from "react-router-dom";
 import instance from '../../../utility/AxiosInstance';
 import { TbVaccine } from "react-icons/tb";
-import { FaArrowRight } from "react-icons/fa";
 
 export default function Vaccine() {
-
-    const Navigate = useNavigate();
 
     const [vaccine, setVaccine] = useState([]);
 
@@ -23,43 +19,15 @@ export default function Vaccine() {
     }, [])
 
     return (
-        // <div className="card-container">
-        //     {vaccine && vaccine.map((data, key) => (
-        //         <div className="card01" key={key}>
-        //             <h6 className="card-title"> {data.vaccine_name} </h6>
-        //             <div className="card_body">
-        //                 {data.note}
-        //             </div>
-        //             <button className="btn01" onClick={() => Navigate("/Midwife/Vaccination1")}>
-        //                 More
-        //             </button>
-
-        //         </div>
-        //     ))}
-        // </div>
-
-
-        //         <div className="main-container">
-        //   <div className="cards">
-        //     <div className="card card-1">
-        //       <div className="card__icon"><i className="fas fa-bolt"></i></div>
-        //       <p className="card__exit"><i className="fas fa-times"></i></p>
-        //       <h2 className="card__title">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
-        //       <p className="card__apply">
-        //         <a className="card__link" href="#">Apply Now <i className="fas fa-arrow-right"></i></a>
-        //       </p>
-        //   </div>
-        // </div>
-
         <div className='main-container'>
-            <div className='cards' >
+            <div className='card-fram' >
                 {vaccine && vaccine.map((data, key) => (
-                    <div className='card card-5' key={key}>
-                        <div className='card__icon'><TbVaccine size={35} />{data.vaccine_name}</div>
-                        <h2 className="card__body">{data.note}</h2>
-                        <p className="card__apply">
-                            <a className="card__link" href="#">See More <FaArrowRight /></a>
-                        </p>
+                    <div className='card' key={key}>
+                        <div className='vaccine-card-header'><TbVaccine size={25} /> <h3 style={{ marginLeft: '10px' }}> {data.vaccine_name} </h3></div>
+                        <div className='vaccine-card-body'>
+                            <div style={{ display: 'flex' }}><p>Month :</p><p style={{ marginLeft: "10px" }}>{data.vaccine_month}</p></div>
+                            <div style={{ textAlign: 'justify' }}>{data.note}</div>
+                        </div>
                     </div>
                 ))}
             </div>
