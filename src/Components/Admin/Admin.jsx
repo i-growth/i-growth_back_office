@@ -27,7 +27,7 @@ export default function Admin() {
             }
         }
         checkAuth()
-    },[])
+    },[active])
 
     if(authenticated) return (
         <div className='admin-container'>

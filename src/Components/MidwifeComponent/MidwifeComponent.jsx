@@ -29,7 +29,7 @@ export default function MinwifeComponent() {
         }
     }
     checkAuth()
-  },[])
+  },[active])
 
   if(authenticated) return (
     <div className='midwifeComponent-container'>

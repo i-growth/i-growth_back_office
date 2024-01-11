@@ -5,13 +5,52 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
 
-    const [active, setActive] = useState('midwife')
+    const [active, setActive] = useState('midwife');
+    const [loading, setLoading] = useState(true);
 
     const navigation = useNavigate()
 
     useEffect(() => {
-        console.log(active);
-    }, [active])
+        const checkAuth = async() => {
+            setLoading(true)
+            try{
+                const res = await instance.get('/midwife/check-auth')
+                console.log(res.data);
+                if(res.data){
+                    navigation('/midwife')
+                }
+            }
+            catch(err){
+                console.log(err);
+            }
+            
+            try{
+                const res = await instance.get('/admin/check-auth')
+                console.log(res.data);
+                if(res.data){
+                    navigation('/admin')
+                }
+            }
+            catch(err){
+                console.log(err);
+            }
+            
+            // try{
+            //     const res = await instance.get('/admin/check-auth')
+            //     console.log(res.data);
+            //     if(res.data){
+            //         navigation('/admin')
+            //     }
+            // }
+            // catch(err){
+            //     console.log(err);
+            // }
+
+            setLoading(false)
+        }
+
+        checkAuth()
+    }, [])
 
     const submitForm = (e) => {
         e.preventDefault();
@@ -56,7 +95,7 @@ export default function Login() {
         }
     }
 
-    return (
+    if(!loading) return (
         <div className='login-container'>
             <div className="login-card-container">
                 <div className="card-header">

@@ -1,12 +1,34 @@
 import React from 'react'
 import './cover.css'
 import Logo from '../../images/logo192.png'
+import instance from '../../utility/AxiosInstance'
+import { useNavigate } from 'react-router-dom'
 
-export default function cover() {
+export default function Cover() {
 
-    function logout() {
-        window.location.href = "http://localhost:3000/auth";
+    const navigation = useNavigate()
+
+    const logout = async() => {
+        try{
+            const res = await instance.post('/admin/logout')
+            console.log(res.data)
+            navigation('/auth')
+        }
+        catch(err){
+            console.log(err)
+        }
+        
+        try{
+            const res = await instance.post('/midwife/logout')
+            console.log(res.data)
+            navigation('/auth')
+        }
+        catch(err){
+            console.log(err)
+        }
+        
     }
+
     return (
         <div className='cover-container'>
             <div className='title'>
