@@ -40,7 +40,7 @@ export default function MedicalOfficerAdd(props) {
             area_id: selectedArea
         }
 
-        if(selectedArea === "select_area"){
+        if (selectedArea === "select_area") {
             alert("Please select an area");
             document.getElementById('select_area_002').focus();
             return;
@@ -48,11 +48,11 @@ export default function MedicalOfficerAdd(props) {
 
         setWaiting(true);
 
-        try{
+        try {
             const res = await instance.post('/admin/create-officer', formData);
             console.log(res.data);
             props.setTrigger((prevTrigger) => !prevTrigger);
-    
+
             if (res.status === 200) {
                 props.setDisplayMedicalOfficerAdd(false)
                 // alert('Item Added Successfully');
@@ -77,7 +77,7 @@ export default function MedicalOfficerAdd(props) {
                     <div className="input-section">
                         <div className="input-wrapper">
                             <select className='inputfieds' style={{ height: '35px', width: '91%' }} id='select_area_002' onChange={handleAreaChange}>
-                                <option value="select_area" style={{display: 'none'}}>Select an Area</option>
+                                <option value="select_area" style={{ display: 'none' }}>Select an Area</option>
                                 {getArea.length > 0 && getArea.map(area => (
                                     <option key={area.area_id} value={area.area_id}>{area.area_name}</option>
                                 ))}
@@ -85,7 +85,7 @@ export default function MedicalOfficerAdd(props) {
 
                             <input type="text" name="medicalOfficer-name" id='medicalOfficer-name' placeholder='Enter the medicalOfficer Name' className='inputfieds' required />
                             <input type="text" name="medicalOfficer-nic" id='medicalOfficer-nic' placeholder='Enter the NIC' className='inputfieds' required />
-                            <input type="date" name="medicalOfficer-service-start-date" id='medicalOfficer-service-start-date' placeholder='Enter the Service Start Date' className='inputfieds' required />
+                            <input type="date" name="medicalOfficer-service-start-date" id='medicalOfficer-service-start-date' title='Select the Service Start Date' placeholder='Select the Service Start Date' className='inputfieds' required />
                             <input type="text" name="medicalOfficer-service-id" id='medicalOfficer-service-id' placeholder='Enter the Service_Id' className='inputfieds' required />
                             <input type="text" name="medicalOfficer-email" id='medicalOfficer-email' placeholder='Enter the Email' className='inputfieds' required />
                             <input type="text" name="medicalOfficer-mobile" id='medicalOfficer-mobile' placeholder='Enter the Mobile Number' className='inputfieds' required />

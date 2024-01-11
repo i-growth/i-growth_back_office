@@ -38,7 +38,7 @@ export default function Admin() {
                     <li onClick={() => setActive('medical_officers')} style={active === 'medical_officers' ? { background: '#fff', color: 'green', fontWeight: 'bold' } : {}}>Medical officers</li>
                     <li onClick={() => setActive('addNews')} style={active === 'addNews' ? { background: '#fff', color: 'green', fontWeight: 'bold' } : {}}>Add News</li>
                     <li onClick={() => setActive('news')} style={active === 'news' ? { background: '#fff', color: 'green', fontWeight: 'bold' } : {}}>News Feeds</li>
-                    <li onClick={() => setActive('baby_details')} style={active === 'baby_details' ? { background: '#fff', color: 'green', fontWeight: 'bold' } : {}}>Baby Details</li>
+                    {/* <li onClick={() => setActive('baby_details')} style={active === 'baby_details' ? { background: '#fff', color: 'green', fontWeight: 'bold' } : {}}>Baby Details</li> */}
                 </ul>
             </div>
             {/* <Midwife /> */}
@@ -46,8 +46,8 @@ export default function Admin() {
                 active === 'midwife' ? <Midwife /> :
                     active === 'medical_officers' ? <MedicalOfficer /> :
                         active === 'addNews' ? <AddNews /> :
-                            active === 'news' ? <NewsFeed user="admin" /> :
-                                active === 'baby_details' ? <p>baby_details</p> : null
+                            active === 'news' ? <NewsFeed user="admin" /> : null
+                // active === 'baby_details' ? <p>baby_details</p> : null
             }
         </div>
     )

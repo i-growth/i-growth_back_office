@@ -5,7 +5,7 @@ import instance from '../../utility/AxiosInstance';
 
 const NewsCard = (props) => {
     const deleteNews = async () => {
-        const hasPrivilege = props.user === 'admin' || props.user === 'midwife';
+        const hasPrivilege = props.user === 'admin' || props.user === 'midwife' || props.user === 'officer';
 
         if (hasPrivilege) {
             const confirmDelete = window.confirm(`Are you sure, you want to delete "${props.title}"?`);
@@ -17,6 +17,8 @@ const NewsCard = (props) => {
                         apiUrl = `admin/news/${props.news_id}`;
                     } else if (props.user === 'midwife') {
                         apiUrl = `midwife/news/${props.news_id}`;
+                    } else if (props.user === 'officer') {
+                        apiUrl = `/officer/news/${props.news_id}`;
                     }
 
                     const res = await instance.delete(apiUrl);
