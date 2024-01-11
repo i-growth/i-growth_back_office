@@ -12,7 +12,6 @@ const AddNews = () => {
             title: e.target['news-title'].value,
             summary: e.target['news-content'].value,
             description: " ",
-            author: " ",
             file: e.target['news-image-file'].files[0]
         }
 
@@ -28,7 +27,7 @@ const AddNews = () => {
 
             if (res.status === 200) {
                 alert('Item Added Successfully');
-                document.getElementById("id").reset();
+                document.getElementById("news-send").reset();
             }
         }
         catch (err) {
@@ -41,7 +40,7 @@ const AddNews = () => {
         <div className='addNew-container'>
             <div id='add-news'>
                 <h3>Add News</h3>
-                <form onSubmit={submit}>
+                <form onSubmit={submit} id='news-send'>
                     <div className="row">
                         <label htmlFor="news-title">Title</label>
                         <input type="text" name='news-title' id='news-title' placeholder='Enter News Title' />
