@@ -1,40 +1,81 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './news.scss'
 import { CiTrash } from "react-icons/ci";
+import instance from '../../utility/AxiosInstance';
 
-const NewsCard = () => {
+const NewsCard = (props) => {
+
+    const deleteNews = async() => {
+
+        if(props.user === 'admin'){
+            try{
+                const res = await instance.delete(`admin/news/${props.news_id}`)
+                alert(res.data.message)
+                props.trigger(prv => !prv)
+            }
+            catch(err){
+                console.log(err)
+            }
+        }
+        else if(props.user === 'midwife'){
+            try{
+                const res = await instance.delete(`midwife/news/${props.news_id}`)
+                alert(res.data.message)
+                props.trigger(prv => !prv)
+            }
+            catch(err){
+                console.log(err)
+            }
+        }
+
+    }
     return (
         <div className="news">
             <div className="image">
-                <img src="https://www.newscutter.lk/wp-content/uploads/2022/10/Screenshot-2022-10-06-at-17.37.34-850x541.png" alt="sample_image" />
+                <img src={`http://localhost:3005/public/image/${props.image}`} alt="sample_image" />
             </div>
 
             <div className="content">
-                <h3 style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>Sample Title <CiTrash color='red' size={22} className='bin-icon' /></h3>
-                <p className="discretion">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi pariatur alias architecto repellendus necessitatibus similique quos quisquam delectus molestiae temporibus. Autem nemo at rerum qui commodi voluptatum quo. Illum, architecto.</p>
-                <p className='date'>2022-11-25</p>
+                <h3 style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>Sample Title <CiTrash color='red' size={22} className='bin-icon' onClick={deleteNews} /></h3>
+                <p className="discretion">{props.summary}</p>
+                <p className='date'>{props.date}</p>
             </div>
         </div>
     )
 }
 
-const NewsFeed = () => {
+const NewsFeed = (props) => {
+    const[news, setNews] = useState([])
+    const[trigger, setTrigger] = useState(false)
+    
+    useEffect(() => {
+        const getAllNews = async () => {
+            try{
+                const res = await instance.get('public/news')
+                setNews(res.data)
+                console.log(res.data);
+            }
+            catch(err){
+                console.log(err)
+            }
+        }
+
+        getAllNews()
+    }, [trigger])
+
     return (
         <div className='newsFeed-container'>
             <div className='card-fram'>
-                <NewsCard />
-                <NewsCard />
-                <NewsCard />
-                <NewsCard />
-                <NewsCard />
-                <NewsCard />
-                <NewsCard />
-                <NewsCard />
-                <NewsCard />
-                <NewsCard />
-                <NewsCard />
-                <NewsCard />
-                <NewsCard />
+                {
+                    news.map((item, index) => {
+                        const date = item.date.split('T')[0];
+                        return(
+                            <div key={item.news_id}>
+                                <NewsCard title={item.title} trigger={setTrigger} news_id={item.news_id} summary={item.summary} date={date} image={item.image} user={props.user} />
+                            </div>
+                        )
+                    })
+                }
             </div>
         </div>
     )
