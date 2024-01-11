@@ -92,8 +92,8 @@ export default function CreateAccount() {
             const res = await instance.post('/midwife/child', inputData);
 
             if (res.status === 200) {
-                // alert('Item Added Successfully');
                 document.getElementById("childAddForm").reset();
+                alert('Child Added Successfully');
             }
         } catch (err) {
             console.log(err.response.data.message);
@@ -383,7 +383,7 @@ export default function CreateAccount() {
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="parentName">Parent's Name:</label>
+                            <label htmlFor="parentName">Guardian's Name:</label>
                             <input
                                 required={true}
                                 type="text"
