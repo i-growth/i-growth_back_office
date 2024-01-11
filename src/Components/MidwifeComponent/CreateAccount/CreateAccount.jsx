@@ -103,6 +103,7 @@ export default function CreateAccount() {
     }
 
     const handleUpdateWindow = (parent) => {
+        setSelectedParent(parent.guardian_nic);
         setFatherName(parent.father_name);
         setMontherName(parent.mother_name);
         setPhone(parent.phone);
@@ -129,13 +130,11 @@ export default function CreateAccount() {
             address: e.target['address'].value,
         }
 
-        console.log(formData);
-
-        console.log(selectedParent.guardian_nic);
+        console.log(selectedParent);
 
         try {
             // Make PATCH request to update category
-            await instance.put(`/midwife/parent/${selectedParent.guardian_nic}`, formData);
+            await instance.put(`/midwife/parent/${selectedParent}`, formData);
 
             // Close the update popup
             setDisplayParerntUpdate(false);
@@ -188,7 +187,7 @@ export default function CreateAccount() {
                                                         <div className='update' setTrigger={setTrigger} onClick={() => handleUpdateWindow(data)}>Update</div>
                                                     </td>
 
-                                                    {displayParerntUpdate && selectedParent && selectedParent.gardian_nic === data.gardian_nic && (
+                                                    {displayParerntUpdate && (
                                                         <div className='parentUpdate-container'>
                                                             <div className="card-container">
                                                                 <div className="header">

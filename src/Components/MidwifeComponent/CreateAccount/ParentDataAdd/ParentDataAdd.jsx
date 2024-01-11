@@ -5,6 +5,7 @@ import instance from '../../../../utility/AxiosInstance';
 export default function ParentDataAdd(props) {
 
     const [getArea, setGetArea] = useState([]);
+    const [activeArea, setActiveArea] = useState();
 
     const [selectedArea, setSelectedArea] = useState("Select_an_Area");
 
@@ -16,6 +17,16 @@ export default function ParentDataAdd(props) {
                 if (res.data !== "No data found") {
                     setGetArea(res.data)
                     console.log(res.data)
+                }
+                else console.log("No data found");
+            }).catch(err => console.log(err))
+        
+            instance.get("/midwife/area")
+            .then(res => {
+                if (res.data !== "No data found") {
+                    setActiveArea(res.data.area)
+                    setSelectedArea(res.data.area);
+                    console.log(res.data.area)
                 }
                 else console.log("No data found");
             }).catch(err => console.log(err))
@@ -74,7 +85,7 @@ export default function ParentDataAdd(props) {
                 <form onSubmit={submit} style={{ height: '68vh' }}>
                     <div className="input-section">
                         <div className="input-wrapper">
-                            <select className='inputfieds' style={{ height: '35px', width: '91%' }} id='select_area_001003' onChange={handleAreaChange}>
+                            <select className='inputfieds' style={{ height: '35px', width: '91%' }} id='select_area_001003' onChange={handleAreaChange} value={activeArea} disabled={true}>
                                 <option style={{ display: 'none' }} value="Select_an_Area">Select an Area</option>
                                 {getArea.map(area => (
                                     <option key={area.area_id} value={area.area_id}>{area.area_name}</option>
