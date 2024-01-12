@@ -260,7 +260,7 @@ export default function Mifwife() {
                                                         <input type="text" name="midwife-nic" id='midwife-nic' placeholder='Enter the NIC' disabled={true} className='inputfieds' required value={nic} onChange={handleNicChange} />
                                                         <input type="text" name="midwife-service-start-date" id='midwife-service-start-date' disabled={true} placeholder='Enter the Service Start Date' className='inputfieds' required value={serviceStartDate} onChange={handleserviceStartDatehange} />
                                                         <input type="text" name="midwife-service-id" id='midwife-service-id' disabled={true} placeholder='Enter the Service_Id' className='inputfieds' required value={serviceId} onChange={handleServiceIdChange} />
-                                                        <input type="text" name="midwife-email" id='midwife-email' disabled={true} placeholder='Enter the Email' className='inputfieds' required value={email} onChange={handleEmailChange} />
+                                                        <input type="email" name="midwife-email" id='midwife-email' disabled={true} placeholder='Enter the Email' className='inputfieds' required value={email} onChange={handleEmailChange} />
                                                         <input type="text" name="midwife-mobile" id='midwife-mobile' placeholder='Enter the Mobile Number' className='inputfieds' required value={phone} onChange={handleMobileChange} />
                                                     </div>
                                                 </div>

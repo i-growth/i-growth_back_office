@@ -83,7 +83,7 @@ export default function MidwifeAdd(props) {
                             </select>
 
                             <input type="text" name="user-name" id='user-name' placeholder='Enter the User Name' className='inputfieds' required />
-                            <input type="text" name="email" id='email' placeholder='Enter the Email' className='inputfieds' required />
+                            <input type="email" name="email" id='email' placeholder='Enter the Email' className='inputfieds' required />
                         </div>
                     </div>
                     <div className="submission-btn">

@@ -20,8 +20,8 @@ export default function ParentDataAdd(props) {
                 }
                 else console.log("No data found");
             }).catch(err => console.log(err))
-        
-            instance.get("/midwife/area")
+
+        instance.get("/midwife/area")
             .then(res => {
                 if (res.data !== "No data found") {
                     setActiveArea(res.data.area)
@@ -96,7 +96,7 @@ export default function ParentDataAdd(props) {
                             <input type="text" name="mother-name" id='mother-name' placeholder='Enter the Mother Name' className='inputfieds' required />
                             <input type="text" name="father-name" id='father-name' placeholder='Enter the Father Number' className='inputfieds' required />
                             <input type="text" name="mobile" id='mobile' placeholder='Enter the Mobile Number' className='inputfieds' required />
-                            <input type="text" name="email" id='email' placeholder='Enter the Email Address' className='inputfieds' required />
+                            <input type="email" name="email" id='email' placeholder='Enter the Email Address' className='inputfieds' required />
                             <input type="text" name="address" id='address' placeholder='Enter the Address' className='inputfieds' required />
                         </div>
                     </div>
