@@ -11,28 +11,65 @@ export default function Profile() {
 
     const [trigger, setTrigger] = useState(false);
 
+    const [summery, setSummery] = useState()
+
+    const [profile, setProfile] = useState()
+
+    const [officerName, setOfficerName] = useState("")
+
+    const [phone, setPhone] = useState("")
+
+    const [oldPassword, setOldPassword] = useState("")
+
+    const [newPassword, setNewPassword] = useState("")
+
+    const [confirmPassword, setConfirmPassword] = useState("")
+
+    const handleOfficerName = (e) => {
+        setOfficerName(e.target.value);
+    };
+
+    const handlePhone = (e) => {
+        setPhone(e.target.value);
+    };
+
+    const handleOldPassword = (e) => {
+        setOldPassword(e.target.value);
+    };
+
+    const handleNewPassword = (e) => {
+        setNewPassword(e.target.value);
+    };
+
+    const handleConfirmPassword = (e) => {
+        setConfirmPassword(e.target.value);
+    };
+
     const submit = async (e) => {
         e.preventDefault();
 
+        if (newPassword !== confirmPassword) {
+            alert("Password don't match");
+            return;
+        }
+
         const formData = {
-            officer_name: e.target['medicalOfficer-name'].value,
-            service_start_date: e.target['medicalOfficer-service-start-date'].value,
-            nic: e.target['medicalOfficer-nic'].value,
-            email: e.target['medicalOfficer-email'].value,
-            phone: e.target['medicalOfficer-mobile'].value,
-            service_id: e.target['medicalOfficer-service-id'].value,
-            area_id: e.target['area'].value
+            name: e.target['officer-name'].value,
+            phone: e.target['phone'].value,
+            old_password: e.target['current-password'].value,
+            new_password: e.target['new-password'].value
         }
 
         try {
             // Make PATCH request to update category
-            await instance.put(`/admin/officer/`, formData);
-
+            await instance.put(`/officer/profile`, formData);
+            alert("Update Successful")
             // Close the update popup
             setTrigger(!trigger);
+            document.getElementById("officerUpdate").reset();
 
         } catch (error) {
-            console.error("Error updating Midwife: ", error);
+            console.error("Error updating Officer: ", error);
         }
     };
 
@@ -51,101 +88,50 @@ export default function Profile() {
             }
         }
         checkAuth()
+    }, [trigger])
+
+    useEffect(() => {
+        instance.get("/officer/profile")
+            .then(res => {
+                if (res.data !== "No data found") {
+                    setProfile(res.data)
+                    console.log(res.data)
+                }
+                else console.log("No data found");
+            }).catch(err => console.log(err))
     }, [])
 
-    if (authenticated) return (
-        // <div className='body'>
-        //     <h2 className='main_title'>My Profile</h2>
-        //     <div className='static_textbox'>
-        //         <div className='sectord1'>
-        //             <h4>Officer ID</h4>
-        //             <div className='input'>
-        //                 <input type="text" name='name' />
-        //             </div>
-        //         </div>
-        //         <div className='sectord2'>
-        //             <h4>Service ID</h4>
-        //             <div className='input'>
-        //                 <input type="text" name='name' />
-        //             </div>
-        //         </div>
-        //         <div className='sectord3'>
-        //             <h4>Area</h4>
-        //             <div className='input'>
-        //                 <input type="text" name='name' />
-        //             </div>
-        //         </div>
-        //     </div>
+    useEffect(() => {
+        instance.get("/officer/report-summary")
+            .then(res => {
+                if (res.data !== "No data found") {
+                    setSummery(res.data)
+                    console.log(res.data)
+                }
+                else console.log("No data found");
+            }).catch(err => console.log(err))
+    }, [])
 
-        //     <div className='update_unit'>
-        //         <div className='unit'>
-        //             <h4>Name</h4>
-        //             <div className='input'>
-        //                 <input type="text" name='name' />
-        //             </div>
-
-        //         </div>
-        //         <div className='unit'>
-        //             <h4>NIC</h4>
-        //             <div className='input'>
-        //                 <input type="text" name='NIC' />
-        //             </div>
-
-        //         </div>
-        //         <div className='unit'>
-        //             <h4>Email</h4>
-        //             <div className='input'>
-        //                 <input type="email" name='email' />
-        //             </div>
-
-        //         </div>
-        //         <div className='unit'>
-        //             <h4>Phone</h4>
-        //             <div className='input'>
-        //                 <input type="text" name='phone' />
-        //             </div>
-
-        //         </div>
-        //         <div className='unit'>
-        //             <h4>Current Password</h4>
-        //             <div className='input'>
-        //                 <input type="password" name='current_pass' />
-        //             </div>
-
-        //         </div>
-        //         <div className='unit'>
-        //             <h4>New Password</h4>
-        //             <div className='input'>
-        //                 <input type="password" name='new_password' />
-        //             </div>
-
-        //         </div>
-        //         <div id='update_button'>
-        //             <input type="submit" name='update' value='UPDATE' />
-        //         </div>
-        //     </div>
-
-
-
-        // </div>
-
+    if (authenticated && profile && summery) return (
         <div className='profile-container'>
             <div className='profile-top'><span>Medical Officer Profile</span></div>
             <div className='profile-bottom'>
                 <div className='buttom-left'>
                     <div className='left-header'>
-                        <div className='inputField-cover'><label>Officer ID : </label><input type="text" placeholder='Officer ID' disabled={true} /></div>
-                        <div className='inputField-cover'><label>Service ID : </label><input type="text" placeholder='Service ID' disabled={true} /></div>
-                        <div className='inputField-cover'><label>Area : </label><input className='area' type="text" placeholder='Area' disabled={true} /></div>
+                        <div className='inputField-cover'><label>Officer ID : </label><input type="text" placeholder='Officer ID' disabled={true} value={profile.officer_id} /></div>
+                        <div className='inputField-cover'><label>Service ID : </label><input type="text" placeholder='Service ID' disabled={true} value={profile.service_id} /></div>
+                        <div className='inputField-cover'><label>Area : </label><input className='area' type="text" placeholder='Area' disabled={true} value={profile.area_name} /></div>
                     </div>
                     <div className='left-body'>
-                        <form onSubmit={submit}>
-                            <div className='inputField-cover'><label>Name :</label><input type='text' placeholder='Name' /></div>
-                            <div className='inputField-cover'><label>NIC :</label><input type='text' placeholder='NIC' /></div>
-                            <div className='inputField-cover'><label>Email :</label><input type='text' placeholder='Email' /></div>
-                            <div className='inputField-cover'><label>Phone number :</label><input type='text' placeholder='Phone' /></div>
-                            <div className='inputField-cover'><label>Current Password :</label><input type='text' placeholder='Current Password' disabled={true} /></div>
-                            <div className='inputField-cover'><label>New Password :</label><input type='text' placeholder='New Password' /></div>
+                        <form onSubmit={submit} id='officerUpdate'>
+                            <div className='inputField-cover'><label>Name :</label><input onChange={handleOfficerName} value={officerName} type='text' id='officer-name' name='officer-name' /></div>
+                            <div className='inputField-cover'><label>NIC :</label><input value={profile.nic} type='text' placeholder='NIC' disabled={true} /></div>
+                            <div className='inputField-cover'><label>Email :</label><input value={profile.email} type='text' placeholder='Email' disabled={true} /></div>
+                            <div className='inputField-cover'><label>Phone number :</label><input onChange={handlePhone} value={profile.phone} type='text' id='phone' name='phone' /></div>
+                            {/* <div className='inputField-cover'><label>Address :</label><input type='text' placeholder='address' /></div> */}
+                            <div className='inputField-cover'><label>Current Password :</label><input value={oldPassword} onChange={handleOldPassword} type='text' placeholder='Current Password' id='current-password' name='current-password' /></div>
+                            <div className='inputField-cover'><label>New Password :</label><input value={newPassword} onChange={handleNewPassword} type='text' placeholder='New Password' id='new-password' name='new-password' /></div>
+                            <div className='inputField-cover'><label>Conform Password :</label><input value={confirmPassword} onChange={handleConfirmPassword} type='text' placeholder='Confirm Password' id='confirm-password' name='confirm-password' /></div>
                             <div className='profile-update-btn'>
                                 <input type="submit" value={"Update"} />
                             </div>
@@ -153,60 +139,21 @@ export default function Profile() {
                     </div>
                 </div>
                 <div className='butom-right'>
-                    <div className='right_box'>
-                        <div className='summery_title'>
-                            <h2>Summery Report</h2>
+                    <div className='summery-card'>
+                        <div className='summery-header'>
+                            <span>Summery Report</span>
                         </div>
-                        <div className='tot'>
-                            <div className='parent_tot'>
-                                <h3>Totel Parents</h3>
-                                <div className='count'>
-                                    <span><u>200</u></span>
-                                </div>
-                            </div>
-                            <div className='child_tot'>
-                                <h3>Totel Child</h3>
-                                <div className='count'>
-                                    <span><u>200</u></span>
-                                </div>
-                            </div>
+                        <div className='summery-body'>
+                            <div className='summery-body-cover'><span className='span-title' style={{ paddingRight: '50px' }}>Total Parent </span><span className='span-body'>:{summery.total_parent ?? 0}</span></div>
+                            <div className='summery-body-cover'><span className='span-title' style={{ paddingRight: '50px' }}>Total Child </span><span className='span-body'>:{summery.child_in_60_month ?? 0}</span></div>
+                            <div className='summery-body-cover'><span className='span-title' style={{ paddingRight: '65px' }}>Total Measurement's </span><span></span></div>
+                            <div className='summery-body-cover'><span className='span-title' style={{ paddingLeft: '50px' }}>Over Weight </span><span className='span-body'>:{summery.over_weight ?? 0}</span></div>
+                            <div className='summery-body-cover'><span className='span-title' style={{ paddingLeft: '50px' }}>Proper Weight </span><span className='span-body'>:{summery.proper_weight ?? 0}</span></div>
+                            <div className='summery-body-cover'><span className='span-title' style={{ paddingLeft: '50px' }}>Risk For Under Weight </span><span className='span-body'>:{summery.risk_for_under_weight ?? 0}</span></div>
+                            <div className='summery-body-cover'><span className='span-title' style={{ paddingLeft: '50px' }}>Medium Under Weight </span><span className='span-body'>:{summery.medium_under_weight ?? 0}</span></div>
+                            <div className='summery-body-cover'><span className='span-title' style={{ paddingLeft: '50px' }}>Sever Under Weight </span><span className='span-body'>:{summery.severe_under_weight ?? 0}</span></div>
                         </div>
-                        <div className='tot'>
-                            <h3>Totel Measurement's</h3>
-                            <div className='tot_title'>
-                                <h4>Over Weight</h4>
-                                <div className='count'>
-                                    <span><u>200</u></span>
-                                </div>
-                            </div>
-                            <div className='tot_title'>
-                                <h4>Proper Weight</h4>
-                                <div className='count'>
-                                    <span><u>200</u></span>
-                                </div>
-                            </div>
-                            <div className='tot_title'>
-                                <h4>Risk For Under Weight</h4>
-                                <div className='count'>
-                                    <span><u>200</u></span>
-                                </div>
-                            </div>
-                            <div className='tot_title'>
-                                <h4>Medium Under Weight</h4>
-                                <div className='count'>
-                                    <span><u>200</u></span>
-                                </div>
-                            </div>
-                            <div className='tot_title'>
-                                <h4>Sever Under Weight</h4>
-                                <div className='count'>
-                                    <span><u>200</u></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='button'>
-                            <input type="submit" name='submit' value='Download' id='button' />
-                        </div>
+                        <div className='download-button'><input type="submit" value={"Download"} /></div>
                     </div>
                 </div>
             </div>
