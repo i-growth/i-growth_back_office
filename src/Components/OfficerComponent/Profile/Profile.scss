@@ -270,6 +270,7 @@
 
         .butom-right {
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             width: 50%;
@@ -341,25 +342,25 @@
                         }
                     }
                 }
+            }
 
-                .download-button {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    width: 100%;
-                    height: 60px;
-                    // background-color: red;
+            .download-button {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                height: 60px;
+                // background-color: red;
 
-                    input {
-                        border: 1px solid black;
-                        border-radius: 6px;
-                        width: 200px;
-                        height: 40px;
+                input {
+                    border: 1px solid black;
+                    border-radius: 6px;
+                    width: 200px;
+                    height: 40px;
 
-                        &:hover {
-                            cursor: pointer;
-                            background-color: rgb(191, 118, 252);
-                        }
+                    &:hover {
+                        cursor: pointer;
+                        background-color: rgb(191, 118, 252);
                     }
                 }
             }

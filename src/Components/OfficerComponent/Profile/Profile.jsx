@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import './Profile.scss';
 import instance from '../../../utility/AxiosInstance';
 import { useNavigate } from 'react-router-dom'
 import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 export default function Profile() {
 
@@ -56,7 +58,7 @@ export default function Profile() {
             return;
         }
 
-        
+
         const formData = {
             name: name,
             phone: phone,
@@ -76,8 +78,8 @@ export default function Profile() {
 
         } catch (error) {
             console.log(error.response.data);
-            if(error.response.data){
-                if(error.response.data.message){
+            if (error.response.data) {
+                if (error.response.data.message) {
                     alert(error.response.data.message)
                 }
             }
@@ -125,6 +127,24 @@ export default function Profile() {
             }).catch(err => console.log(err))
     }, [])
 
+    const pdfRef = useRef();
+    const downloadPDF = () => {
+        const input = pdfRef.current;
+        html2canvas(input).then((canvas) => {
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('p', 'mm', 'a4', true);
+            const pdfwidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = pdf.internal.pageSize.getHeight();
+            const imgWidth = canvas.width;
+            const imgHeight = canvas.height;
+            const ratio = Math.min(pdfwidth / imgWidth, pdfHeight / imgHeight);
+            const imgX = (pdfwidth - imgWidth * ratio) / 2;
+            const imgY = 30;
+            pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+            pdf.save('summery.pdf');
+        });
+    };
+
     if (authenticated && profile && summery) return (
         <div className='profile-container'>
             <div className='profile-top'><span>Medical Officer Profile</span></div>
@@ -138,21 +158,21 @@ export default function Profile() {
                     <div className='left-body'>
                         <form onSubmit={submit} id='officerUpdate'>
                             <div className='inputField-cover'><label>Name :</label><input onChange={handleOfficerName} value={name} type='text' id='officer-name' name='officer-name' required={true} /></div>
-                            
+
                             <div className='inputField-cover'><label>NIC :</label><input value={profile.nic} type='text' placeholder='NIC' disabled={true} required={true} /></div>
-                            
+
                             <div className='inputField-cover'><label>Email :</label><input value={profile.email} type='text' placeholder='Email' disabled={true} required={true} /></div>
-                            
+
                             <div className='inputField-cover'><label>Phone number :</label><input onChange={handlePhone} value={phone} type='text' id='phone' name='phone' required={true} /></div>
-                            
+
                             {/* <div className='inputField-cover'><label>Address :</label><input type='text' placeholder='address' /></div> */}
-                            
+
                             <div className='inputField-cover'><label>Current Password :</label><input value={oldPass} onChange={handleOldPassword} type='text' placeholder='Current Password' id='current-password' name='current-password' /></div>
-                            
+
                             <div className='inputField-cover'><label>New Password :</label><input value={newPass} onChange={handleNewPassword} type='password' placeholder='New Password' id='new-password' name='new-password' /></div>
-                            
+
                             <div className='inputField-cover'><label>Conform Password :</label><input value={confirmPass} onChange={handleConfirmPassword} type='password' placeholder='Confirm Password' id='confirm-password' name='confirm-password' /></div>
-                            
+
                             <div className='profile-update-btn'>
                                 <input type="submit" value={"Update"} />
                             </div>
@@ -160,7 +180,7 @@ export default function Profile() {
                     </div>
                 </div>
                 <div className='butom-right'>
-                    <div className='summery-card'>
+                    <div className='summery-card' ref={pdfRef}>
                         <div className='summery-header'>
                             <span>Summery Report</span>
                         </div>
@@ -177,8 +197,8 @@ export default function Profile() {
                                 <Chart groups={summery.wight_group} />
                             </div>
                         </div>
-                        <div className='download-button'><input type="submit" value={"Download"} /></div>
                     </div>
+                    <div className='download-button'><input type="submit" onClick={downloadPDF} value={"Download"} /></div>
                 </div>
             </div>
         </div>
@@ -188,58 +208,58 @@ export default function Profile() {
 const Chart2 = (props) => {
     const groups = props.groups;
     return (
-      <PieChart
-        series={[
-          {
-            data: [
-              { id: 0, value: groups.over_weight, label: 'Over Weight' },
-              { id: 1, value: groups.proper_weight, label: 'Proper Weight' },
-              { id: 2, value: groups.risk_for_under_weight, label: 'Risk for Under Weight' },
-              { id: 3, value: groups.medium_under_weight, label: 'Medium Under Weight' },
-              { id: 4, value: groups.severe_under_weight, label: 'Severe Under Weight' },
-            ],
-          },
-        ]}
-        width={400}
-        height={200}
-      />
+        <PieChart
+            series={[
+                {
+                    data: [
+                        { id: 0, value: groups.over_weight, label: 'Over Weight' },
+                        { id: 1, value: groups.proper_weight, label: 'Proper Weight' },
+                        { id: 2, value: groups.risk_for_under_weight, label: 'Risk for Under Weight' },
+                        { id: 3, value: groups.medium_under_weight, label: 'Medium Under Weight' },
+                        { id: 4, value: groups.severe_under_weight, label: 'Severe Under Weight' },
+                    ],
+                },
+            ]}
+            width={400}
+            height={200}
+        />
     );
-  }
+}
 
 
 
-  
-  const Chart = (props) => {
+
+const Chart = (props) => {
     const groups = props.groups;
     let data = [
-        {value: groups.over_weight, label: 'Over Weight'},
-        {value: groups.proper_weight, label: 'Proper Weight'},
-        {value: groups.risk_for_under_weight, label: 'Risk for Under Weight'},
-        {value: groups.medium_under_weight, label: 'Medium Under Weight'},
-        {value: groups.severe_under_weight, label: 'Severe Under Weight'}
+        { value: groups.over_weight, label: 'Over Weight' },
+        { value: groups.proper_weight, label: 'Proper Weight' },
+        { value: groups.risk_for_under_weight, label: 'Risk for Under Weight' },
+        { value: groups.medium_under_weight, label: 'Medium Under Weight' },
+        { value: groups.severe_under_weight, label: 'Severe Under Weight' }
     ]
 
     const size = {
         width: 350,
         height: 350,
-      };
+    };
 
     return (
-      <PieChart
-        series={[
-          {
-            arcLabel: (item) => `${item.label} (${item.value})`,
-            arcLabelMinAngle: 45,
-            data,
-          },
-        ]}
-        sx={{
-          [`& .${pieArcLabelClasses.root}`]: {
-            fill: 'white',
-            fontWeight: 'bold',
-          },
-        }}
-        {...size}
-      />
+        <PieChart
+            series={[
+                {
+                    arcLabel: (item) => `${item.label} (${item.value})`,
+                    arcLabelMinAngle: 45,
+                    data,
+                },
+            ]}
+            sx={{
+                [`& .${pieArcLabelClasses.root}`]: {
+                    fill: 'white',
+                    fontWeight: 'bold',
+                },
+            }}
+            {...size}
+        />
     );
-  }
+}
