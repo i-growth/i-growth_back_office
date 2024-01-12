@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './Profile.scss';
 import instance from '../../../utility/AxiosInstance';
 import { useNavigate } from 'react-router-dom'
+import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart';
 
 export default function Profile() {
 
@@ -172,6 +173,9 @@ export default function Profile() {
                             <div className='summery-body-cover'><span className='span-title' style={{ paddingLeft: '50px' }}>Risk For Under Weight </span><span className='span-body'>:{summery.wight_group.risk_for_under_weight ?? 0}</span></div>
                             <div className='summery-body-cover'><span className='span-title' style={{ paddingLeft: '50px' }}>Medium Under Weight </span><span className='span-body'>:{summery.wight_group.medium_under_weight ?? 0}</span></div>
                             <div className='summery-body-cover'><span className='span-title' style={{ paddingLeft: '50px' }}>Sever Under Weight </span><span className='span-body'>:{summery.wight_group.severe_under_weight ?? 0}</span></div>
+                            <div>
+                                <Chart groups={summery.wight_group} />
+                            </div>
                         </div>
                         <div className='download-button'><input type="submit" value={"Download"} /></div>
                     </div>
@@ -180,3 +184,62 @@ export default function Profile() {
         </div>
     )
 }
+
+const Chart2 = (props) => {
+    const groups = props.groups;
+    return (
+      <PieChart
+        series={[
+          {
+            data: [
+              { id: 0, value: groups.over_weight, label: 'Over Weight' },
+              { id: 1, value: groups.proper_weight, label: 'Proper Weight' },
+              { id: 2, value: groups.risk_for_under_weight, label: 'Risk for Under Weight' },
+              { id: 3, value: groups.medium_under_weight, label: 'Medium Under Weight' },
+              { id: 4, value: groups.severe_under_weight, label: 'Severe Under Weight' },
+            ],
+          },
+        ]}
+        width={400}
+        height={200}
+      />
+    );
+  }
+
+
+
+  
+  const Chart = (props) => {
+    const groups = props.groups;
+    let data = [
+        {value: groups.over_weight, label: 'Over Weight'},
+        {value: groups.proper_weight, label: 'Proper Weight'},
+        {value: groups.risk_for_under_weight, label: 'Risk for Under Weight'},
+        {value: groups.medium_under_weight, label: 'Medium Under Weight'},
+        {value: groups.severe_under_weight, label: 'Severe Under Weight'}
+    ]
+
+    const size = {
+        width: 350,
+        height: 350,
+      };
+
+    return (
+      <PieChart
+        series={[
+          {
+            arcLabel: (item) => `${item.label} (${item.value})`,
+            arcLabelMinAngle: 45,
+            data,
+          },
+        ]}
+        sx={{
+          [`& .${pieArcLabelClasses.root}`]: {
+            fill: 'white',
+            fontWeight: 'bold',
+          },
+        }}
+        {...size}
+      />
+    );
+  }
