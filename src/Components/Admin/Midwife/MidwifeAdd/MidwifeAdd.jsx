@@ -10,7 +10,7 @@ export default function MidwifeAdd(props) {
     const [selectedArea, setSelectedArea] = useState("Select_an_Area");
 
     useEffect(() => {
-        instance.get("/public/areas")
+        instance.get("/admin/allowed-area")
             .then(res => {
                 if (res.data !== "No data found") {
                     setGetArea(res.data)

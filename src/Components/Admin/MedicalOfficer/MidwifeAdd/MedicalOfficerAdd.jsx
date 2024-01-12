@@ -10,7 +10,7 @@ export default function MedicalOfficerAdd(props) {
     const [isWaiting, setWaiting] = useState(false);
 
     useEffect(() => {
-        instance.get("/public/areas")
+        instance.get("/admin/allowed-area")
             .then(res => {
                 if (res.data !== "No data found") {
                     setGetArea(res.data)
