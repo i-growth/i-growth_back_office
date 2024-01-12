@@ -227,7 +227,7 @@ export default function MedicalOfficer() {
                                                         <div className='detail'><h4>Name :</h4>{selectedMedicalOfficer.officer_name}</div>
                                                         <div className='detail'><h4>Service ID :</h4>{selectedMedicalOfficer.service_id}</div>
                                                         <div className='detail'><h4>NIC :</h4>{selectedMedicalOfficer.nic}</div>
-                                                        <div className='detail'><h4>Service Start Date :</h4>{selectedMedicalOfficer.service_start_date}</div>
+                                                        <div className='detail'><h4>Service Start Date :</h4>{selectedMedicalOfficer.service_start_date.split('T')[0]}</div>
                                                         <div className='detail'><h4>Gmail :</h4>{selectedMedicalOfficer.email}</div>
                                                         <div className='detail'><h4>Mobile :</h4>{selectedMedicalOfficer.phone}</div>
                                                         <div className='detail'><h4>Area :</h4>{selectedMedicalOfficer.area_id}</div>
