@@ -204,7 +204,7 @@ export default function CreateAccount() {
                                                                             <input type="text" name="mother-name" id='mother-name' placeholder='Enter the Mother Name' className='inputfieds' value={motherName} required onChange={handleMontherNameChange} />
                                                                             <input type="text" name="father-name" id='father-name' placeholder='Enter the Father Number' className='inputfieds' value={fatherName} required onChange={handleFatherNameChange} />
                                                                             <input type="text" name="mobile" id='mobile' placeholder='Enter the Mobile Number' className='inputfieds' value={phone} required onChange={handlephoneChange} />
-                                                                            <input type="text" name="email" id='email' placeholder='Enter the Email Address' className='inputfieds' value={email} disabled={true} required onChange={handleAddressChange} />
+                                                                            <input type="email" name="email" id='email' placeholder='Enter the Email Address' className='inputfieds' value={email} disabled={true} required onChange={handleAddressChange} />
                                                                             <input type="text" name="address" id='address' placeholder='Enter the Address' className='inputfieds' value={address} required />
                                                                         </div>
                                                                     </div>

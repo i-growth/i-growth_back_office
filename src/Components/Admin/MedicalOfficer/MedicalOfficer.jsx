@@ -79,7 +79,7 @@ export default function MedicalOfficer() {
     }
 
     const handleUpdateWindow = (midwifes) => {
-        setMedicalOfficerName(midwifes.name);
+        setMedicalOfficerName(midwifes.officer_name);
         setNic(midwifes.nic);
         setServiceStartDate(midwifes.service_start_date);
         setEmail(midwifes.email);
@@ -281,7 +281,7 @@ export default function MedicalOfficer() {
                                                         <input type="text" name="medicalOfficer-nic" id='medicalOfficer-nic' disabled={true} placeholder='Enter the NIC' className='inputfieds' required value={nic} onChange={handleNicChange} />
                                                         <input type="text" name="medicalOfficer-service-start-date" disabled={true} id='medicalOfficer-service-start-date' placeholder='Enter the Service Start Date' className='inputfieds' required value={serviceStartDate} onChange={handleserviceStartDatehange} />
                                                         <input type="text" name="medicalOfficer-service-id" disabled={true} id='medicalOfficer-service-id' placeholder='Enter the Service_Id' className='inputfieds' required value={serviceId} onChange={handleServiceIdChange} />
-                                                        <input type="text" name="medicalOfficer-email" disabled={true} id='medicalOfficer-email' placeholder='Enter the Email' className='inputfieds' required value={email} onChange={handleEmailChange} />
+                                                        <input type="email" name="medicalOfficer-email" disabled={true} id='medicalOfficer-email' placeholder='Enter the Email' className='inputfieds' required value={email} onChange={handleEmailChange} />
                                                         <input type="text" name="medicalOfficer-mobile" id='medicalOfficer-mobile' placeholder='Enter the Mobile Number' className='inputfieds' required value={phone} onChange={handleMobileChange} />
                                                     </div>
                                                 </div>
