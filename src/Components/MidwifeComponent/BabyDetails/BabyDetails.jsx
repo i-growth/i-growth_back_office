@@ -111,7 +111,7 @@ export default function BabyDetails() {
 
     const [selectedBaby, setSelectedBaby] = useState(null);
 
-    const [apiData, setApiData] = useState(null);
+    const [apiData, setApiData] = useState([]);
 
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -119,7 +119,6 @@ export default function BabyDetails() {
         const getData = async () => {
             try {
                 const res = await instance.get('/midwife/child');
-                console.log("USHANNNNNNNNNNNNNN", res.data);
                 setApiData(res.data);
             }
             catch (err) {
