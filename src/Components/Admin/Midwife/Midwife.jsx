@@ -206,7 +206,7 @@ export default function Mifwife() {
                                                         <div className='detail'><h4>Name :</h4>{selectedMidwife.name}</div>
                                                         <div className='detail'><h4>Service ID :</h4>{selectedMidwife.service_id}</div>
                                                         <div className='detail'><h4>NIC :</h4>{selectedMidwife.nic}</div>
-                                                        <div className='detail'><h4>Service Start Date :</h4>{selectedMidwife.service_start_date}</div>
+                                                        <div className='detail'><h4>Service Start Date :</h4>{selectedMidwife.service_start_date.split('T')[0]}</div>
                                                         <div className='detail'><h4>Gmail :</h4>{selectedMidwife.email}</div>
                                                         <div className='detail'><h4>Mobile :</h4>{selectedMidwife.phone}</div>
                                                         <div className='detail'><h4>Area :</h4>{selectedMidwife.area_name}</div>
