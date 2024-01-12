@@ -265,13 +265,13 @@ export default function MedicalOfficer() {
                                     <div className='midwifeAdd-container'>
                                         <div className="card-container" style={{ height: '80vh' }}>
                                             <div className="header">
-                                                <h4>Update the Midwife</h4>
+                                                <h4>Update the Medical Officers</h4>
                                             </div>
                                             <form onSubmit={submit}>
                                                 <div className="input-section">
                                                     <div className="input-wrapper">
                                                         {/* <input type="text" name="category-name" placeholder='Enter the Select Area'  required /> */}
-                                                        <select id='area' name='area' className='inputfieds' style={{ height: '35px', width: '91%' }} value={selectedArea} onChange={handleAreaChange}>
+                                                        <select id='area' name='area' className='inputfieds' style={{ height: '35px', width: '91%' }} value={medicalOfficer[0].area_id} disabled onChange={handleAreaChange}>
                                                             {/* <option value="">Select an Area</option> */}
                                                             {getArea.map(area => (
                                                                 <option key={area.area_id} value={area.area_id}>{area.area_name}</option>
