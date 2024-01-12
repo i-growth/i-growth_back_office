@@ -15,18 +15,20 @@ export default function Profile() {
 
     const [profile, setProfile] = useState()
 
-    const [officerName, setOfficerName] = useState("")
+    // -------------------------------------
+
+    const [name, setName] = useState("")
 
     const [phone, setPhone] = useState("")
 
-    const [oldPassword, setOldPassword] = useState("")
+    const [oldPass, setOldPass] = useState("")
 
-    const [newPassword, setNewPassword] = useState("")
+    const [newPass, setNewPass] = useState("")
 
-    const [confirmPassword, setConfirmPassword] = useState("")
+    const [confirmPass, setConfirmPass] = useState("")
 
     const handleOfficerName = (e) => {
-        setOfficerName(e.target.value);
+        setName(e.target.value)
     };
 
     const handlePhone = (e) => {
@@ -34,30 +36,31 @@ export default function Profile() {
     };
 
     const handleOldPassword = (e) => {
-        setOldPassword(e.target.value);
+        setOldPass(e.target.value);
     };
 
     const handleNewPassword = (e) => {
-        setNewPassword(e.target.value);
+        setNewPass(e.target.value);
     };
 
     const handleConfirmPassword = (e) => {
-        setConfirmPassword(e.target.value);
+        setConfirmPass(e.target.value);
     };
 
     const submit = async (e) => {
         e.preventDefault();
 
-        if (newPassword !== confirmPassword) {
+        if (newPass !== confirmPass) {
             alert("Password don't match");
             return;
         }
 
+        
         const formData = {
-            name: e.target['officer-name'].value,
-            phone: e.target['phone'].value,
-            old_password: e.target['current-password'].value,
-            new_password: e.target['new-password'].value
+            name: name,
+            phone: phone,
+            old_password: oldPass,
+            new_password: newPass
         }
 
         try {
@@ -66,10 +69,17 @@ export default function Profile() {
             alert("Update Successful")
             // Close the update popup
             setTrigger(!trigger);
-            document.getElementById("officerUpdate").reset();
+            setOldPass("")
+            setNewPass("")
+            setConfirmPass("")
 
         } catch (error) {
-            console.error("Error updating Officer: ", error);
+            console.log(error.response.data);
+            if(error.response.data){
+                if(error.response.data.message){
+                    alert(error.response.data.message)
+                }
+            }
         }
     };
 
@@ -95,6 +105,8 @@ export default function Profile() {
             .then(res => {
                 if (res.data !== "No data found") {
                     setProfile(res.data)
+                    setName(res.data.officer_name)
+                    setPhone(res.data.phone)
                     console.log(res.data)
                 }
                 else console.log("No data found");
@@ -124,14 +136,22 @@ export default function Profile() {
                     </div>
                     <div className='left-body'>
                         <form onSubmit={submit} id='officerUpdate'>
-                            <div className='inputField-cover'><label>Name :</label><input onChange={handleOfficerName} value={officerName} type='text' id='officer-name' name='officer-name' /></div>
-                            <div className='inputField-cover'><label>NIC :</label><input value={profile.nic} type='text' placeholder='NIC' disabled={true} /></div>
-                            <div className='inputField-cover'><label>Email :</label><input value={profile.email} type='text' placeholder='Email' disabled={true} /></div>
-                            <div className='inputField-cover'><label>Phone number :</label><input onChange={handlePhone} value={profile.phone} type='text' id='phone' name='phone' /></div>
+                            <div className='inputField-cover'><label>Name :</label><input onChange={handleOfficerName} value={name} type='text' id='officer-name' name='officer-name' required={true} /></div>
+                            
+                            <div className='inputField-cover'><label>NIC :</label><input value={profile.nic} type='text' placeholder='NIC' disabled={true} required={true} /></div>
+                            
+                            <div className='inputField-cover'><label>Email :</label><input value={profile.email} type='text' placeholder='Email' disabled={true} required={true} /></div>
+                            
+                            <div className='inputField-cover'><label>Phone number :</label><input onChange={handlePhone} value={phone} type='text' id='phone' name='phone' required={true} /></div>
+                            
                             {/* <div className='inputField-cover'><label>Address :</label><input type='text' placeholder='address' /></div> */}
-                            <div className='inputField-cover'><label>Current Password :</label><input value={oldPassword} onChange={handleOldPassword} type='text' placeholder='Current Password' id='current-password' name='current-password' /></div>
-                            <div className='inputField-cover'><label>New Password :</label><input value={newPassword} onChange={handleNewPassword} type='text' placeholder='New Password' id='new-password' name='new-password' /></div>
-                            <div className='inputField-cover'><label>Conform Password :</label><input value={confirmPassword} onChange={handleConfirmPassword} type='text' placeholder='Confirm Password' id='confirm-password' name='confirm-password' /></div>
+                            
+                            <div className='inputField-cover'><label>Current Password :</label><input value={oldPass} onChange={handleOldPassword} type='text' placeholder='Current Password' id='current-password' name='current-password' /></div>
+                            
+                            <div className='inputField-cover'><label>New Password :</label><input value={newPass} onChange={handleNewPassword} type='password' placeholder='New Password' id='new-password' name='new-password' /></div>
+                            
+                            <div className='inputField-cover'><label>Conform Password :</label><input value={confirmPass} onChange={handleConfirmPassword} type='password' placeholder='Confirm Password' id='confirm-password' name='confirm-password' /></div>
+                            
                             <div className='profile-update-btn'>
                                 <input type="submit" value={"Update"} />
                             </div>
@@ -147,11 +167,11 @@ export default function Profile() {
                             <div className='summery-body-cover'><span className='span-title' style={{ paddingRight: '50px' }}>Total Parent </span><span className='span-body'>:{summery.total_parent ?? 0}</span></div>
                             <div className='summery-body-cover'><span className='span-title' style={{ paddingRight: '50px' }}>Total Child </span><span className='span-body'>:{summery.child_in_60_month ?? 0}</span></div>
                             <div className='summery-body-cover'><span className='span-title' style={{ paddingRight: '65px' }}>Total Measurement's </span><span></span></div>
-                            <div className='summery-body-cover'><span className='span-title' style={{ paddingLeft: '50px' }}>Over Weight </span><span className='span-body'>:{summery.over_weight ?? 0}</span></div>
-                            <div className='summery-body-cover'><span className='span-title' style={{ paddingLeft: '50px' }}>Proper Weight </span><span className='span-body'>:{summery.proper_weight ?? 0}</span></div>
-                            <div className='summery-body-cover'><span className='span-title' style={{ paddingLeft: '50px' }}>Risk For Under Weight </span><span className='span-body'>:{summery.risk_for_under_weight ?? 0}</span></div>
-                            <div className='summery-body-cover'><span className='span-title' style={{ paddingLeft: '50px' }}>Medium Under Weight </span><span className='span-body'>:{summery.medium_under_weight ?? 0}</span></div>
-                            <div className='summery-body-cover'><span className='span-title' style={{ paddingLeft: '50px' }}>Sever Under Weight </span><span className='span-body'>:{summery.severe_under_weight ?? 0}</span></div>
+                            <div className='summery-body-cover'><span className='span-title' style={{ paddingLeft: '50px' }}>Over Weight </span><span className='span-body'>:{summery.wight_group.over_weight ?? 0}</span></div>
+                            <div className='summery-body-cover'><span className='span-title' style={{ paddingLeft: '50px' }}>Proper Weight </span><span className='span-body'>:{summery.wight_group.proper_weight ?? 0}</span></div>
+                            <div className='summery-body-cover'><span className='span-title' style={{ paddingLeft: '50px' }}>Risk For Under Weight </span><span className='span-body'>:{summery.wight_group.risk_for_under_weight ?? 0}</span></div>
+                            <div className='summery-body-cover'><span className='span-title' style={{ paddingLeft: '50px' }}>Medium Under Weight </span><span className='span-body'>:{summery.wight_group.medium_under_weight ?? 0}</span></div>
+                            <div className='summery-body-cover'><span className='span-title' style={{ paddingLeft: '50px' }}>Sever Under Weight </span><span className='span-body'>:{summery.wight_group.severe_under_weight ?? 0}</span></div>
                         </div>
                         <div className='download-button'><input type="submit" value={"Download"} /></div>
                     </div>
