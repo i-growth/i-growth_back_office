@@ -25,15 +25,15 @@ const GetVaccine = (props) => {
         getData()
     }, [childID, trigger])
 
-    const makeAsTaken = async (vaccineID) => {
-        console.log(vaccineID);
+    const makeAsTaken = async (time_table_id, vaccine_id) => {
+        console.log(time_table_id, vaccine_id);
 
         // Ask yes no question from user to make as taken confirm
         const userConfirmation = window.confirm("Are you sure you want to make as taken?");
 
         if (userConfirmation){
             try{
-                const res = await instance.post(`/midwife/child/vaccine/${childID}/${vaccineID}`);
+                const res = await instance.post(`/midwife/child/vaccine/${childID}/${time_table_id}/${vaccine_id}`);
                 console.log(res.data);
                 setTrigger(!trigger);
                 alert("Successfully made as taken")
@@ -52,7 +52,7 @@ const GetVaccine = (props) => {
                 <div className='vaccine-fram' key={index} style={data.status === "eligible" ? { background: '#98fb98' } : data.status === "not_eligible" ? { background: '#dcdcdc' } : data.status === "taken" ? { background: '#6495ed' } : null}>
                     <p className='vaccine_name'>{data.vaccine_name}</p>
                     {
-                        data.status === "eligible" && <button onClick={() => makeAsTaken(data.vaccine_id)}>Make as taken</button>
+                        data.status === "eligible" && <button onClick={() => makeAsTaken(data.time_table_id, data.vaccine_id)}>Make as taken</button>
                     }
                 </div>
             ))}
