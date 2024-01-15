@@ -7,7 +7,7 @@ import instance from '../../../utility/AxiosInstance'
 const GetVaccine = (props) => {
 
     const [vaccine, setVaccine] = useState(null);
-    const[trigger, setTrigger] = useState(false);
+    const [trigger, setTrigger] = useState(false);
 
     const childID = props.childID;
 
@@ -31,14 +31,14 @@ const GetVaccine = (props) => {
         // Ask yes no question from user to make as taken confirm
         const userConfirmation = window.confirm("Are you sure you want to make as taken?");
 
-        if (userConfirmation){
-            try{
+        if (userConfirmation) {
+            try {
                 const res = await instance.post(`/midwife/child/vaccine/${childID}/${time_table_id}/${vaccine_id}`);
                 console.log(res.data);
                 setTrigger(!trigger);
                 alert("Successfully made as taken")
             }
-            catch(err){
+            catch (err) {
                 console.log(err);
                 alert("Can't make as taken")
             }
@@ -185,7 +185,7 @@ export default function BabyDetails() {
                                                 </div> */}
                                             </td>
 
-                                            {showDetail && selectedBaby && selectedBaby.no === data.no && (
+                                            {showDetail && selectedBaby && selectedBaby.child_id === data.child_id && (
                                                 <div className='babyDetail-view-container'>
                                                     <div className="cardView">
                                                         <div className="close-icon"><AiFillCloseCircle size={25} color='red' className='icon' onClick={handleCloseViewDetail} /></div>
