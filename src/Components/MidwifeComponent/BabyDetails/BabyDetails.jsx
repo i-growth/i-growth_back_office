@@ -218,7 +218,7 @@ export default function BabyDetails() {
                                                                     <h3>Development Activites</h3>
                                                                     <div className='development-activites-top'>
                                                                         {month.map((data, index) => (
-                                                                            <div className={selectedMonth === data.no ? 'month-fram active': 'month-fram'} key={index} onClick={() => setSelectedMonth(data.no)}>
+                                                                            <div className={selectedMonth === data.no ? 'month-fram active' : 'month-fram'} key={index} onClick={() => setSelectedMonth(data.no)}>
                                                                                 <p>{data.month}</p>
                                                                             </div>
                                                                         ))}
@@ -252,7 +252,7 @@ const DevelopmentActivityTable = (props) => {
     const child_id = props.childID;
     const selected_month = props.selectedMonth;
 
-    const[activity, setActivity] = useState([]);
+    const [activity, setActivity] = useState([]);
 
     useEffect(() => {
         const getData = async () => {
@@ -266,17 +266,17 @@ const DevelopmentActivityTable = (props) => {
             }
         }
         getData()
-    },[child_id, selected_month])
+    }, [child_id, selected_month])
 
-    if(activity.length < 1) return (
+    if (activity.length < 1) return (
         <p>No Activities</p>
     )
-    
+
     return (
-        <table style={{ width: '80%', height: '50%' }}>
+        <table style={{ width: '80%', height: '20px' }}>
             {
                 activity.map((data, index) => {
-                    if(data.activity_month === selected_month) return (
+                    if (data.activity_month === selected_month) return (
                         <tr key={index}>
                             <td className='number'>{index + 1}</td>
                             <td>{data.activity_name}</td>
