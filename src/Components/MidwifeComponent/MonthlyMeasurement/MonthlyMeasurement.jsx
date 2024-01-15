@@ -78,6 +78,8 @@ export default function MonthlyMeasurement() {
                 return
             }
 
+
+
             if (res.data.message === "Child growth detail not found") {
                 console.log(res.data.child);
                 setLastMonthHeight(null)
@@ -133,6 +135,14 @@ export default function MonthlyMeasurement() {
             }
             catch(err){
                 console.log(err)
+            }
+
+            if(month === 0){
+                alert("This is the first month of the child. Please add the data after age of 1 month")
+                setCurrentMonthUpdateDisable(true)
+            }
+            else{
+                setCurrentMonthUpdateDisable(false)
             }
 
         }
