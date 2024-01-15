@@ -335,6 +335,8 @@
                                                 grid-gap: 15px;
                                                 // background-color: red;
 
+                                                
+
                                                 .month-fram {
                                                     display: flex;
                                                     align-items: center;
@@ -345,10 +347,16 @@
                                                     background-color: white;
                                                     border-radius: 8px;
                                                     box-shadow: 0 4px 16px rgba(17,17,26,.1), 0 8px 24px rgba(17,17,26,.1), 0 16px 56px rgba(17,17,26,.1);
-                                                    
+                                                
+
                                                     &:hover {
                                                         cursor: pointer;
                                                     }
+                                                }
+
+                                                .active{
+                                                    background: rgb(25, 48, 255);
+                                                    color: white;
                                                 }
                                             }
 
