@@ -122,14 +122,13 @@ export default function MonthlyMeasurement() {
                                 head_cricumference: res.data.head_cricumference
                             }
                         })
-                        setCurrentMonthUpdateDisable(true)
+                        alert("Current month data already exist")
+                        setCurrentMonthUpdateDisable(() => true)
+                        return
                     }
                     else{
                         setCurrentMonthUpdateDisable(false)
                     }
-                }
-                else{
-
                 }
                 
             }
@@ -140,6 +139,7 @@ export default function MonthlyMeasurement() {
             if(month === 0){
                 alert("This is the first month of the child. Please add the data after age of 1 month")
                 setCurrentMonthUpdateDisable(true)
+                return
             }
             else{
                 setCurrentMonthUpdateDisable(false)
