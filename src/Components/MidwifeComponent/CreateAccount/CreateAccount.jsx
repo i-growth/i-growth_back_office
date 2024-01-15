@@ -320,7 +320,7 @@ export default function CreateAccount() {
 
 
                         <div className="form-group">
-                            <label htmlFor="gender">Registration Number:</label>
+                            <label htmlFor="gender">Birth Certificate Number:</label>
                             <input
                                 required={true}
                                 type="text"
