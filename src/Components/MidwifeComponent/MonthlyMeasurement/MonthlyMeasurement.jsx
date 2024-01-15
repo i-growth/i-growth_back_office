@@ -18,6 +18,8 @@ export default function MonthlyMeasurement() {
     const [searchData, setSearchData] = useState("");
     const [allData, setAllData] = useState(null);
     const [bogTableTrigger, setBogTableTrigger] = useState(false);
+    const [btnName] = useState("Add Data")
+    const [currentMonthUpdateDisable, setCurrentMonthUpdateDisable] = useState(false)
 
 
     const submit = async (e) => {
@@ -62,11 +64,14 @@ export default function MonthlyMeasurement() {
             console.log(err)
         }
     }
+    
 
     const pressSearch = async () => {
+        setCurrentMonthUpdateDisable(false)
+        var month = null;
         try {
             const res = await instance.get(`/midwife/child/last-growth_detail/${searchData}`)
-
+            console.log("GET DATA", res.data);
             if (res.data.message === "Not privileges") {
                 setLastMonthHeight(null)
                 alert("Not privileges")
@@ -74,26 +79,60 @@ export default function MonthlyMeasurement() {
             }
 
             if (res.data.message === "Child growth detail not found") {
+                console.log(res.data.child);
                 setLastMonthHeight(null)
                 setInputData({
                     child_id: res.data.child.child_id,
                     child_name: res.data.child.child_name,
-                    month: 1,
+                    month: parseInt(res.data.child.months_difference),
                     weight: "",
                     height: "",
                     head_cricumference: "",
                 })
+                month = res.data.child.months_difference
             }
             else {
                 setLastMonthHeight(res.data.height)
                 setInputData({
                     child_id: res.data.child_id,
                     child_name: res.data.child_name,
-                    month: parseInt(res.data.month) + 1,
+                    month: parseInt(res.data.months_difference),
                     weight: "",
                     height: "",
                     head_cricumference: "",
                 })
+                month = res.data.months_difference
+            }
+
+            
+
+            // Check Exist Of Child Growth Detail for This Month
+            try{
+                const res = await instance.get(`/midwife/child/last-growth-data/${searchData}`)
+                console.log(res.data);
+                if(res.data.bmi){
+                    if(res.data.month === parseInt(month)){
+                        setInputData(data => {
+                            return {
+                                ...data,
+                                weight: res.data.weight,
+                                height: res.data.height,
+                                head_cricumference: res.data.head_cricumference
+                            }
+                        })
+                        setCurrentMonthUpdateDisable(true)
+                    }
+                    else{
+                        setCurrentMonthUpdateDisable(false)
+                    }
+                }
+                else{
+
+                }
+                
+            }
+            catch(err){
+                console.log(err)
             }
 
         }
@@ -178,17 +217,24 @@ export default function MonthlyMeasurement() {
                             </div>
                             <div className='form-group'>
                                 <label>Weight:</label>
-                                <input type='number' min={1} step="0.1" value={inputData.weight} disabled={inputData.child_id === "" || inputData.child_id === null} onChange={(e) => setInputData({ ...inputData, weight: e.target.value })} name='weight' id='weight' required />
+                                <input type='number' min={1} step="0.1" value={inputData.weight} disabled={inputData.child_id === "" || inputData.child_id === null || currentMonthUpdateDisable} onChange={(e) => setInputData({ ...inputData, weight: e.target.value })} name='weight' id='weight' required />
                             </div>
                             <div className='form-group'>
                                 <label>Height(Meters):</label>
-                                <input type='number' min={1} step="0.1" name='height' value={inputData.height} disabled={inputData.child_id === "" || inputData.child_id === null} onChange={(e) => setInputData({ ...inputData, height: e.target.value })} id='c_height' required />
+                                <input type='number' min={1} step="0.1" name='height' value={inputData.height} disabled={inputData.child_id === "" || inputData.child_id === null || currentMonthUpdateDisable} onChange={(e) => setInputData({ ...inputData, height: e.target.value })} id='c_height' required />
                             </div>
                             <div className='form-group'>
                                 <label>Head Circumference:</label>
-                                <input type='number' min={1} step="0.1" value={inputData.head_cricumference} disabled={inputData.child_id === "" || inputData.child_id === null} onChange={(e) => setInputData({ ...inputData, head_cricumference: e.target.value })} name='headCircumference' id='headCircumference' required />
+                                <input type='number' min={1} step="0.1" value={inputData.head_cricumference} disabled={inputData.child_id === "" || inputData.child_id === null || currentMonthUpdateDisable} onChange={(e) => setInputData({ ...inputData, head_cricumference: e.target.value })} name='headCircumference' id='headCircumference' required />
                             </div>
-                            <input className="button" title={inputData.child_id === "" || inputData.child_id === null ? 'Please insert child id' : 'Add Data'} type="submit" style={inputData.child_id === "" || inputData.child_id === null ? { background: 'gray', cursor: 'not-allowed' } : null} disabled={inputData.child_id === "" || inputData.child_id === null} />
+                            {
+                                currentMonthUpdateDisable ?
+                                    <div className='form-group'>
+                                        <label  className="button" style={{background: 'gray', textAlign:'center', cursor: 'not-allowed', width: '94%'}}>Current Month Data Already Exist</label>
+                                    </div>
+                                    : <input className="button" title={inputData.child_id === "" || inputData.child_id === null ? 'Please insert child id' : 'Add Data'} type="submit" style={inputData.child_id === "" || inputData.child_id === null ? { background: 'gray', cursor: 'not-allowed' } : null} disabled={inputData.child_id === "" || inputData.child_id === null || currentMonthUpdateDisable} value={btnName} />
+                            }
+                            
                         </form>
                     </div>
                 </div>
