@@ -86,7 +86,7 @@ export default function ParentDataAdd(props) {
     
                 if (res.status === 200) {
                     props.setDisplayParentAdd(false);
-                    // alert('Item Added Successfully');
+                    alert('Parent Data Successfully');
                 }
             } catch (err) {
                 console.log(err.response.data.message);

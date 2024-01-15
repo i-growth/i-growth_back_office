@@ -299,7 +299,7 @@ export default function CreateAccount() {
                             />
                         </div>
 
-                        <div className="form-group">
+                        {/* <div className="form-group">
                             <label htmlFor="gender">Gender:</label>
                             <input
                                 required={true}
@@ -308,7 +308,17 @@ export default function CreateAccount() {
                                 name="gender"
                                 onChange={e => setInputData({ ...inputData, child_gender: e.target.value })}
                             />
+                        </div> */}
+
+                        <div className="form-group">
+                            <label htmlFor="gender">Gender:</label>
+                            <select name="gender" id="gender" onChange={e => setInputData({ ...inputData, child_gender: e.target.value || 'Male' })}>
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
+                            </select>
                         </div>
+
+
                         <div className="form-group">
                             <label htmlFor="gender">Registration Number:</label>
                             <input
@@ -319,7 +329,7 @@ export default function CreateAccount() {
                                 onChange={e => setInputData({ ...inputData, child_birth_certificate_no: e.target.value })}
                             />
                         </div>
-                        <div className="form-group">
+                        {/* <div className="form-group">
                             <label htmlFor="parentName">Guardian's Name:</label>
                             <input
                                 required={true}
@@ -328,7 +338,7 @@ export default function CreateAccount() {
                                 name="parentName"
                                 onChange={e => setInputData({ ...inputData, parent_name: e.target.value })}
                             />
-                        </div>
+                        </div> */}
                         <button type="submit">Submit</button>
                     </form>
                 </div>
