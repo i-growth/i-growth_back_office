@@ -148,7 +148,7 @@ export default function BabyDetails() {
         <div className='baby-details-container'>
             <div className='babyDetail-top'>
                 <div className='searchbar'>
-                    <input type="text" placeholder="Search.." name="search" className='search' value={searchQuery} onChange={handleSearchChange} />
+                    <input type="number" placeholder="Search.." name="search" className='search' value={searchQuery} onChange={handleSearchChange} />
                 </div>
             </div>
             <div className='babyDetail-bottom'>

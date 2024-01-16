@@ -1,0 +1,185 @@
+.parent-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.664);
+    width: 100vw;
+    height: 100vh;
+    z-index: 10;
+
+    .bottom-section {
+        width: 100%;
+        // height: 60vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        // background-color: rgb(169, 169, 243);
+        background-color: white;
+
+        .bottom-left {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            // justify-content: center;
+            background-color: rgb(238, 165, 165);
+
+            h3 {
+                width: 100%;
+                margin-left: 50px;
+                display: flex;
+                align-items: flex-start;
+            }
+
+            .vaccine-card-fram {
+                width: 95%;
+                // height: 100%;
+                display: grid;
+                grid-template-columns: auto auto;
+                grid-gap: 15px;
+                // background-color: red;
+                margin-bottom: 30px;
+
+                .vaccine-fram {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 100%;
+                    height: 60px;
+                    overflow: hidden;
+                    // background-color: gray;
+                    border: 1px solid rgb(206, 206, 206);
+                    background-color: white;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 16px rgba(17,17,26,.1), 0 8px 24px rgba(17,17,26,.1), 0 16px 56px rgba(17,17,26,.1);
+
+                    .vaccine_name{
+                        width: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        // background-color: red;
+                    }
+
+                    button{
+                        width: fit-content;
+                        height: 100%;
+                        border: none;
+                        background-color: rgb(236, 81, 81);
+                        color: white;
+                        font-size: 13px;
+                        cursor: pointer;
+                    }
+                    &:hover {
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+
+        .bottom-right {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            align-items: center;
+            // justify-content: center;
+            background-color: rgb(163, 163, 238);
+
+            h3 {
+                width: 100%;
+                margin-left: 50px;
+                display: flex;
+                align-items: flex-start;
+            }
+
+            .development-activites-top {
+                display: grid;
+                grid-template-columns: auto auto auto auto auto;
+                grid-auto-flow: row;
+                align-items: center;
+                justify-content: center;
+                width: 98%;
+                height: 20vh;
+                grid-gap: 15px;
+                // background-color: red;
+
+                
+
+                .month-fram {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 80px;
+                    height: 40px;
+                    // background-color: gray;
+                    background-color: white;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 16px rgba(17,17,26,.1), 0 8px 24px rgba(17,17,26,.1), 0 16px 56px rgba(17,17,26,.1);
+                
+
+                    &:hover {
+                        cursor: pointer;
+                    }
+                }
+
+                .active{
+                    background: rgb(25, 48, 255);
+                    color: white;
+                }
+            }
+
+            .development-activites-bottom {
+                width: 100%;
+                height: 68vh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                // justify-content: center;
+                padding-top: 20px;
+                // background-color: rgb(143, 143, 236);
+            
+                table {
+
+                    .number {
+                        width: 50px;
+                    }
+                }
+
+                .button {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 80%;
+                    // background-color: red;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+
+                    .input-field {
+                        // margin-top: 5px;
+                        // margin-bottom: 10px;
+                        height: 30px;
+                        width: 80%;
+                    }
+
+                    .submit-btn {
+                        width: 100px;
+                        height: 35px;
+                        margin-left: 4px;
+                        background-color: hwb(240 22% 0%);
+                        border: none;
+                        border-radius: 8px;
+                        color: white;
+
+                        &:hover {
+                            background-color: blue;
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
